@@ -4,16 +4,20 @@
 #include <array>
 #include <algorithm>
 #include "half.hpp"
+namespace MH33 {
 
+enum class Endian
+{
 #ifdef _WIN32
-#define MH_LITTLE_ENDIAN
-#elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-#define MH_LITTLE_ENDIAN
-#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-#define MH_BIG_ENDIAN
+	Little = 0,
+	Big    = 1,
+	Native = Little
 #else
-#error "Failed to determine system endianness!"
+	Little = __ORDER_LITTLE_ENDIAN__,
+	Big    = __ORDER_BIG_ENDIAN__,
+	Native = __BYTE_ORDER__
 #endif
+};
 
 template <typename T> struct _endianness_swp {
 	inline static void do_swp(T &val) {
@@ -83,43 +87,29 @@ template <> struct _endianness_swp<int64_t> {
 template <> struct _endianness_swp<half_float::half> {
 	typedef half_float::half T;
 	inline static void do_swp(T &val) {
+		static_assert (sizeof(half_float::half) == sizeof(uint16_t),"Half-float isn't 16-bit! This means that this kind of system isn't supported!");
 		_endianness_swp<uint16_t>::do_swp(*reinterpret_cast<uint16_t*>(&val));
 	}
 };
 template <> struct _endianness_swp<float> {
 	typedef float T;
 	inline static void do_swp(T &val) {
+		static_assert (sizeof(float) == sizeof(uint32_t),"Float isn't 32-bit! This means that this kind of system isn't supported!");
 		_endianness_swp<uint32_t>::do_swp(*reinterpret_cast<uint32_t*>(&val));
 	}
 };
 template <> struct _endianness_swp<double> {
 	typedef double T;
 	inline static void do_swp(T &val) {
+		static_assert (sizeof(double) == sizeof(uint64_t),"Double isn't 64-bit! This means that this kind of system isn't supported!");
 		_endianness_swp<uint64_t>::do_swp(*reinterpret_cast<uint64_t*>(&val));
 	}
 };
 
-// Swaps endianness no matter what. Dangerous and not recommended.
-template <typename T> void swap_endian(T& val) {
-	_endianness_swp<T>::do_swp(val);
-}
+template <Endian src, Endian dst, typename T> void convert_endian(T& val) {
+		if constexpr(src == dst) (void)val;
+		else _endianness_swp<T>::do_swp(val);
+};
 
-// Converts native data to big-endian data and vice versa. No-op if system is big-endian.
-template <typename T> void big_endian(T& val) {
-#ifdef MH_BIG_ENDIAN
-	(void)val;
-#else
-	_endianness_swp<T>::do_swp(val);
-#endif
 }
-
-// Converts native data to little-endian data and vice versa. No-op if system is little-endian.
-template <typename T> void little_endian(T& val) {
-#ifdef MH_LITTLE_ENDIAN
-	(void)val;
-#else
-	_endianness_swp<T>::do_swp(val);
-#endif
-}
-
 #endif // MHENDIANNESS_HPP

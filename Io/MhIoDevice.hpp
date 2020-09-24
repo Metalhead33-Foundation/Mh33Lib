@@ -1,0 +1,34 @@
+#ifndef MHIODEVICE_HPP
+#define MHIODEVICE_HPP
+#include <cstddef>
+#include <cstdint>
+namespace MH33 {
+
+enum class SeekOrigin {
+	SET, // Beginning of file
+	CUR, // Current position
+	END // End of file
+};
+
+enum class IoMode {
+	READ = 1,
+	WRITE = 2,
+	APPEND = 4,
+	READ_WRITE = (READ | WRITE),
+	READ_APPEND = (READ | APPEND)
+};
+
+class IoDevice {
+public:
+	virtual ~IoDevice() = default;
+	virtual bool flush() = 0;
+	virtual bool seek(SeekOrigin whence, intptr_t offset) = 0;
+	virtual intptr_t tell() = 0;
+	virtual size_t size() = 0;
+	virtual size_t write(const void* data, size_t dataSize) = 0;
+	virtual size_t read(void* destination, size_t dataSize) = 0;
+	virtual IoMode getMode() const = 0;
+};
+
+}
+#endif // MHIODEVICE_HPP
