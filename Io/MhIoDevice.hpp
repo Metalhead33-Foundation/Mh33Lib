@@ -24,7 +24,7 @@ public:
 	virtual bool flush() = 0;
 	virtual bool seek(SeekOrigin whence, intptr_t offset) = 0;
 	virtual intptr_t tell() = 0;
-	virtual size_t size() = 0;
+	virtual intptr_t size() = 0;
 	virtual size_t write(const void* data, size_t dataSize) = 0;
 	virtual size_t read(void* destination, size_t dataSize) = 0;
 	virtual IoMode getMode() const = 0;

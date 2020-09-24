@@ -18,7 +18,7 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 	bool flush() { return device.flush(); }
 	bool seek(SeekOrigin whence, intptr_t offset) { return device.seek(whence,offset); }
 	intptr_t tell() { return device.tell(); }
-	size_t size() { return device.size(); }
+	intptr_t size() { return device.size(); }
 	size_t write(const void* data, size_t dataSize) { return device.write(data,dataSize); }
 	size_t read(void* destination, size_t dataSize) { return device.read(destination,dataSize); }
 	IoMode getMode() const { return device.getMode(); }

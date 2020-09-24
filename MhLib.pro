@@ -15,6 +15,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Io/MhFileIO.cpp \
+        Io/MhStderr.cpp \
+        Io/MhStdin.cpp \
+        Io/MhStdout.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -24,9 +28,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
 	Io/MhDataStream.hpp \
+	Io/MhFileIO.hpp \
 	Io/MhIoDevice.hpp \
 	Io/MhLoadable.hpp \
 	Io/MhSerializable.hpp \
+	Io/MhStderr.hpp \
+	Io/MhStdin.hpp \
+	Io/MhStdout.hpp \
 	Util/MhEndianness.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/half.hpp

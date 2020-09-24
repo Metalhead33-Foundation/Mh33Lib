@@ -1,20 +1,14 @@
 #include <QCoreApplication>
 #include <iostream>
-#include "Util/MhEndianness.hpp"
+#include "Io/MhDataStream.hpp"
+#include "Io/MhStderr.hpp"
 
 int main(int argc, char *argv[])
 {
+	const std::string errStr("This is just a small error string.\n");
+	MH33::Stderr errorStream;
+	MH33::DataStreamBE dataStream(errorStream);
+	dataStream << errStr;
 	QCoreApplication a(argc, argv);
-	int integers[4];
-	for(auto& i : integers) {
-		i = 6722624;
-	}
-	MH33::convert_endian<MH33::Endian::Native,MH33::Endian::Little>(integers[0]);
-	MH33::convert_endian<MH33::Endian::Native,MH33::Endian::Big>(integers[1]);
-	MH33::convert_endian<MH33::Endian::Little,MH33::Endian::Native>(integers[2]);
-	MH33::convert_endian<MH33::Endian::Big,MH33::Endian::Native>(integers[3]);
-	for(const auto& i : integers) {
-		std::cout << i << std::endl;
-	}
 	return a.exec();
 }
