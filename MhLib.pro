@@ -30,3 +30,7 @@ HEADERS += \
 	Util/MhEndianness.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/half.hpp
+
+DISTFILES += \
+	LICENSE \
+	README.md
