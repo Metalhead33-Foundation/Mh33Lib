@@ -6,6 +6,11 @@
 #include "MhSerializable.hpp"
 #include "MhLoadable.hpp"
 #include <string>
+#include <vector>
+#include <deque>
+#include <array>
+#include <list>
+#include <forward_list>
 
 namespace MH33 {
 
@@ -145,16 +150,90 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(const std::string& data) {
+	template <typename T> DataStream& operator<<(const std::basic_string<T>& data) {
 		*this << uint32_t(data.size());
-		device.write(data.data(),data.size());
+		if constexpr(sizeof(T) == 1) device.write(data.data(),data.size());
+		else {
+			for(const auto& it : data) *this << it;
+		}
 		return *this;
 	}
-	DataStream& operator>>(std::string& data) {
+	template <typename T> DataStream& operator>>(std::basic_string<T>& data) {
 		uint32_t len;
 		*this >> len;
 		data.resize(len,0);
-		device.read(data.data(),len);
+		if constexpr(sizeof(T) == 1) device.read(data.data(),len);
+		else {
+			for(auto& it : data) *this >> it;
+		}
+		return *this;
+	}
+	template <typename T> DataStream& operator<<(const std::vector<T>& data) {
+		*this << uint32_t(data.size());
+		if constexpr(sizeof(T) == 1) device.write(data.data(),data.size());
+		else {
+			for(const auto& it : data) *this << it;
+		}
+		return *this;
+	}
+	template <typename T> DataStream& operator>>(std::vector<T>& data) {
+		uint32_t len;
+		*this >> len;
+		data.resize(len,0);
+		if constexpr(sizeof(T) == 1) device.read(data.data(),len);
+		else {
+			for(auto& it : data) *this >> it;
+		}
+		return *this;
+	}
+	template <typename T, size_t size> DataStream& operator<<(const std::array<T,size>& data) {
+		if constexpr(sizeof(T) == 1) device.write(data.data(),data.size());
+		else {
+			for(const auto& it : data) *this << it;
+		}
+		return *this;
+	}
+	template <typename T, size_t size> DataStream& operator>>(std::array<T,size>& data) {
+		if constexpr(sizeof(T) == 1) device.read(data.data(),size);
+		else {
+			for(auto& it : data) *this >> it;
+		}
+		return *this;
+	}
+	template <typename T> DataStream& operator<<(const std::list<T>& data) {
+		*this << uint32_t(data.size());
+		for(const auto& it : data) *this << it;
+		return *this;
+	}
+	template <typename T> DataStream& operator>>(std::list<T>& data) {
+		uint32_t len;
+		*this >> len;
+		data.resize(len,0);
+		for(auto& it : data) *this >> it;
+		return *this;
+	}
+	template <typename T> DataStream& operator<<(const std::forward_list<T>& data) {
+		*this << uint32_t(data.size());
+		for(const auto& it : data) *this << it;
+		return *this;
+	}
+	template <typename T> DataStream& operator>>(std::forward_list<T>& data) {
+		uint32_t len;
+		*this >> len;
+		data.resize(len,0);
+		for(auto& it : data) *this >> it;
+		return *this;
+	}
+	template <typename T> DataStream& operator<<(const std::deque<T>& data) {
+		*this << uint32_t(data.size());
+		for(const auto& it : data) *this << it;
+		return *this;
+	}
+	template <typename T> DataStream& operator>>(std::deque<T>& data) {
+		uint32_t len;
+		*this >> len;
+		data.resize(len,0);
+		for(auto& it : data) *this >> it;
 		return *this;
 	}
 };

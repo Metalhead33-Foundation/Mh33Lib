@@ -9,6 +9,5 @@ int main(int argc, char *argv[])
 	MH33::Stderr errorStream;
 	MH33::DataStreamBE dataStream(errorStream);
 	dataStream << errStr;
-	QCoreApplication a(argc, argv);
-	return a.exec();
+	return 0;
 }
