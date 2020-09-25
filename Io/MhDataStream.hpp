@@ -11,6 +11,11 @@
 #include <array>
 #include <list>
 #include <forward_list>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <span>
 
 namespace MH33 {
 
@@ -28,129 +33,129 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 	size_t read(void* destination, size_t dataSize) { return device.read(destination,dataSize); }
 	IoMode getMode() const { return device.getMode(); }
 	// Now come the convenience functions
-	DataStream& operator<<(const Serializable& data) {
+	inline DataStream& operator<<(const Serializable& data) {
 		data.serialize(device);
 		return *this;
 	}
-	DataStream& operator>>(Loadable& data) {
+	inline DataStream& operator>>(Loadable& data) {
 		data.load(device);
 		return *this;
 	}
-	DataStream& operator<<(uint8_t data) {
+	inline DataStream& operator<<(uint8_t data) {
 		device.write(&data,sizeof(uint8_t));
 		return *this;
 	}
-	DataStream& operator>>(uint8_t& data) {
+	inline DataStream& operator>>(uint8_t& data) {
 		device.read(&data,sizeof(uint8_t));
 		return *this;
 	}
-	DataStream& operator<<(int8_t data) {
+	inline DataStream& operator<<(int8_t data) {
 		device.write(&data,sizeof(int8_t));
 		return *this;
 	}
-	DataStream& operator>>(int8_t& data) {
+	inline DataStream& operator>>(int8_t& data) {
 		device.read(&data,sizeof(int8_t));
 		return *this;
 	}
-	DataStream& operator<<(bool data) {
+	inline DataStream& operator<<(bool data) {
 		device.write(&data,sizeof(bool));
 		return *this;
 	}
-	DataStream& operator>>(bool& data) {
+	inline DataStream& operator>>(bool& data) {
 		device.read(&data,sizeof(bool));
 		return *this;
 	}
-	DataStream& operator<<(uint16_t data) {
+	inline DataStream& operator<<(uint16_t data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint16_t));
 		return *this;
 	}
-	DataStream& operator>>(uint16_t& data) {
+	inline DataStream& operator>>(uint16_t& data) {
 		device.read(&data,sizeof(uint16_t));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(int16_t data) {
+	inline DataStream& operator<<(int16_t data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int16_t));
 		return *this;
 	}
-	DataStream& operator>>(int16_t& data) {
+	inline DataStream& operator>>(int16_t& data) {
 		device.read(&data,sizeof(int16_t));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(half_float::half data) {
+	inline DataStream& operator<<(half_float::half data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(half_float::half));
 		return *this;
 	}
-	DataStream& operator>>(half_float::half& data) {
+	inline DataStream& operator>>(half_float::half& data) {
 		device.read(&data,sizeof(half_float::half));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(uint32_t data) {
+	inline DataStream& operator<<(uint32_t data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint32_t));
 		return *this;
 	}
-	DataStream& operator>>(uint32_t& data) {
+	inline DataStream& operator>>(uint32_t& data) {
 		device.read(&data,sizeof(uint32_t));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(int32_t data) {
+	inline DataStream& operator<<(int32_t data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int32_t));
 		return *this;
 	}
-	DataStream& operator>>(int32_t& data) {
+	inline DataStream& operator>>(int32_t& data) {
 		device.read(&data,sizeof(int32_t));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(float data) {
+	inline DataStream& operator<<(float data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(float));
 		return *this;
 	}
-	DataStream& operator>>(float& data) {
+	inline DataStream& operator>>(float& data) {
 		device.read(&data,sizeof(float));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(uint64_t data) {
+	inline DataStream& operator<<(uint64_t data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint64_t));
 		return *this;
 	}
-	DataStream& operator>>(uint64_t& data) {
+	inline DataStream& operator>>(uint64_t& data) {
 		device.read(&data,sizeof(uint64_t));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(int64_t data) {
+	inline DataStream& operator<<(int64_t data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int64_t));
 		return *this;
 	}
-	DataStream& operator>>(int64_t& data) {
+	inline DataStream& operator>>(int64_t& data) {
 		device.read(&data,sizeof(int64_t));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	DataStream& operator<<(double data) {
+	inline DataStream& operator<<(double data) {
 		convert_endian<Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(double));
 		return *this;
 	}
-	DataStream& operator>>(double& data) {
+	inline DataStream& operator>>(double& data) {
 		device.read(&data,sizeof(double));
 		convert_endian<io_endianness,Endian::Native>(data);
 		return *this;
 	}
-	template <typename T> DataStream& operator<<(const std::basic_string<T>& data) {
+	template <typename T, class Traits = std::char_traits<T>, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::basic_string<T,Traits,Allocator>& data) {
 		*this << uint32_t(data.size());
 		if constexpr(sizeof(T) == 1) device.write(data.data(),data.size());
 		else {
@@ -158,7 +163,7 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		}
 		return *this;
 	}
-	template <typename T> DataStream& operator>>(std::basic_string<T>& data) {
+	template <typename T, class Traits = std::char_traits<T>, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::basic_string<T,Traits,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
 		data.resize(len,0);
@@ -168,7 +173,7 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		}
 		return *this;
 	}
-	template <typename T> DataStream& operator<<(const std::vector<T>& data) {
+	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::vector<T,Allocator>& data) {
 		*this << uint32_t(data.size());
 		if constexpr(sizeof(T) == 1) device.write(data.data(),data.size());
 		else {
@@ -176,7 +181,7 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		}
 		return *this;
 	}
-	template <typename T> DataStream& operator>>(std::vector<T>& data) {
+	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::vector<T,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
 		data.resize(len,0);
@@ -186,54 +191,160 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		}
 		return *this;
 	}
-	template <typename T, size_t size> DataStream& operator<<(const std::array<T,size>& data) {
+	template <typename T, size_t size> inline DataStream& operator<<(const std::array<T,size>& data) {
 		if constexpr(sizeof(T) == 1) device.write(data.data(),data.size());
 		else {
 			for(const auto& it : data) *this << it;
 		}
 		return *this;
 	}
-	template <typename T, size_t size> DataStream& operator>>(std::array<T,size>& data) {
-		if constexpr(sizeof(T) == 1) device.read(data.data(),size);
+	template <typename T, size_t size> inline DataStream& operator>>(std::array<T,size>& data) {
+		if constexpr(sizeof(T) == 1) device.read(data.data(),data.size());
 		else {
 			for(auto& it : data) *this >> it;
 		}
 		return *this;
 	}
-	template <typename T> DataStream& operator<<(const std::list<T>& data) {
+#if __cplusplus > 201703L
+	template <class T,std::size_t Extent = std::dynamic_extent> inline DataStream& operator<<(const std::span<T,Extent>& data) {
+		if constexpr(sizeof(T) == 1) device.write(data.data(),data.size());
+		else {
+			for(const auto& it : data) *this << it;
+		}
+		return *this;
+	}
+	template <class T,std::size_t Extent = std::dynamic_extent> inline DataStream& operator>>(std::span<T,Extent>& data) {
+		if constexpr(sizeof(T) == 1) device.read(data.data(),data.size());
+		else {
+			for(auto& it : data) *this >> it;
+		}
+		return *this;
+	}
+#endif
+	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::list<T,Allocator>& data) {
 		*this << uint32_t(data.size());
 		for(const auto& it : data) *this << it;
 		return *this;
 	}
-	template <typename T> DataStream& operator>>(std::list<T>& data) {
+	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::list<T,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
 		data.resize(len,0);
 		for(auto& it : data) *this >> it;
 		return *this;
 	}
-	template <typename T> DataStream& operator<<(const std::forward_list<T>& data) {
+	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::forward_list<T,Allocator>& data) {
 		*this << uint32_t(data.size());
 		for(const auto& it : data) *this << it;
 		return *this;
 	}
-	template <typename T> DataStream& operator>>(std::forward_list<T>& data) {
+	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::forward_list<T,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
 		data.resize(len,0);
 		for(auto& it : data) *this >> it;
 		return *this;
 	}
-	template <typename T> DataStream& operator<<(const std::deque<T>& data) {
+	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::deque<T,Allocator>& data) {
 		*this << uint32_t(data.size());
 		for(const auto& it : data) *this << it;
 		return *this;
 	}
-	template <typename T> DataStream& operator>>(std::deque<T>& data) {
+	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::deque<T,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
 		data.resize(len,0);
 		for(auto& it : data) *this >> it;
+		return *this;
+	}
+	template <class Key,
+			 class Compare = std::less<Key>,
+			 class Allocator = std::allocator<Key>> inline DataStream& operator<<(const std::set<Key,Compare,Allocator>& data) {
+		*this << uint32_t(data.size());
+		for(const auto& it : data) *this << it;
+		return *this;
+	}
+	template <class Key,
+			 class Compare = std::less<Key>,
+			 class Allocator = std::allocator<Key>> inline DataStream& operator>>(std::set<Key,Compare,Allocator>& data) {
+		uint32_t len;
+		*this >> len;
+		for(uint32_t i = 0; i < len;++i) {
+			Key k;
+			*this >> k;
+			data.insert(std::move(k));
+		}
+		return *this;
+	}
+	template <class Key,
+			 class Hash = std::hash<Key>,
+			 class Compare = std::less<Key>,
+			 class Allocator = std::allocator<Key>> inline DataStream& operator<<(const std::unordered_set<Key,Hash,Compare,Allocator>& data) {
+		*this << uint32_t(data.size());
+		for(const auto& it : data) *this << it;
+		return *this;
+	}
+	template <class Key,
+			 class Hash = std::hash<Key>,
+			 class Compare = std::less<Key>,
+			 class Allocator = std::allocator<Key>> inline DataStream& operator>>(std::unordered_set<Key,Hash,Compare,Allocator>& data) {
+		uint32_t len;
+		*this >> len;
+		for(uint32_t i = 0; i < len;++i) {
+			Key k;
+			*this >> k;
+			data.insert(std::move(k));
+		}
+		return *this;
+	}
+	template <class Key,
+			 class T,
+			 class Compare = std::less<Key>,
+			 class Allocator = std::allocator<std::pair<const Key, T>>> inline DataStream& operator<<(const std::map<Key,T,Compare,Allocator>& data) {
+		*this << uint32_t(data.size());
+		for(auto it = std::begin(data); it != std::end(data); ++it) {
+			*this << it->first << it->second;
+		}
+		return *this;
+	}
+	template <class Key,
+			 class T,
+			 class Compare = std::less<Key>,
+			 class Allocator = std::allocator<std::pair<const Key, T>>> inline DataStream& operator>>(std::map<Key,T,Compare,Allocator>& data) {
+		uint32_t len;
+		*this >> len;
+		for(uint32_t i = 0; i < len;++i) {
+			Key k;
+			T t;
+			*this >> k >> t;
+			data.emplace(std::move(k),std::move(t));
+		}
+		return *this;
+	}
+	template <class Key,
+		class T,
+		class Hash = std::hash<Key>,
+		class KeyEqual = std::equal_to<Key>,
+		class Allocator = std::allocator< std::pair<const Key, T>>> inline DataStream& operator<<(const std::unordered_map<Key,T,Hash,KeyEqual,Allocator>& data) {
+		*this << uint32_t(data.size());
+		for(auto it = std::begin(data); it != std::end(data); ++it) {
+			*this << it->first << it->second;
+		}
+		return *this;
+	}
+	template <class Key,
+		class T,
+		class Hash = std::hash<Key>,
+		class KeyEqual = std::equal_to<Key>,
+		class Allocator = std::allocator< std::pair<const Key, T>>> inline DataStream& operator>>(std::unordered_map<Key,T,Hash,KeyEqual,Allocator>& data) {
+		uint32_t len;
+		*this >> len;
+		for(uint32_t i = 0; i < len;++i) {
+			Key k;
+			T t;
+			*this >> k >> t;
+			data.emplace(std::move(k),std::move(t));
+		}
 		return *this;
 	}
 };
