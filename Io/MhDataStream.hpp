@@ -16,6 +16,8 @@
 #include <map>
 #include <unordered_map>
 #include <span>
+#include <stack>
+#include <queue>
 
 namespace MH33 {
 
@@ -347,6 +349,27 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		}
 		return *this;
 	}
+	// Container adapters cannot be serialized, because the container is a protected member.
+	/*template<class T,class Container = std::deque<T>> inline DataStream& operator<<(const std::stack<T,Container>& data) {
+		*this << data.c;
+	}
+	template<class T,class Container = std::deque<T>> inline DataStream& operator>>(const std::stack<T,Container>& data) {
+		*this >> data.c;
+	}
+	template<class T,class Container = std::deque<T>> inline DataStream& operator<<(const std::queue<T,Container>& data) {
+		*this << data.c;
+	}
+	template<class T,class Container = std::deque<T>> inline DataStream& operator>>(const std::queue<T,Container>& data) {
+		*this >> data.c;
+	}
+	template<class T,class Container = std::deque<T>,
+			 class Compare = std::less<typename Container::value_type>> inline DataStream& operator<<(const std::priority_queue<T,Container,Compare>& data) {
+		*this << data.c;
+	}
+	template<class T,class Container = std::deque<T>,
+			 class Compare = std::less<typename Container::value_type>> inline DataStream& operator>>(const std::priority_queue<T,Container,Compare>& data) {
+		*this >> data.c;
+	}*/
 };
 
 typedef DataStream<Endian::Little> DataStreamLE;
