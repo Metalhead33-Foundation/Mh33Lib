@@ -2,9 +2,10 @@
 #include <iostream>
 #include "Io/MhDataStream.hpp"
 #include "Io/MhStderr.hpp"
-#include "Io/MhFileIO.hpp"
+#include "Io/MhBufferWrapper.hpp"
 
 typedef std::map<std::string,std::string> StringMap;
+static MH33::BufferWrapper buff;
 void testRead();
 void testWrite();
 void saveMap(MH33::IoDevice& iodev);
@@ -18,12 +19,12 @@ int main(int argc, char *argv[])
 }
 
 void testRead() {
-	MH33::FileIO file("/tmp/testfile.raw",MH33::IoMode::READ);
-	loadAndPrintMap(file);
+	buff.seek(MH33::SeekOrigin::SET,0);
+	loadAndPrintMap(buff);
 }
 void testWrite() {
-	MH33::FileIO file("/tmp/testfile.raw",MH33::IoMode::WRITE);
-	saveMap(file);
+	buff.seek(MH33::SeekOrigin::SET,0);
+	saveMap(buff);
 }
 
 void saveMap(MH33::IoDevice& iodev) {
