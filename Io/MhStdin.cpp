@@ -30,6 +30,8 @@ intptr_t Stdin::size()
 
 size_t Stdin::write(const void *data, size_t dataSize)
 {
+	(void)data;
+	(void)dataSize;
 	return 0; // rEAD-only stream
 }
 
