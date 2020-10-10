@@ -33,12 +33,6 @@ public:
 	size_t write(const void* data, size_t dataSize);
 	size_t read(void* destination, size_t dataSize);
 	IoMode getMode() const;
-	// Convenience function
-	size_t readAll(Buffer& dst) {
-		auto sz = size();
-		dst.resize(sz);
-		return read(dst.data(),sz);
-	}
 };
 
 }

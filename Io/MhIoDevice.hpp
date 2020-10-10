@@ -30,6 +30,11 @@ public:
 	virtual size_t read(void* destination, size_t dataSize) = 0;
 	virtual IoMode getMode() const = 0;
 	// A convenience function
+	size_t readAll(Buffer& dst) {
+		auto sz = size();
+		dst.resize(sz);
+		return read(dst.data(),sz);
+	}
 };
 
 }
