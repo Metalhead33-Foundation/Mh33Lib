@@ -35,8 +35,6 @@ HEADERS += \
 	Io/MhDataStream.hpp \
 	Io/MhFileIO.hpp \
 	Io/MhIoDevice.hpp \
-	Io/MhLoadable.hpp \
-	Io/MhSerializable.hpp \
 	Io/MhStderr.hpp \
 	Io/MhStdin.hpp \
 	Io/MhStdout.hpp \

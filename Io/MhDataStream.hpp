@@ -3,8 +3,6 @@
 
 #include "../Util/MhEndianness.hpp"
 #include "MhIoDevice.hpp"
-#include "MhSerializable.hpp"
-#include "MhLoadable.hpp"
 #include <string>
 #include <vector>
 #include <deque>
@@ -35,14 +33,6 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 	size_t read(void* destination, size_t dataSize) { return device.read(destination,dataSize); }
 	IoMode getMode() const { return device.getMode(); }
 	// Now come the convenience functions
-	inline DataStream& operator<<(const Serializable& data) {
-		data.serialize(device);
-		return *this;
-	}
-	inline DataStream& operator>>(Loadable& data) {
-		data.load(device);
-		return *this;
-	}
 	inline DataStream& operator<<(uint8_t data) {
 		device.write(&data,sizeof(uint8_t));
 		return *this;
