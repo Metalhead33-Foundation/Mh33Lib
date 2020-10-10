@@ -18,10 +18,12 @@ LIBS += -lphysfs
 SOURCES += \
         Io/MhBufferWrapper.cpp \
         Io/MhFileIO.cpp \
+        Io/MhSocket.cpp \
         Io/MhStderr.cpp \
         Io/MhStdin.cpp \
         Io/MhStdout.cpp \
         Io/PhysFSIO.cpp \
+        Io/private/MhSocketUnix.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -35,10 +37,12 @@ HEADERS += \
 	Io/MhDataStream.hpp \
 	Io/MhFileIO.hpp \
 	Io/MhIoDevice.hpp \
+	Io/MhSocket.hpp \
 	Io/MhStderr.hpp \
 	Io/MhStdin.hpp \
 	Io/MhStdout.hpp \
 	Io/PhysFSIO.hpp \
+	Io/private/MhSocketUnix.hpp \
 	Util/MhEndianness.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/half.hpp
