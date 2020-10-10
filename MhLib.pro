@@ -27,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+	Io/MhBuffer.hpp \
 	Io/MhDataStream.hpp \
 	Io/MhFileIO.hpp \
 	Io/MhIoDevice.hpp \

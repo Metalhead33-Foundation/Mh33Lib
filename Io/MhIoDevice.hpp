@@ -2,6 +2,7 @@
 #define MHIODEVICE_HPP
 #include <cstddef>
 #include <cstdint>
+#include "MhBuffer.hpp"
 namespace MH33 {
 
 enum class SeekOrigin {
@@ -28,6 +29,7 @@ public:
 	virtual size_t write(const void* data, size_t dataSize) = 0;
 	virtual size_t read(void* destination, size_t dataSize) = 0;
 	virtual IoMode getMode() const = 0;
+	// A convenience function
 };
 
 }
