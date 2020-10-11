@@ -1,24 +1,25 @@
 #include <QCoreApplication>
 #include <iostream>
 #include "Media/Image/MhJPEG.hpp"
-#include "Media/Image/MhPNG.hpp"
-#include "Media/Image/MhTgaHeader.hpp"
+#include "Media/Image/MhWEBP.hpp"
 #include "Io/MhFileIO.hpp"
 
+static const char* INWEBP = "/home/legacy/fonts/1.webp";
 static const char* INJTGA = "/tmp/107702815_178546353636202_5419326507406443017_o.tga";
 static const char* INJPEG = "/home/legacy/fonts/Anient/1/2194094.jpg";
 static const char* INPNG = "/home/legacy/fonts/Anient/1/107702815_178546353636202_5419326507406443017_o.png";
 static const char* OUTJPEG = "/tmp/107702815_178546353636202_5419326507406443017_o.jpg";
 static const char* OUTPNG = "/tmp/107702815_178546353636202_5419326507406443017_o.png";
 
+// bool decode(IoDevice& iodev, int& width, int& height, unsigned& stride, WEBP_IMGFORMAT format, Buffer& pixelData);
+
 int main(int argc, char *argv[])
 {
 	MH33::Buffer buff;
-	MH33::FileIO rfio(INJTGA,MH33::IoMode::READ);
+	MH33::FileIO rfio(INWEBP,MH33::IoMode::READ);
 	MH33::FileIO wfio(OUTJPEG,MH33::IoMode::WRITE);
-	MH33::GFX::TgaHeader targa;
-	targa.load(rfio);
-	std::cout << targa.imageSpecification.width << "x" << targa.imageSpecification.height << std::endl;
-	MH33::GFX::JPEG::encode(targa.imageData,targa.imageSpecification.width,targa.imageSpecification.height,1,wfio,0,50);
+	int width; int height; int stride;
+	MH33::GFX::WEBP::decode(rfio,width,height,stride,MH33::GFX::WEBP_IMGFORMAT::RGB,buff);
+	MH33::GFX::JPEG::encode(buff,width,height,0,wfio,0,50);
 	return 0;
 }

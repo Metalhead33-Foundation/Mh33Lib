@@ -8,7 +8,7 @@ CONFIG -= app_bundle
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-LIBS += -lphysfs -lpng -lturbojpeg
+LIBS += -lphysfs -lpng -lturbojpeg -lwebp
 INCLUDEPATH ''= $$top_srcdir/include
 
 # You can also make your code fail to compile if it uses deprecated APIs.
@@ -29,6 +29,7 @@ SOURCES += \
         Media/Image/MhJPEG.cpp \
         Media/Image/MhPNG.cpp \
         Media/Image/MhTgaHeader.cpp \
+        Media/Image/MhWEBP.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -52,6 +53,7 @@ HEADERS += \
 	Media/Image/MhJPEG.hpp \
 	Media/Image/MhPNG.hpp \
 	Media/Image/MhTgaHeader.hpp \
+	Media/Image/MhWEBP.hpp \
 	Util/MhEndianness.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/half.hpp

@@ -5,7 +5,7 @@
 namespace MH33 {
 namespace GFX {
 
-enum TgaFormat {
+enum class TgaFormat {
 	INVALID = 0x00,
 	RGB = 0x01,
 	GREYSCALE = 0x02,
