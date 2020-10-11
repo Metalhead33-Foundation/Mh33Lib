@@ -26,6 +26,19 @@ void JPEG::decode(Buffer& sourceBuff, unsigned long jpegSize, Buffer& destinatio
 				  reinterpret_cast<unsigned char*>(destinationBuffer.data()),width,width*3,height,TJPF_RGB,TJFLAG_FASTDCT);
 }
 
+void JPEG::decode(IoDevice &input, Buffer &destinationBuffer, int &width, int &height, int &subsamp)
+{
+	auto buff = input.readAll();
+	decode(buff,buff.size(),destinationBuffer,width,height,subsamp);
+}
+
+void JPEG::encode(const Buffer &sourceBuff, int width, int height, int pixelFormat, IoDevice &destination, unsigned long &jpegSize, int jpegSubsamp, int jpegQual)
+{
+	Buffer tmpBUff;
+	encode(sourceBuff,width,height,pixelFormat,tmpBUff,jpegSize,jpegSubsamp,jpegQual);
+	destination.write(tmpBUff.data(),jpegSize);
+}
+
 
 }
 }

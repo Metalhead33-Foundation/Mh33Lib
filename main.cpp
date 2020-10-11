@@ -14,14 +14,10 @@ int main(int argc, char *argv[])
 	MH33::Buffer buff;
 	MH33::FileIO rfio(INJPEG,MH33::IoMode::READ);
 	MH33::FileIO wfio(OUTJPEG,MH33::IoMode::WRITE);
-	auto inBuff = rfio.readAll();
-	//MH33::Buffer inBuff;
 	MH33::Buffer outBuff;
 	int width,height,subsamp;
 	unsigned long jpegSize;
-	MH33::GFX::JPEG::decode(inBuff,inBuff.size(),outBuff,width,height,subsamp);
-	inBuff.clear();
-	MH33::GFX::JPEG::encode(outBuff,width,height,0,inBuff,jpegSize,subsamp,50);
-	wfio.write(inBuff.data(),jpegSize);
+	MH33::GFX::JPEG::decode(rfio,outBuff,width,height,subsamp);
+	MH33::GFX::JPEG::encode(outBuff,width,height,0,wfio,jpegSize,subsamp,50);
 	return 0;
 }
