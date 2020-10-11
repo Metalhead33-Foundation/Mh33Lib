@@ -13,7 +13,7 @@ void decode(IoDevice& input, Buffer& destinationBuffer,
 void encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
 			Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, int jpegQual);
 void encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
-			IoDevice& destination, unsigned long &jpegSize, int jpegSubsamp, int jpegQual);
+			IoDevice& destination, int jpegSubsamp, int jpegQual);
 };
 
 }

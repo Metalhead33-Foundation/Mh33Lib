@@ -32,9 +32,10 @@ void JPEG::decode(IoDevice &input, Buffer &destinationBuffer, int &width, int &h
 	decode(buff,buff.size(),destinationBuffer,width,height,subsamp);
 }
 
-void JPEG::encode(const Buffer &sourceBuff, int width, int height, int pixelFormat, IoDevice &destination, unsigned long &jpegSize, int jpegSubsamp, int jpegQual)
+void JPEG::encode(const Buffer &sourceBuff, int width, int height, int pixelFormat, IoDevice &destination, int jpegSubsamp, int jpegQual)
 {
 	Buffer tmpBUff;
+	unsigned long jpegSize;
 	encode(sourceBuff,width,height,pixelFormat,tmpBUff,jpegSize,jpegSubsamp,jpegQual);
 	destination.write(tmpBUff.data(),jpegSize);
 }
