@@ -1,6 +1,6 @@
 #include "MhTgaHeader.hpp"
 namespace MH33 {
-namespace Media {
+namespace GFX {
 
 void TgaHeader::load(IoDevice &input)
 {

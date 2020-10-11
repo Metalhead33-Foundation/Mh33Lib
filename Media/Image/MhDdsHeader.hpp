@@ -3,13 +3,14 @@
 #include <Io/MhDataStream.hpp>
 
 namespace MH33 {
-namespace Media {
+namespace GFX {
 
 enum DdsType {
 	INVALID = 0,
-	DDX1,
-	DDX3,
-	DDX5
+	DXT1,
+	DXT3,
+	DXT5,
+	DX10
 };
 
 struct DdsHeader
@@ -38,6 +39,14 @@ struct DdsHeader
 	uint32_t dwCaps3;
 	uint32_t dwCaps4;
 	uint32_t dwReserved2;
+	// This part is optional
+	struct {
+		uint32_t dxgiFormat;
+		uint32_t resourceDimension;
+		uint32_t miscFlag;
+		uint32_t arraySize;
+		uint32_t miscFlags2;
+	} headerDXT10;
 	// We infer this from the file
 	DdsType type;
 	struct Mipmap {

@@ -3,7 +3,7 @@
 #include <Io/MhDataStream.hpp>
 
 namespace MH33 {
-namespace Media {
+namespace GFX {
 
 enum TgaFormat {
 	INVALID = 0x00,
