@@ -1,4 +1,4 @@
-#include "MhPng.hpp"
+#include "MhPNG.hpp"
 #include <png.h>
 #include <algorithm>
 
@@ -10,6 +10,7 @@ void mh33_flush_data(png_structp png_ptr);
 
 namespace MH33 {
 namespace GFX {
+namespace PNG {
 
 constexpr size_t type2bytes(uint8_t color_type, uint8_t bit_depth) {
 	switch (color_type) {
@@ -22,7 +23,7 @@ constexpr size_t type2bytes(uint8_t color_type, uint8_t bit_depth) {
 }
 }
 
-void Png::decode(IoDevice& iodev, uint16_t &width, uint16_t &height, uint8_t &color_type, uint8_t &bit_depth, Buffer& pixelData)
+void decode(IoDevice& iodev, uint16_t &width, uint16_t &height, uint8_t &color_type, uint8_t &bit_depth, Buffer& pixelData)
 {
 	auto pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING,nullptr,nullptr,nullptr);
 	if(!pngPtr) return;
@@ -56,7 +57,7 @@ void Png::decode(IoDevice& iodev, uint16_t &width, uint16_t &height, uint8_t &co
 	png_destroy_read_struct(&pngPtr,&infoPtr,&endInfoPtr);
 }
 
-void Png::encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Buffer &pixelData, int compressionLevel)
+void encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Buffer &pixelData, int compressionLevel)
 {
 	auto pngPtr = png_create_write_struct(PNG_LIBPNG_VER_STRING,nullptr,nullptr,nullptr);
 	if(!pngPtr) return;
@@ -79,6 +80,7 @@ void Png::encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color
 	png_destroy_write_struct(&pngPtr,&infoPtr);
 }
 
+}
 }
 }
 
