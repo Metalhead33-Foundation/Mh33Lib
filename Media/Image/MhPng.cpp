@@ -1,5 +1,6 @@
 #include "MhPng.hpp"
 #include <png.h>
+#include <algorithm>
 
 void mh33_set_read_callbacks(png_structp read_ptr, MH33::IoDevice* dev);
 void mh33_set_write_callbacks(png_structp write_ptr, MH33::IoDevice* dev);
@@ -111,7 +112,7 @@ void Png::encode(uint16_t width, uint16_t height, uint8_t color_type, uint8_t bi
 	if(!pngPtr) return;
 	png_set_IHDR(reinterpret_cast<png_structp>(pngPtr),reinterpret_cast<png_infop>(infoPtr),width,height,bit_depth,color_type,PNG_INTERLACE_NONE,
 				 PNG_COMPRESSION_TYPE_DEFAULT,PNG_FILTER_TYPE_DEFAULT);
-	png_set_compression_level(reinterpret_cast<png_structp>(pngPtr), compressionLevel);
+	png_set_compression_level(reinterpret_cast<png_structp>(pngPtr), std::clamp(compressionLevel,0,9));
 	std::vector<png_bytep> rowPtrs(height);
 	for (int y=0; y<height; y++) {
 		rowPtrs[y] = reinterpret_cast<png_bytep>(&pixelData[type2bytes(color_type,bit_depth)*width*y]);
