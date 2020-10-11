@@ -3,7 +3,9 @@
 #include <cstddef>
 #include <cstdint>
 #include <vector>
+#include <array>
 namespace MH33 {
 typedef std::vector<std::byte> Buffer;
+template <std::size_t size> using StaticBuffer = std::array<std::byte,size>;
 }
 #endif // MHBUFFER_HPP

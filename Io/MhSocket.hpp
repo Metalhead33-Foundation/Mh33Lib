@@ -25,6 +25,7 @@ private:
 	MH33::IoMode mode;
 public:
 	Socket();
+	~Socket() = default;
 	// Socket functions
 	bool flush();
 	bool seek(MH33::SeekOrigin whence, intptr_t offset);

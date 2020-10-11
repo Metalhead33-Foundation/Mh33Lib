@@ -6,8 +6,43 @@
 #endif
 
 namespace MH33 {
-Socket::Socket()
+Socket::Socket() : impl(nullptr)
 {
 
+}
+
+bool Socket::flush()
+{
+
+}
+
+bool Socket::seek(SeekOrigin whence, intptr_t offset)
+{
+	return false;
+}
+
+intptr_t Socket::tell()
+{
+	return -1; // Sequential.
+}
+
+intptr_t Socket::size()
+{
+	return -1; // Sequential
+}
+
+size_t Socket::write(const void *data, size_t dataSize)
+{
+	return impl->sendMessage(data,dataSize);
+}
+
+size_t Socket::read(void *destination, size_t dataSize)
+{
+	return impl->receiveMessage(destination,dataSize);
+}
+
+IoMode Socket::getMode() const
+{
+	return mode;
 }
 }

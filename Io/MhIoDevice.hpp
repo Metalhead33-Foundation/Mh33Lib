@@ -31,7 +31,7 @@ public:
 	virtual IoMode getMode() const = 0;
 	// A convenience function
 	void readAll(Buffer& dst) {
-		auto sz = size();
+		auto sz = size()-tell();
 		dst.resize(sz);
 		read(dst.data(),sz);
 	}

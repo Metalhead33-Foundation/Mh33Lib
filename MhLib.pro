@@ -9,6 +9,7 @@ CONFIG -= app_bundle
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 LIBS += -lphysfs
+INCLUDEPATH ''= $$top_srcdir/include
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -24,6 +25,8 @@ SOURCES += \
         Io/MhStdout.cpp \
         Io/PhysFSIO.cpp \
         Io/private/MhSocketUnix.cpp \
+        Media/Image/MhDdsHeader.cpp \
+        Media/Image/MhTgaHeader.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -43,6 +46,8 @@ HEADERS += \
 	Io/MhStdout.hpp \
 	Io/PhysFSIO.hpp \
 	Io/private/MhSocketUnix.hpp \
+	Media/Image/MhDdsHeader.hpp \
+	Media/Image/MhTgaHeader.hpp \
 	Util/MhEndianness.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/half.hpp
