@@ -17,17 +17,13 @@ void JPEG::encode(const Buffer& sourceBuff, int width, int height, int pixelForm
 }
 
 void JPEG::decode(Buffer& sourceBuff, unsigned long jpegSize, Buffer& destinationBuffer,
-				  int &width, int &height)
+				  int &width, int &height, int &subsamp)
 {
 	auto handle = std::unique_ptr<void,decltype(&tjDestroy) >(tjInitDecompress(),tjDestroy);
-	int scalingFactors;
-	auto factorList = tjGetScalingFactors(&scalingFactors);
-	if(!scalingFactors || !factorList) return;
-	int subsamp;
 	tjDecompressHeader2(handle.get(), reinterpret_cast<unsigned char*>(sourceBuff.data()), jpegSize, &width, &height, &subsamp);
 	destinationBuffer.resize(width*height*3);
 	tjDecompress2(handle.get(),reinterpret_cast<unsigned char*>(sourceBuff.data()),jpegSize,
-				  reinterpret_cast<unsigned char*>(destinationBuffer.data()),width,height,width*3,TJPF_RGB,TJFLAG_FASTDCT);
+				  reinterpret_cast<unsigned char*>(destinationBuffer.data()),width,width*3,height,TJPF_RGB,TJFLAG_FASTDCT);
 }
 
 

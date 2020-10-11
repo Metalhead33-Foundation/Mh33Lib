@@ -12,22 +12,16 @@ static const char* OUTPNG = "/tmp/107702815_178546353636202_5419326507406443017_
 int main(int argc, char *argv[])
 {
 	MH33::Buffer buff;
-	MH33::FileIO rfio(INPNG,MH33::IoMode::READ);
+	MH33::FileIO rfio(INJPEG,MH33::IoMode::READ);
 	MH33::FileIO wfio(OUTJPEG,MH33::IoMode::WRITE);
-	//auto inBuff = rfio.readAll();
-	MH33::Buffer inBuff;
+	auto inBuff = rfio.readAll();
+	//MH33::Buffer inBuff;
 	MH33::Buffer outBuff;
-	uint16_t height,width;
-	uint8_t cltype;
-	uint8_t bitdepth;
-	MH33::GFX::PNG::decode(rfio,width,height,cltype,bitdepth,inBuff);
-	/*int width; int height;
-	MH33::GFX::JPEG::decode(inBuff,inBuff.size(),outBuff,width,height);
-	std::cout << "Width: " << width << std::endl;
-	std::cout << "Height: " << height << std::endl;
-	MH33::GFX::PNG::encode(wfio,width,height,2,8,outBuff,4);*/
+	int width,height,subsamp;
 	unsigned long jpegSize;
-	MH33::GFX::JPEG::encode(inBuff,width,height,0,outBuff,jpegSize,2,50);
-	wfio.write(outBuff.data(),jpegSize);
+	MH33::GFX::JPEG::decode(inBuff,inBuff.size(),outBuff,width,height,subsamp);
+	inBuff.clear();
+	MH33::GFX::JPEG::encode(outBuff,width,height,0,inBuff,jpegSize,subsamp,50);
+	wfio.write(inBuff.data(),jpegSize);
 	return 0;
 }
