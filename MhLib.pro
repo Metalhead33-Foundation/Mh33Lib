@@ -8,7 +8,7 @@ CONFIG -= app_bundle
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-LIBS += -lphysfs -lpng -lturbojpeg -lwebpdemux -lwebpmux -lwebp -lwebpdecoder -lzstd
+LIBS += -lphysfs -lpng -lgif -lturbojpeg -lwebpdemux -lwebpmux -lwebp -lwebpdecoder -lzstd
 INCLUDEPATH ''= $$top_srcdir/include
 
 # You can also make your code fail to compile if it uses deprecated APIs.
@@ -28,6 +28,7 @@ SOURCES += \
         Io/PhysFSIO.cpp \
         Io/private/MhSocketUnix.cpp \
         Media/Image/MhDdsHeader.cpp \
+        Media/Image/MhGIF.cpp \
         Media/Image/MhJPEG.cpp \
         Media/Image/MhPNG.cpp \
         Media/Image/MhTgaHeader.cpp \
@@ -54,8 +55,10 @@ HEADERS += \
 	Io/PhysFSIO.hpp \
 	Io/private/MhSocketUnix.hpp \
 	Media/Image/MhDdsHeader.hpp \
+	Media/Image/MhGIF.hpp \
 	Media/Image/MhJPEG.hpp \
 	Media/Image/MhPNG.hpp \
+	Media/Image/MhRgbColour.hpp \
 	Media/Image/MhTgaHeader.hpp \
 	Media/Image/MhWEBP.hpp \
 	Util/MhEndianness.hpp \
