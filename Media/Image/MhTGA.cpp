@@ -1,9 +1,10 @@
-#include "MhTgaHeader.hpp"
+#include "MhTGA.hpp"
 
 namespace MH33 {
 namespace GFX {
+namespace TGA {
 
-void TgaHeader::load(IoDevice &input)
+void Header::load(IoDevice &input)
 {
 	DataStream<Endian::Little> tgaInput(input); // TGA is little-endian.
 
@@ -37,31 +38,31 @@ void TgaHeader::load(IoDevice &input)
 	bool isCompressed = false;
 	switch (imageType) {
 	case 0:
-		format = TgaFormat::INVALID;
+		format = Format::INVALID;
 		break;
 	case 1:
-		format = TgaFormat::PALETTIZED;
+		format = Format::PALETTIZED;
 		break;
 	case 2:
-		format = TgaFormat::RGB;
+		format = Format::RGB;
 		break;
 	case 3:
-		format = TgaFormat::GREYSCALE;
+		format = Format::GREYSCALE;
 		break;
 	case 9:
-		format = TgaFormat::PALETTIZED;
+		format = Format::PALETTIZED;
 		isCompressed = true;
 		break;
 	case 10:
-		format = TgaFormat::RGB;
+		format = Format::RGB;
 		isCompressed = true;
 		break;
 	case 11:
-		format = TgaFormat::GREYSCALE;
+		format = Format::GREYSCALE;
 		isCompressed = true;
 		break;
 	default:
-		format = TgaFormat::INVALID;
+		format = Format::INVALID;
 		break;
 	}
 	tgaInput.seek(SeekOrigin::CUR,idLen); // Skip ID.
@@ -79,13 +80,13 @@ void TgaHeader::load(IoDevice &input)
 	if(fliphoriz) flipHoriz();
 }
 
-void TgaHeader::decodeImage(size_t imageSize, IoDevice& input)
+void Header::decodeImage(size_t imageSize, IoDevice& input)
 {
 	imageData.resize(imageSize);
 	input.read(imageData.data(),imageSize); // Will read past the end of file in case of RLE.
 }
 
-void TgaHeader::decodeCompressedImage(size_t imageSize, IoDevice &input)
+void Header::decodeCompressedImage(size_t imageSize, IoDevice &input)
 {
 	imageData.resize(imageSize);
 	input.read(imageData.data(),imageSize); // Will read past the end of file in case of RLE.
@@ -117,7 +118,7 @@ void TgaHeader::decodeCompressedImage(size_t imageSize, IoDevice &input)
 	}
 }
 
-void TgaHeader::flipVert()
+void Header::flipVert()
 {
 	const uint32_t stride = imageSpecification.width * (imageSpecification.pixelDepth / 8);
 	Buffer reverseImage(imageData.size());
@@ -137,7 +138,7 @@ void TgaHeader::flipVert()
 	}*/
 }
 
-void TgaHeader::flipHoriz()
+void Header::flipHoriz()
 {
 	const uint32_t stride = imageSpecification.width * (imageSpecification.pixelDepth / 8);
 	for(uint32_t i = 0; i < imageSpecification.height; ++i) {
@@ -174,7 +175,7 @@ void TgaHeader::flipHoriz()
 	}
 }
 
-void TgaHeader::ExtensionInformation::load(DataStream<Endian::Little> &input)
+void Header::ExtensionInformation::load(DataStream<Endian::Little> &input)
 {
 	input >> extensionSize;
 	input >> authorName;
@@ -193,5 +194,6 @@ void TgaHeader::ExtensionInformation::load(DataStream<Endian::Little> &input)
 	input >> attributeType;
 }
 
+}
 }
 }

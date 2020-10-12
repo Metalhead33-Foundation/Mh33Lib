@@ -1,7 +1,7 @@
 #ifndef GIF_HPP
 #define GIF_HPP
 #include <Io/MhIoDevice.hpp>
-#include "MhRgbColour.hpp"
+#include "MhRGB.hpp"
 
 namespace MH33 {
 namespace GFX {

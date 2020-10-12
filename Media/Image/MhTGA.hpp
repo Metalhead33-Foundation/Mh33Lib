@@ -4,15 +4,16 @@
 
 namespace MH33 {
 namespace GFX {
+namespace TGA {
 
-enum class TgaFormat {
+enum class Format {
 	INVALID = 0x00,
 	RGB = 0x01,
 	GREYSCALE = 0x02,
 	PALETTIZED = 0x03
 };
 
-struct TgaHeader {
+struct Header {
 public:
 	// Read information - straight from the file
 	uint8_t idLen;
@@ -53,7 +54,7 @@ public:
 	};
 	// Deduced information - deduced from read info
 	int version;
-	TgaFormat format;
+	Format format;
 	std::vector<std::byte> colorMap;
 	std::vector<std::byte> imageData;
 	// Commands
@@ -65,6 +66,7 @@ private:
 	void flipHoriz();
 };
 
+}
 }
 }
 #endif // MHTGAHEADER_HPP

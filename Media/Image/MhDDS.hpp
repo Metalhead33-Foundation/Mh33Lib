@@ -4,8 +4,8 @@
 
 namespace MH33 {
 namespace GFX {
-
-enum DdsType {
+namespace DDS {
+enum Type {
 	INVALID = 0,
 	DXT1,
 	DXT3,
@@ -13,7 +13,7 @@ enum DdsType {
 	DX10
 };
 
-struct DdsHeader
+struct Header
 {
 	// We read this from the file
 	uint32_t dwSize;
@@ -48,7 +48,7 @@ struct DdsHeader
 		uint32_t miscFlags2;
 	} headerDXT10;
 	// We infer this from the file
-	DdsType type;
+	Type type;
 	struct Mipmap {
 		uint32_t width, height;
 		std::vector<std::byte> bytes;
@@ -56,7 +56,7 @@ struct DdsHeader
 	std::vector<Mipmap> mipmaps;
 	void load(IoDevice& input);
 };
-
+}
 }
 }
 #endif // MHDDSHEADER_HPP

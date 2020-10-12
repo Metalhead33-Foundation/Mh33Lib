@@ -1,18 +1,19 @@
-#include "MhDdsHeader.hpp"
+#include "MhDDS.hpp"
 #include <Io/MhBufferWrapper.hpp>
 namespace MH33 {
 namespace GFX {
+namespace DDS {
 static const uint32_t FOURCC_DXT1 = 0x31545844;
 static const uint32_t FOURCC_DXT3 = 0x33545844;
 static const uint32_t FOURCC_DXT5 = 0x35545844;
 static const uint32_t FOURCC_DX10 = 0x30315844;
 
-void DdsHeader::load(IoDevice &input)
+void Header::load(IoDevice &input)
 {
 	DataStream<Endian::Little> ddsInput(input); // Implying we already read the magic word at the beginning.
 	ddsInput >> dwSize;
 	if(dwSize != 124) {
-		this->type = DdsType::INVALID;
+		this->type = Type::INVALID;
 		return;
 	}
 	ddsInput >> dwFlags;
@@ -38,16 +39,16 @@ void DdsHeader::load(IoDevice &input)
 	switch(ddspf.dwFourCC)
 	{
 	case FOURCC_DXT1:
-		this->type = DdsType::DXT1;
+		this->type = Type::DXT1;
 		break;
 	case FOURCC_DXT3:
-		this->type = DdsType::DXT3;
+		this->type = Type::DXT3;
 		break;
 	case FOURCC_DXT5:
-		this->type = DdsType::DXT5;
+		this->type = Type::DXT5;
 		break;
 	case FOURCC_DX10:
-		this->type = DdsType::DX10;
+		this->type = Type::DX10;
 		ddsInput >> headerDXT10.dxgiFormat;
 		ddsInput >> headerDXT10.resourceDimension;
 		ddsInput >> headerDXT10.miscFlag;
@@ -55,7 +56,7 @@ void DdsHeader::load(IoDevice &input)
 		ddsInput >> headerDXT10.miscFlags2;
 		break;
 	default:
-		this->type = DdsType::INVALID;
+		this->type = Type::INVALID;
 		return;
 	}
 	uint32_t width = dwWidth;
@@ -63,7 +64,7 @@ void DdsHeader::load(IoDevice &input)
 	const uint32_t buffsize = dwMipMapCount > 1 ? dwPitchOrLinearSize * 2 : dwPitchOrLinearSize;
 	std::vector<std::byte> buffer(buffsize);
 	ddsInput.read(buffer.data(),buffsize);
-	const uint32_t blockSize = (this->type == DdsType::DXT1) ? 8 : 16;
+	const uint32_t blockSize = (this->type == Type::DXT1) ? 8 : 16;
 	uint32_t offset = 0;
 	mipmaps.resize(dwMipMapCount);
 	for(Mipmap& x : mipmaps) {
@@ -78,5 +79,6 @@ void DdsHeader::load(IoDevice &input)
 	}
 }
 
+}
 }
 }
