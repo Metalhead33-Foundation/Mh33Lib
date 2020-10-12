@@ -16,13 +16,13 @@ static const char* OUTWEBP = "/tmp/1.webp";
 int main(int argc, char *argv[])
 {
 	//MH33::Buffer buff;
-	MH33::FileIO rfio(INWEBP,MH33::IoMode::READ);
-	MH33::FileIO wfio(OUTZSTD,MH33::IoMode::WRITE);
-	MH33::Compressor compress(&rfio,&wfio);
+	MH33::FileIO rfio(OUTZSTD,MH33::IoMode::READ);
+	MH33::FileIO wfio(OUTWEBP,MH33::IoMode::WRITE);
+	/*MH33::Compressor compress(&rfio,&wfio);
 	compress.setCompressionLevel(0.8f);
-	compress.compress();
-	/*MH33::Decompressor decompress(&rfio,&wfio);
-	decompress.decompress();*/
+	compress.compress();*/
+	MH33::Decompressor decompress(&rfio,&wfio);
+	decompress.decompress();
 	//MH33::GFX::WEBP::encode(buff,width,height,stride,MH33::GFX::WEBP_IMGFORMAT::RGB,0.5f,wfio);
 	return 0;
 }

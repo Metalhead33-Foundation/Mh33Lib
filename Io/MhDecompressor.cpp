@@ -70,7 +70,7 @@ void Decompressor::decompress()
 		while (znput.pos < znput.size) {
 			ZSTD_outBuffer zutput = { outBuff.data(), outBuff.size(), 0 };
 			const size_t ret = ZSTD_decompressStream(MHDHANDLE, &zutput , &znput);
-			if(ret) output->write(outBuff.data(),zutput.pos);
+			output->write(outBuff.data(),zutput.pos);
 			lastRet = ret;
 		}
 	}
