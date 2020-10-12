@@ -8,7 +8,7 @@ CONFIG -= app_bundle
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-LIBS += -lphysfs -lpng -lturbojpeg -lwebp
+LIBS += -lphysfs -lpng -lturbojpeg -lwebp -lzstd
 INCLUDEPATH ''= $$top_srcdir/include
 
 # You can also make your code fail to compile if it uses deprecated APIs.
@@ -18,6 +18,8 @@ INCLUDEPATH ''= $$top_srcdir/include
 
 SOURCES += \
         Io/MhBufferWrapper.cpp \
+        Io/MhCompressor.cpp \
+        Io/MhDecompressor.cpp \
         Io/MhFileIO.cpp \
         Io/MhSocket.cpp \
         Io/MhStderr.cpp \
@@ -40,7 +42,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
 	Io/MhBuffer.hpp \
 	Io/MhBufferWrapper.hpp \
+	Io/MhCompressor.hpp \
 	Io/MhDataStream.hpp \
+	Io/MhDecompressor.hpp \
 	Io/MhFileIO.hpp \
 	Io/MhIoDevice.hpp \
 	Io/MhSocket.hpp \
