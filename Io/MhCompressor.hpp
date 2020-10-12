@@ -31,6 +31,8 @@ public:
 	void setInput(IoDevice *value);
 	IoDevice *getOutput() const;
 	void setOutput(IoDevice *value);
+
+	static void quickCompress(IoDevice& input, IoDevice& output, float compressionLevel = 0.5f, bool checksum = false);
 };
 }
 

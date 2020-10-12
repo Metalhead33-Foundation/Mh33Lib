@@ -31,6 +31,12 @@ void Decompressor::setOutput(IoDevice *value)
 	output = value;
 }
 
+void Decompressor::qucikDecompress(IoDevice &input, IoDevice &output)
+{
+	Decompressor tmp(&input,&output);
+	tmp.decompress();
+}
+
 Decompressor &Decompressor::operator=(Decompressor &&mov)
 {
 	this->handle = mov.handle;

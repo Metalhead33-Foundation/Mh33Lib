@@ -31,6 +31,14 @@ void Compressor::setOutput(IoDevice *value)
 	output = value;
 }
 
+void Compressor::quickCompress(IoDevice &input, IoDevice &output, float compressionLevel, bool checksum)
+{
+	Compressor tmp(&input,&output);
+	tmp.setCompressionLevel(compressionLevel);
+	tmp.setChecksum(checksum);
+	tmp.compress();
+}
+
 Compressor &Compressor::operator=(Compressor &&mov)
 {
 	this->handle = mov.handle;

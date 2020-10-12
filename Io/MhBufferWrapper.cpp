@@ -71,6 +71,11 @@ IoMode BufferWrapper::getMode() const
 	return IoMode::READ_WRITE;
 }
 
+void BufferWrapper::yield(Buffer &target)
+{
+	target = std::move(buffer);
+}
+
 Buffer &BufferWrapper::getBuffer()
 {
 	return buffer;

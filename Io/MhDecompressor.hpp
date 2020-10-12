@@ -27,6 +27,8 @@ public:
 	void setInput(IoDevice *value);
 	IoDevice *getOutput() const;
 	void setOutput(IoDevice *value);
+
+	static void qucikDecompress(IoDevice &input, IoDevice &output);
 };
 }
 
