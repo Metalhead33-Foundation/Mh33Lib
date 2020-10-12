@@ -1,4 +1,5 @@
 #include "MhTgaHeader.hpp"
+
 namespace MH33 {
 namespace GFX {
 
@@ -71,7 +72,11 @@ void TgaHeader::load(IoDevice &input)
 	}
 	size_t imageSize = imageSpecification.width * imageSpecification.height * (imageSpecification.pixelDepth / 8);
 	if(isCompressed) decodeCompressedImage(imageSize,tgaInput);
-			else decodeImage(imageSize, tgaInput);
+	else decodeImage(imageSize, tgaInput);
+	const bool fliphoriz = (imageSpecification.imageDescriptor & 0x10) ? true : false;
+	const bool flipvert = (imageSpecification.imageDescriptor & 0x20) ? false : true;
+	if(flipvert) flipVert();
+	if(fliphoriz) flipHoriz();
 }
 
 void TgaHeader::decodeImage(size_t imageSize, IoDevice& input)
@@ -108,6 +113,63 @@ void TgaHeader::decodeCompressedImage(size_t imageSize, IoDevice &input)
 				}
 				i += bytesPerPixel;
 			}
+		}
+	}
+}
+
+void TgaHeader::flipVert()
+{
+	const uint32_t stride = imageSpecification.width * (imageSpecification.pixelDepth / 8);
+	Buffer reverseImage(imageData.size());
+	for(uint32_t i = 0; i < imageSpecification.height; ++i) {
+		memcpy(&reverseImage[stride*(imageSpecification.height-(i+1))], &imageData[i*stride], stride);
+	}
+	imageData = std::move(reverseImage);
+	/*for(uint32_t i = 0; i < imageSpecification.height; ++i) {
+		Buffer tmpbuffA(stride);
+		Buffer tmpbuffB(stride);
+		std::byte* ptrA = &imageData[stride*i];
+		std::byte* ptrB = &imageData[stride*(imageSpecification.height-(i+1))];
+		memcpy(tmpbuffA.data(),ptrA,stride);
+		memcpy(tmpbuffB.data(),ptrB,stride);
+		memcpy(ptrA,tmpbuffB.data(),stride);
+		memcpy(ptrB,tmpbuffA.data(),stride);
+	}*/
+}
+
+void TgaHeader::flipHoriz()
+{
+	const uint32_t stride = imageSpecification.width * (imageSpecification.pixelDepth / 8);
+	for(uint32_t i = 0; i < imageSpecification.height; ++i) {
+		std::byte* ptrA = &imageData[stride*i];
+		switch (imageSpecification.pixelDepth) {
+		case 8:
+		{
+			std::span<std::byte> spn(ptrA,stride);
+			std::reverse(std::begin(spn),std::end(spn));
+			break;
+		}
+		case 15:
+		case 16:
+		{
+			std::span<uint16_t> spn(reinterpret_cast<uint16_t*>(ptrA),stride/2);
+			std::reverse(std::begin(spn),std::end(spn));
+			break;
+		}
+		case 24:
+		{
+			std::span<std::array<uint8_t,3>> spn(reinterpret_cast<std::array<uint8_t,3>*>(ptrA),stride/3);
+			std::reverse(std::begin(spn),std::end(spn));
+			break;
+		}
+		case 32:
+		{
+			std::span<uint32_t> spn(reinterpret_cast<uint32_t*>(ptrA),stride/4);
+			std::reverse(std::begin(spn),std::end(spn));
+			break;
+		}
+		default:
+			break;
 		}
 	}
 }

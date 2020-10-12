@@ -61,6 +61,8 @@ public:
 private:
 	void decodeImage(size_t imageSize, IoDevice& input);
 	void decodeCompressedImage(size_t imageSize, IoDevice& input);
+	void flipVert();
+	void flipHoriz();
 };
 
 }
