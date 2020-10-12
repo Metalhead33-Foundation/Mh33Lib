@@ -6,13 +6,13 @@ namespace GFX {
 
 namespace JPEG
 {
-void decode(Buffer& sourceBuff, unsigned long jpegSize, Buffer& destinationBuffer,
+bool decode(Buffer& sourceBuff, unsigned long jpegSize, Buffer& destinationBuffer,
 			int& width, int& height, int& subsamp);
-void decode(IoDevice& input, Buffer& destinationBuffer,
+bool decode(IoDevice& input, Buffer& destinationBuffer,
 			int& width, int& height, int& subsamp);
-void encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
+bool encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
 			Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual);
-void encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
+bool encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
 			IoDevice& destination, int jpegSubsamp, float jpegQual);
 };
 

@@ -1,28 +1,27 @@
-#include <QCoreApplication>
 #include <iostream>
 #include "Media/Image/MhJPEG.hpp"
 #include "Media/Image/MhWEBP.hpp"
 #include "Media/Image/MhTgaHeader.hpp"
 #include "Io/MhFileIO.hpp"
-#include "Io/MhCompressor.hpp"
-#include "Io/MhDecompressor.hpp"
+#include "Media/Image/MhWEBP.hpp"
+#include <sstream>
 
-static const char* INWEBP = "/home/legacy/fonts/1.webp";
-static const char* OUTZSTD = "/tmp/1.webp.zst";
-static const char* OUTWEBP = "/tmp/1.webp";
-
-// bool decode(IoDevice& iodev, int& width, int& height, unsigned& stride, WEBP_IMGFORMAT format, Buffer& pixelData);
+static const char* inWebp = "/home/legacy/fonts/Anient/1/ezgif.com-webp-maker.webp";
 
 int main(int argc, char *argv[])
 {
-	//MH33::Buffer buff;
-	MH33::FileIO rfio(OUTZSTD,MH33::IoMode::READ);
-	MH33::FileIO wfio(OUTWEBP,MH33::IoMode::WRITE);
-	/*MH33::Compressor compress(&rfio,&wfio);
-	compress.setCompressionLevel(0.8f);
-	compress.compress();*/
-	MH33::Decompressor decompress(&rfio,&wfio);
-	decompress.decompress();
-	//MH33::GFX::WEBP::encode(buff,width,height,stride,MH33::GFX::WEBP_IMGFORMAT::RGB,0.5f,wfio);
+	MH33::FileIO rfio(inWebp,MH33::IoMode::READ);
+	MH33::GFX::WEBP::DemuxTarget target;
+	target.format = MH33::GFX::WEBP::ImageFormat::RGBA;
+	MH33::GFX::WEBP::demux(rfio,target);
+	std::cout << "Width: " << target.width << std::endl;
+	std::cout << "Height: " << target.height << std::endl;
+	std::cout << "Frame count: " << target.frames.size() << std::endl;
+	for(size_t i = 0; i < target.frames.size();++i) {
+		std::stringstream str;
+		str << "/tmp/frame_" << i << ".webp";
+		MH33::FileIO wfio(str.str(),MH33::IoMode::WRITE);
+		MH33::GFX::WEBP::encode(target.frames[i].pixels,target.width,target.height,target.width*3,target.format,0.7f,wfio);
+	}
 	return 0;
 }
