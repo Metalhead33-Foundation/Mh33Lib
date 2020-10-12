@@ -18,6 +18,7 @@ enum class WEBP_IMGFORMAT {
 
 namespace WEBP
 {
+bool decode(const Buffer& srcBuffer, int& width, int& height, int &stride, WEBP_IMGFORMAT format, Buffer& pixelData);
 bool decode(IoDevice& iodev, int& width, int& height, int &stride, WEBP_IMGFORMAT format, Buffer& pixelData);
 //void encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Buffer &pixelData, int compressionLevel);
 struct Demuxer;

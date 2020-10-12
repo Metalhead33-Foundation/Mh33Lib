@@ -16,26 +16,36 @@ size_t getPixelSize(WEBP_IMGFORMAT format) {
 	}
 }
 
-bool WEBP::decode(IoDevice &iodev, int &width, int &height, int &stride, WEBP_IMGFORMAT format, Buffer &pixelData)
+bool WEBP::decode(const Buffer &srcBuffer, int &width, int &height, int &stride, WEBP_IMGFORMAT format, Buffer &pixelData)
 {
-	auto buff = iodev.readAll();
-	if(!WebPGetInfo(reinterpret_cast<uint8_t*>(buff.data()),buff.size(),&width,&height)) return false;
+	if(!WebPGetInfo(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),&width,&height)) return false;
 	stride = width*getPixelSize(format);
 	pixelData.resize(stride*height);
 	switch (format) {
 	case WEBP_IMGFORMAT::BGR:
-		return WebPDecodeBGRInto(reinterpret_cast<uint8_t*>(buff.data()),buff.size(),reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
+		return WebPDecodeBGRInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
+								 reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
 	case WEBP_IMGFORMAT::BGRA:
-		return WebPDecodeBGRAInto(reinterpret_cast<uint8_t*>(buff.data()),buff.size(),reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
+		return WebPDecodeBGRAInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
+								  reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
 	case WEBP_IMGFORMAT::RGB:
-		return WebPDecodeRGBInto(reinterpret_cast<uint8_t*>(buff.data()),buff.size(),reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
+		return WebPDecodeRGBInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
+								 reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
 	case WEBP_IMGFORMAT::RGBA:
-		return WebPDecodeRGBAInto(reinterpret_cast<uint8_t*>(buff.data()),buff.size(),reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
+		return WebPDecodeRGBAInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
+								  reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
 	case WEBP_IMGFORMAT::ARGB:
-		return WebPDecodeARGBInto(reinterpret_cast<uint8_t*>(buff.data()),buff.size(),reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
+		return WebPDecodeARGBInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
+								  reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
 	default:
 		return false;
 	}
+}
+
+bool WEBP::decode(IoDevice &iodev, int &width, int &height, int &stride, WEBP_IMGFORMAT format, Buffer &pixelData)
+{
+	auto buff = iodev.readAll();
+	return decode(buff,width,height,stride,format,pixelData);
 }
 
 }

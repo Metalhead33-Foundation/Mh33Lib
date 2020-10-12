@@ -6,14 +6,14 @@ namespace MH33 {
 namespace GFX {
 
 void JPEG::encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
-	Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, int jpegQual)
+	Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual)
 {
 	auto handle = std::unique_ptr<void,decltype(&tjDestroy) >(tjInitCompress(),tjDestroy);
 	if(!handle) return;
 	destinationBuffer.resize(tjBufSize(width,height,jpegSubsamp));
 	unsigned char* dstptr = reinterpret_cast<unsigned char*>(destinationBuffer.data());
 	tjCompress2(handle.get(),reinterpret_cast<const unsigned char*>(sourceBuff.data()),width,width*tjPixelSize[pixelFormat],height,
-				pixelFormat,&dstptr,&jpegSize,jpegSubsamp,std::clamp(jpegQual,1,100),TJFLAG_NOREALLOC | TJFLAG_FASTDCT);
+				pixelFormat,&dstptr,&jpegSize,jpegSubsamp,int(((1.0f-std::clamp(jpegQual,0.0f,1.0f))*99.0f)+1.0f),TJFLAG_NOREALLOC | TJFLAG_FASTDCT);
 }
 
 void JPEG::decode(Buffer& sourceBuff, unsigned long jpegSize, Buffer& destinationBuffer,
@@ -32,7 +32,7 @@ void JPEG::decode(IoDevice &input, Buffer &destinationBuffer, int &width, int &h
 	decode(buff,buff.size(),destinationBuffer,width,height,subsamp);
 }
 
-void JPEG::encode(const Buffer &sourceBuff, int width, int height, int pixelFormat, IoDevice &destination, int jpegSubsamp, int jpegQual)
+void JPEG::encode(const Buffer &sourceBuff, int width, int height, int pixelFormat, IoDevice &destination, int jpegSubsamp, float jpegQual)
 {
 	Buffer tmpBUff;
 	unsigned long jpegSize;

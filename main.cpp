@@ -20,6 +20,6 @@ int main(int argc, char *argv[])
 	MH33::FileIO wfio(OUTJPEG,MH33::IoMode::WRITE);
 	int width; int height; int stride;
 	MH33::GFX::WEBP::decode(rfio,width,height,stride,MH33::GFX::WEBP_IMGFORMAT::RGB,buff);
-	MH33::GFX::JPEG::encode(buff,width,height,0,wfio,0,50);
+	MH33::GFX::JPEG::encode(buff,width,height,0,wfio,0,0.5f);
 	return 0;
 }

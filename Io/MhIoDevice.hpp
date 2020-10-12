@@ -2,6 +2,7 @@
 #define MHIODEVICE_HPP
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include "MhBuffer.hpp"
 namespace MH33 {
 
@@ -44,6 +45,7 @@ public:
 		return write(src.data(),src.size());
 	}
 };
+typedef std::function<IoDevice*(IoMode)> IoDeviceCreator;
 
 }
 #endif // MHIODEVICE_HPP

@@ -57,7 +57,7 @@ void decode(IoDevice& iodev, uint16_t &width, uint16_t &height, uint8_t &color_t
 	png_destroy_read_struct(&pngPtr,&infoPtr,&endInfoPtr);
 }
 
-void encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Buffer &pixelData, int compressionLevel)
+void encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Buffer &pixelData, float compressionLevel)
 {
 	auto pngPtr = png_create_write_struct(PNG_LIBPNG_VER_STRING,nullptr,nullptr,nullptr);
 	if(!pngPtr) return;
@@ -69,7 +69,7 @@ void encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type
 	png_set_write_fn(pngPtr,&iodev,mh33_write_data,mh33_flush_data);
 	png_set_IHDR(pngPtr,infoPtr,width,height,bit_depth,color_type,PNG_INTERLACE_NONE,
 				 PNG_COMPRESSION_TYPE_DEFAULT,PNG_FILTER_TYPE_DEFAULT);
-	png_set_compression_level(pngPtr, std::clamp(compressionLevel,0,9));
+	png_set_compression_level(pngPtr,int(std::clamp(compressionLevel,0.0f,1.0f)*9.0f));
 	std::vector<png_bytep> rowPtrs(height);
 	for (int y=0; y<height; y++) {
 		rowPtrs[y] = reinterpret_cast<png_bytep>(&pixelData[type2bytes(color_type,bit_depth)*width*y]);

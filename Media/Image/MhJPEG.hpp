@@ -11,9 +11,9 @@ void decode(Buffer& sourceBuff, unsigned long jpegSize, Buffer& destinationBuffe
 void decode(IoDevice& input, Buffer& destinationBuffer,
 			int& width, int& height, int& subsamp);
 void encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
-			Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, int jpegQual);
+			Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual);
 void encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
-			IoDevice& destination, int jpegSubsamp, int jpegQual);
+			IoDevice& destination, int jpegSubsamp, float jpegQual);
 };
 
 }
