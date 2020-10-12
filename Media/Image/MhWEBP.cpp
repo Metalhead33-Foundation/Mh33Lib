@@ -117,90 +117,33 @@ bool demux(const Buffer &srcBuffer, DemuxTarget &target)
 	riff.bytes = reinterpret_cast<const uint8_t*>(srcBuffer.data());
 	riff.size = srcBuffer.size();
 	Configuration config = Configuration(WebPDemux(&riff),WebPDemuxDelete);
-	if(!config) throw std::runtime_error("Failed to initialize demux config!");
+	if(!config) return false;
 	target.width = WebPDemuxGetI(config.get(), WEBP_FF_CANVAS_WIDTH);
 	target.height = WebPDemuxGetI(config.get(), WEBP_FF_CANVAS_HEIGHT);
 	//uint32_t flags = WebPDemuxGetI(config.get(), WEBP_FF_FORMAT_FLAGS);
 	//uint32_t frameCount = WebPDemuxGetI(config.get(), WEBP_FF_FRAME_COUNT);
-	int bytesPerPixel = 0;
-	WebPAnimDecoderOptions dec_options;
-	if(!WebPAnimDecoderOptionsInit(&dec_options)) throw std::runtime_error("Failed to initialize demux codec options!");
-	switch(target.format)
-	{
-	case ImageFormat::RGBA:
-	{
-		dec_options.color_mode = MODE_RGBA;
-		bytesPerPixel = 4;
-		break;
+	WebPIterator iter;
+	if (WebPDemuxGetFrame(config.get(), 1, &iter)) {
+		do {
+			int timestamp = 0;
+			const int targetSize = target.width*target.height*getPixelSize(target.format);
+			target.frames.push_back(DemuxTarget::Frame());
+			target.frames.back().timestamp = timestamp;
+			target.frames.back().pixels.resize(targetSize);
+			uint8_t* data = nullptr;
+			switch (target.format) {
+			case ImageFormat::BGR: data = WebPDecodeBGR(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
+			case ImageFormat::RGB: data = WebPDecodeRGB(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
+			case ImageFormat::BGRA: data = WebPDecodeBGRA(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
+			case ImageFormat::RGBA: data = WebPDecodeRGBA(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
+			case ImageFormat::ARGB: data = WebPDecodeARGB(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
+			default: break;
+			}
+			if(data) { std::memcpy(target.frames.back().pixels.data(),data,targetSize);
+				WebPFree(data); }
+		} while (WebPDemuxNextFrame(&iter));
+		WebPDemuxReleaseIterator(&iter);
 	}
-	case ImageFormat::ARGB:
-	{
-		dec_options.color_mode = MODE_ARGB;
-		bytesPerPixel = 4;
-		break;
-	}
-	case ImageFormat::BGRA:
-	{
-		dec_options.color_mode = MODE_BGRA;
-		bytesPerPixel = 4;
-		break;
-	}
-	case ImageFormat::RGB:
-	{
-		dec_options.color_mode = MODE_RGB;
-		bytesPerPixel = 3;
-		break;
-	}
-	case ImageFormat::BGR:
-	{
-		dec_options.color_mode = MODE_BGR;
-		bytesPerPixel = 3;
-		break;
-	}
-	case ImageFormat::RGB_565:
-	{
-		dec_options.color_mode = MODE_RGB_565;
-		bytesPerPixel = 2;
-		break;
-	}
-	case ImageFormat::RGBA_4444:
-	{
-		dec_options.color_mode = MODE_RGBA_4444;
-		bytesPerPixel = 2;
-		break;
-	}
-	}
-	dec_options.use_threads = 1;
-	//target.frames.resize(frameCount);
-	std::unique_ptr<WebPAnimDecoder,decltype (&WebPAnimDecoderDelete)> decoder(WebPAnimDecoderNew(&riff,&dec_options),WebPAnimDecoderDelete);
-	if(!decoder) throw std::runtime_error("Failed to initialize WebP animation decoder!");
-	WebPAnimInfo anim_info;
-	//WebPAnimDecoderGetInfo(decoder.get(), &anim_info);
-	if(!WebPAnimDecoderGetInfo(decoder.get(), &anim_info)) throw std::runtime_error("Failed to fetch animation information!");
-	target.width = anim_info.canvas_width;
-	target.height = anim_info.canvas_height;
-	//target.frames.resize(frameCount);
-	// WebPAnimDecoderReset(decoder.get());
-	while (WebPAnimDecoderHasMoreFrames(decoder.get())) {
-		uint8_t* buf;
-		int timestamp;
-		const int targetSize = target.width*target.height*bytesPerPixel;
-		WebPAnimDecoderGetNext(decoder.get(), &buf, &timestamp);
-		target.frames.push_back(DemuxTarget::Frame());
-		target.frames.back().timestamp = timestamp;
-		target.frames.back().pixels.resize(targetSize);
-		memcpy(target.frames.back().pixels.data(),buf,targetSize);
-	}
-		WebPAnimDecoderReset(decoder.get());
-	/*for (uint32_t i = 0; i < frameCount; ++i) {
-		if(!WebPAnimDecoderHasMoreFrames(decoder.get())) break;
-			uint8_t* buf;
-			int timestamp;
-			WebPAnimDecoderGetNext(decoder.get(), &buf, &timestamp);
-			target.frames[i].timestamp = timestamp;
-			target.frames[i].pixels.resize(target.width*target.height*bytesPerPixel);
-			memcpy(target.frames[i].pixels.data(),buf,target.width*target.height*bytesPerPixel);
-	}*/
 	return true;
 }
 

@@ -6,13 +6,13 @@
 #include "Media/Image/MhWEBP.hpp"
 #include <sstream>
 
-static const char* inWebp = "/home/legacy/fonts/Anient/1/ezgif.com-webp-maker.webp";
+static const char* inWebp = "/home/metalhead33/Letöltések/ezgif.com-webp-maker.webp";
 
 int main(int argc, char *argv[])
 {
 	MH33::FileIO rfio(inWebp,MH33::IoMode::READ);
 	MH33::GFX::WEBP::DemuxTarget target;
-	target.format = MH33::GFX::WEBP::ImageFormat::RGBA;
+	target.format = MH33::GFX::WEBP::ImageFormat::RGB;
 	MH33::GFX::WEBP::demux(rfio,target);
 	std::cout << "Width: " << target.width << std::endl;
 	std::cout << "Height: " << target.height << std::endl;
