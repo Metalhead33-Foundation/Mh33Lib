@@ -4,6 +4,66 @@ namespace MH33 {
 namespace GFX {
 namespace TGA {
 
+enum class Type {
+	INVALID = 0x00,
+	RGB = 0x01,
+	GREYSCALE = 0x02,
+	PALETTIZED = 0x03
+};
+
+struct Header {
+public:
+	// Read information - straight from the file
+	uint8_t idLen;
+	uint8_t colmapType;
+	uint8_t imageType;
+	struct {
+		uint16_t firstEntryIndex;
+		uint16_t colorMapLength;
+		uint8_t colorMapEntrySize;
+	} colorMapSpecification;
+	struct {
+		uint16_t xOrigin;
+		uint16_t yOrigin;
+		uint16_t width;
+		uint16_t height;
+		uint8_t pixelDepth;
+		uint8_t imageDescriptor;
+	} imageSpecification;
+	int32_t extensionOffset;
+	int32_t developerAreaOffset;
+	struct ExtensionInformation {
+		uint16_t extensionSize;
+		std::array<char,41> authorName;
+		std::array<char,324> authorComment;
+		std::array<uint16_t,6> timestamp;
+		std::array<char,41> jobId;
+		std::array<uint16_t,3> jobTime;
+		std::array<char,41> softwareID;
+		std::array<char,3> softwareVersion;
+		uint32_t keyColour;
+		std::array<uint16_t,2> pixelAspectRatio;
+		std::array<uint16_t,2> gammaValue;
+		uint32_t colourCorrectionOffset;
+		uint32_t postageStampOffset;
+		uint32_t scanlineOffset;
+		uint8_t attributeType;
+		void load(DataStream<Endian::Little>& input);
+	};
+	// Deduced information - deduced from read info
+	int version;
+	Type format;
+	std::vector<std::byte> colorMap;
+	std::vector<std::byte> imageData;
+	// Commands
+	void load(IoDevice& input);
+private:
+	void decodeImage(size_t imageSize, IoDevice& input);
+	void decodeCompressedImage(size_t imageSize, IoDevice& input);
+	void flipVert();
+	void flipHoriz();
+};
+
 void Header::load(IoDevice &input)
 {
 	DataStream<Endian::Little> tgaInput(input); // TGA is little-endian.
@@ -38,31 +98,31 @@ void Header::load(IoDevice &input)
 	bool isCompressed = false;
 	switch (imageType) {
 	case 0:
-		format = Format::INVALID;
+		format = Type::INVALID;
 		break;
 	case 1:
-		format = Format::PALETTIZED;
+		format = Type::PALETTIZED;
 		break;
 	case 2:
-		format = Format::RGB;
+		format = Type::RGB;
 		break;
 	case 3:
-		format = Format::GREYSCALE;
+		format = Type::GREYSCALE;
 		break;
 	case 9:
-		format = Format::PALETTIZED;
+		format = Type::PALETTIZED;
 		isCompressed = true;
 		break;
 	case 10:
-		format = Format::RGB;
+		format = Type::RGB;
 		isCompressed = true;
 		break;
 	case 11:
-		format = Format::GREYSCALE;
+		format = Type::GREYSCALE;
 		isCompressed = true;
 		break;
 	default:
-		format = Format::INVALID;
+		format = Type::INVALID;
 		break;
 	}
 	tgaInput.seek(SeekOrigin::CUR,idLen); // Skip ID.
@@ -192,6 +252,46 @@ void Header::ExtensionInformation::load(DataStream<Endian::Little> &input)
 	input >> postageStampOffset;
 	input >> scanlineOffset;
 	input >> attributeType;
+}
+
+void decode(IoDevice &iodev, DecodeTarget &destination)
+{
+	Header head;
+	head.load(iodev);
+	switch (head.format) {
+		case Type::INVALID: destination.format = Format::INVALID; return;
+		case Type::RGB: switch (head.imageSpecification.pixelDepth) {
+			case 15: destination.format = Format::RGB555; break;
+			case 16: destination.format = Format::RGB565; break;
+			case 24: destination.format = Format::BGR8U; break;
+			case 32: destination.format = Format::BGRA8U; break;
+			default: destination.format = Format::INVALID; return;
+			} break;
+		case Type::GREYSCALE: switch (head.imageSpecification.pixelDepth) {
+			case 8: destination.format = Format::R8U; break;
+			case 16: destination.format = Format::R16U; break;
+			case 32: destination.format = Format::R32U; break;
+			default: destination.format = Format::INVALID; return;
+			} break;
+		case Type::PALETTIZED: {
+			destination.format = Format::INDEXED;
+			destination.palette.emplace();
+			destination.palette->palette = std::move(head.colorMap);
+			switch (head.colorMapSpecification.colorMapEntrySize) {
+			case 15: destination.palette->format = Format::RGB555; break;
+			case 16: destination.palette->format = Format::RGB565; break;
+			case 24: destination.palette->format = Format::BGR8U; break;
+			case 32: destination.palette->format = Format::BGRA8U; break;
+			default: destination.palette->format = Format::INVALID; return;
+			} break;
+		}
+		default: destination.format = Format::INVALID; return;
+	}
+	destination.frames.push_back(Frame());
+	destination.frames.back().width = head.imageSpecification.width;
+	destination.frames.back().height = head.imageSpecification.height;
+	destination.frames.back().stride = head.imageSpecification.width * byteSize(destination.format);
+	destination.frames.back().imageData = std::move(head.imageData);
 }
 
 }

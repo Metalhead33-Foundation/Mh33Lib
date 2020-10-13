@@ -23,8 +23,10 @@ constexpr size_t type2bytes(uint8_t color_type, uint8_t bit_depth) {
 }
 }
 
-void decode(IoDevice& iodev, uint16_t &width, uint16_t &height, uint8_t &color_type, uint8_t &bit_depth, Buffer& pixelData)
+void decode(IoDevice& iodev, DecodeTarget &destination)
 {
+	uint8_t color_type;
+	uint8_t bit_depth;
 	auto pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING,nullptr,nullptr,nullptr);
 	if(!pngPtr) return;
 	auto infoPtr = png_create_info_struct(pngPtr);
@@ -40,20 +42,67 @@ void decode(IoDevice& iodev, uint16_t &width, uint16_t &height, uint8_t &color_t
 	png_set_read_fn(pngPtr,&iodev,mh33_read_data);
 	if(iodev.tell()) png_set_sig_bytes(pngPtr, iodev.tell());
 	png_read_info(pngPtr, infoPtr);
-
-	width = png_get_image_width(pngPtr,infoPtr);
-	height = png_get_image_height(pngPtr,infoPtr);
+	destination.isAnimated = false;
+	destination.frames.resize(1);
+	destination.frames[0].width = png_get_image_width(pngPtr,infoPtr);
+	destination.frames[0].height = png_get_image_height(pngPtr,infoPtr);
 	color_type = png_get_color_type(pngPtr,infoPtr);
 	bit_depth = png_get_bit_depth(pngPtr,infoPtr);
+	switch (color_type) {
+	case PNG_COLOR_TYPE_RGB: switch (bit_depth) {
+		case 8: destination.format = Format::RGB8U; break;
+		case 16: destination.format = Format::RGB16U; break;
+		default: destination.format = Format::INVALID; break;
+		} break;
+	case PNG_COLOR_TYPE_RGBA: switch (bit_depth) {
+		case 8: destination.format = Format::RGBA8U; break;
+		case 16: destination.format = Format::RGBA16U; break;
+		default: destination.format = Format::INVALID; break;
+		} break;
+	case PNG_COLOR_TYPE_GRAY: switch (bit_depth) {
+		case 1:
+		case 2:
+		case 4: png_set_expand_gray_1_2_4_to_8(pngPtr); [[fallthrough]];
+		case 8: destination.format = Format::R8U; break;
+		case 16: destination.format = Format::R16U; break;
+		default: destination.format = Format::INVALID; break;
+		} break;
+	case PNG_COLOR_TYPE_PALETTE: switch (bit_depth) {
+		case 1:
+		case 2:
+		case 4: png_set_packing(pngPtr); [[fallthrough]];
+		case 8: destination.format = Format::INDEXED; break;
+		default: destination.format = Format::INVALID; break;
+		} break;
+	}
+	if(destination.format == Format::INVALID) {
+		png_destroy_read_struct(&pngPtr,&infoPtr,&endInfoPtr);
+		return;
+	}
 	int number_of_passes;
 	number_of_passes = png_set_interlace_handling(pngPtr);
 	png_read_update_info(pngPtr, infoPtr);
-	pixelData.resize(height*png_get_rowbytes(pngPtr, infoPtr));
-	std::vector<png_bytep> rowPtrs(height);
-	for (int y=0; y<height; y++) {
-		rowPtrs[y] = reinterpret_cast<png_bytep>(&pixelData[y*png_get_rowbytes(pngPtr, infoPtr)]);
+	destination.frames[0].stride = png_get_rowbytes(pngPtr, infoPtr);
+	destination.frames[0].imageData.resize(destination.frames[0].height*png_get_rowbytes(pngPtr, infoPtr));
+	std::vector<png_bytep> rowPtrs(destination.frames[0].height);
+	for (int y=0; y<destination.frames[0].height; y++) {
+		rowPtrs[y] = reinterpret_cast<png_bytep>(&(destination.frames[0].imageData[y*png_get_rowbytes(pngPtr, infoPtr)]));
 	}
 	png_read_image(pngPtr, rowPtrs.data());
+	if(color_type == PNG_COLOR_TYPE_PALETTE) {
+		png_colorp png_palette = nullptr;
+		int palette_entries = 0;
+		png_get_PLTE(pngPtr,infoPtr, &png_palette, &palette_entries);
+		destination.palette = Palette();
+		destination.palette->format = Format::RGB8U;
+		destination.palette->palette.resize(sizeof(RGB<uint8_t>)*palette_entries);
+		RGB<uint8_t>* entries = reinterpret_cast<RGB<uint8_t>*>(destination.palette->palette.data());
+		for(int i = 0; i < palette_entries; ++i) {
+			entries[i].r = png_palette[i].red;
+			entries[i].g = png_palette[i].green;
+			entries[i].b = png_palette[i].blue;
+		}
+	}
 	png_destroy_read_struct(&pngPtr,&infoPtr,&endInfoPtr);
 }
 

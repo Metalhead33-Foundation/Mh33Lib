@@ -56,11 +56,12 @@ HEADERS += \
 	Io/PhysFSIO.hpp \
 	Io/private/MhSocketUnix.hpp \
 	Media/Image/MhDDS.hpp \
+	Media/Image/MhDecodeTarget.hpp \
 	Media/Image/MhGIF.hpp \
 	Media/Image/MhJPEG.hpp \
 	Media/Image/MhMNG.hpp \
 	Media/Image/MhPNG.hpp \
-	Media/Image/MhRGB.hpp \
+	Media/Image/MhStandardColourFormat.hpp \
 	Media/Image/MhTGA.hpp \
 	Media/Image/MhWEBP.hpp \
 	Util/MhEndianness.hpp \

@@ -1,6 +1,7 @@
 #ifndef MHMNG_HPP
 #define MHMNG_HPP
 #include <Io/MhIoDevice.hpp>
+#include "MhDecodeTarget.hpp"
 namespace MH33 {
 namespace GFX {
 

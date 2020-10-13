@@ -13,11 +13,12 @@ namespace MNG
 
 bool decode(IoDevice &iodev)
 {
-	std::unique_ptr<mng_data_struct,decltype (&mng_cleanup)> handle(mng_initialize(&iodev,nullptr,nullptr,nullptr),mng_cleanup);
+	//std::unique_ptr<mng_data_struct,decltype (&mng_cleanup)> handle(mng_initialize(&iodev,nullptr,nullptr,nullptr),mng_cleanup);
+	mng_handle handle = mng_initialize(&iodev,nullptr,nullptr,nullptr);
 	if(!handle) return false;
-	mng_setcb_openstream(handle.get(),mh33_mng_openstream);
-	mng_setcb_closestream(handle.get(),mh33_mng_closestream);
-	mng_setcb_readdata(handle.get(),mh33_mng_readdata);
+	mng_setcb_openstream(handle,mh33_mng_openstream);
+	mng_setcb_closestream(handle,mh33_mng_closestream);
+	mng_setcb_readdata(handle,mh33_mng_readdata);
 	//mng_setcb_writedata(handle.get(),mh33_mng_writedata);
 	return true;
 }

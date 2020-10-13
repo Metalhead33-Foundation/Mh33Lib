@@ -11,61 +11,54 @@ namespace MH33 {
 namespace GFX {
 namespace WEBP {
 
-size_t getPixelSize(ImageFormat format) {
-	switch (format) {
-	case ImageFormat::BGR: return 3;
-	case ImageFormat::BGRA: return 4;
-	case ImageFormat::RGB: return 3;
-	case ImageFormat::RGBA: return 4;
-	case ImageFormat::ARGB: return 4;
-	case ImageFormat::RGB_565: return 2;
-	case ImageFormat::RGBA_4444: return 2;
-	}
-}
-
-bool decode(const Buffer &srcBuffer, int &width, int &height, int &stride, ImageFormat format, Buffer &pixelData)
+bool decode(const Buffer &srcBuffer, DecodeTarget &target)
 {
 	if(srcBuffer.empty()) return false;
+	int width,height;
 	if(!WebPGetInfo(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),&width,&height)) return false;
-	stride = width*getPixelSize(format);
-	pixelData.resize(stride*height);
-	switch (format) {
-	case ImageFormat::BGR:
+	int stride = width*byteSize(target.format);
+	target.isAnimated = false;
+	target.frames.resize(1);
+	target.frames[0].imageData.resize(stride*height);
+	switch (target.format) {
+	case Format::BGR8U:
 		return WebPDecodeBGRInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
-								 reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
-	case ImageFormat::BGRA:
+								 reinterpret_cast<uint8_t*>(target.frames[0].imageData.data()),target.frames[0].imageData.size(),stride) != nullptr;
+	case Format::BGRA8U:
 		return WebPDecodeBGRAInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
-								  reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
-	case ImageFormat::RGB:
+								  reinterpret_cast<uint8_t*>(target.frames[0].imageData.data()),target.frames[0].imageData.size(),stride) != nullptr;
+	case Format::RGB8U:
 		return WebPDecodeRGBInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
-								 reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
-	case ImageFormat::RGBA:
+								 reinterpret_cast<uint8_t*>(target.frames[0].imageData.data()),target.frames[0].imageData.size(),stride) != nullptr;
+	case Format::RGBA8U:
 		return WebPDecodeRGBAInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
-								  reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
-	case ImageFormat::ARGB:
+								  reinterpret_cast<uint8_t*>(target.frames[0].imageData.data()),target.frames[0].imageData.size(),stride) != nullptr;
+	case Format::ARGB8U:
 		return WebPDecodeARGBInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
-								  reinterpret_cast<uint8_t*>(pixelData.data()),pixelData.size(),stride) != nullptr;
+								  reinterpret_cast<uint8_t*>(target.frames[0].imageData.data()),target.frames[0].imageData.size(),stride) != nullptr;
 	default:
-		return false;
+		target.format = Format::RGBA8U;
+		return WebPDecodeRGBAInto(reinterpret_cast<const uint8_t*>(srcBuffer.data()),srcBuffer.size(),
+								  reinterpret_cast<uint8_t*>(target.frames[0].imageData.data()),target.frames[0].imageData.size(),stride) != nullptr;
 	}
 }
 
-bool decode(IoDevice &iodev, int &width, int &height, int &stride, ImageFormat format, Buffer &pixelData)
+bool decode(IoDevice &iodev, DecodeTarget &target)
 {
 	auto buff = iodev.readAll();
-	return decode(buff,width,height,stride,format,pixelData);
+	return decode(buff,target);
 }
-size_t encode(const uint8_t* pixdat, int width, int height, int stride, ImageFormat format, float compressionLevel, uint8_t** ptr)
+size_t encode(const uint8_t* pixdat, int width, int height, int stride, Format format, float compressionLevel, uint8_t** ptr)
 {
 	if(compressionLevel <= std::numeric_limits<float>::epsilon()) { // Lossless
 		switch (format) {
-		case ImageFormat::BGR:
+		case Format::BGR8U:
 			return WebPEncodeLosslessBGR(pixdat,width,height,stride,ptr);
-		case ImageFormat::BGRA:
+		case Format::BGRA8U:
 			return WebPEncodeLosslessBGRA(pixdat,width,height,stride,ptr);
-		case ImageFormat::RGB:
+		case Format::RGB8U:
 			return WebPEncodeLosslessRGB(pixdat,width,height,stride,ptr);
-		case ImageFormat::RGBA:
+		case Format::RGBA8U:
 			return WebPEncodeLosslessRGBA(pixdat,width,height,stride,ptr);
 		default:
 			return 0;
@@ -73,20 +66,20 @@ size_t encode(const uint8_t* pixdat, int width, int height, int stride, ImageFor
 	} else {
 		const float quality_factor = (1.0f-std::clamp(compressionLevel,0.0f,1.0f))*100.f;
 		switch (format) {
-		case ImageFormat::BGR:
+		case Format::BGR8U:
 			return WebPEncodeBGR(pixdat,width,height,stride,quality_factor,ptr);
-		case ImageFormat::BGRA:
+		case Format::BGRA8U:
 			return WebPEncodeBGRA(pixdat,width,height,stride,quality_factor,ptr);
-		case ImageFormat::RGB:
+		case Format::RGB8U:
 			return WebPEncodeRGB(pixdat,width,height,stride,quality_factor,ptr);
-		case ImageFormat::RGBA:
+		case Format::RGBA8U:
 			return WebPEncodeRGBA(pixdat,width,height,stride,quality_factor,ptr);
 		default:
 			return 0;
 		}
 	}
 }
-bool encode(const Buffer &srcBuffer, int width, int height, int stride, ImageFormat format, float compressionLevel, Buffer &dstBuffer)
+bool encode(const Buffer &srcBuffer, int width, int height, int stride, Format format, float compressionLevel, Buffer &dstBuffer)
 {
 	if(srcBuffer.empty()) return false;
 	uint8_t* out;
@@ -98,7 +91,7 @@ bool encode(const Buffer &srcBuffer, int width, int height, int stride, ImageFor
 	return true;
 }
 
-bool encode(const Buffer &srcBuffer, int width, int height, int stride, ImageFormat format, float compressionLevel, IoDevice &dst)
+bool encode(const Buffer &srcBuffer, int width, int height, int stride, Format format, float compressionLevel, IoDevice &dst)
 {
 	if(srcBuffer.empty()) return false;
 	uint8_t* out;
@@ -109,7 +102,7 @@ bool encode(const Buffer &srcBuffer, int width, int height, int stride, ImageFor
 	return true;
 }
 
-bool demux(const Buffer &srcBuffer, DemuxTarget &target)
+bool demux(const Buffer &srcBuffer, DecodeTarget &target)
 {
 	if(srcBuffer.empty()) return false;
 	typedef std::unique_ptr<WebPDemuxer,decltype (&WebPDemuxDelete)> Configuration;
@@ -118,36 +111,64 @@ bool demux(const Buffer &srcBuffer, DemuxTarget &target)
 	riff.size = srcBuffer.size();
 	Configuration config = Configuration(WebPDemux(&riff),WebPDemuxDelete);
 	if(!config) return false;
-	target.width = WebPDemuxGetI(config.get(), WEBP_FF_CANVAS_WIDTH);
-	target.height = WebPDemuxGetI(config.get(), WEBP_FF_CANVAS_HEIGHT);
+	uint32_t width = WebPDemuxGetI(config.get(), WEBP_FF_CANVAS_WIDTH);
+	uint32_t height = WebPDemuxGetI(config.get(), WEBP_FF_CANVAS_HEIGHT);
 	//uint32_t flags = WebPDemuxGetI(config.get(), WEBP_FF_FORMAT_FLAGS);
 	//uint32_t frameCount = WebPDemuxGetI(config.get(), WEBP_FF_FRAME_COUNT);
 	WebPIterator iter;
 	if (WebPDemuxGetFrame(config.get(), 1, &iter)) {
 		do {
-			int timestamp = 0;
-			const int targetSize = target.width*target.height*getPixelSize(target.format);
-			target.frames.push_back(DemuxTarget::Frame());
-			target.frames.back().timestamp = timestamp;
-			target.frames.back().pixels.resize(targetSize);
+			int stride = width*byteSize(target.format);
+			int targetSize = stride*height;
+			target.frames.push_back(Frame());
+			target.frames.back().imageData.resize(targetSize);
+			target.frames.back().width = width;
+			target.frames.back().height = height;
+			target.frames.back().stride = stride;
 			uint8_t* data = nullptr;
 			switch (target.format) {
-			case ImageFormat::BGR: data = WebPDecodeBGR(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
-			case ImageFormat::RGB: data = WebPDecodeRGB(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
-			case ImageFormat::BGRA: data = WebPDecodeBGRA(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
-			case ImageFormat::RGBA: data = WebPDecodeRGBA(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
-			case ImageFormat::ARGB: data = WebPDecodeARGB(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr); break;
-			default: break;
+			/*case Format::BGR8U:
+				data = WebPDecodeBGR(iter.fragment.bytes,iter.fragment.size,nullptr,nullptr);
+				break;*/
+			case Format::BGR8U:
+				WebPDecodeBGRInto(iter.fragment.bytes,iter.fragment.size,
+								reinterpret_cast<uint8_t*>(target.frames.back().imageData.data()),target.frames.back().imageData.size(),stride);
+				break;
+			case Format::BGRA8U:
+				WebPDecodeBGRAInto(iter.fragment.bytes,iter.fragment.size,
+								   reinterpret_cast<uint8_t*>(target.frames.back().imageData.data()),target.frames.back().imageData.size(),stride);
+				break;
+			case Format::RGB8U:
+				WebPDecodeRGBInto(iter.fragment.bytes,iter.fragment.size,
+								  reinterpret_cast<uint8_t*>(target.frames.back().imageData.data()),target.frames.back().imageData.size(),stride);
+				break;
+			case Format::RGBA8U:
+				WebPDecodeRGBAInto(iter.fragment.bytes,iter.fragment.size,
+								   reinterpret_cast<uint8_t*>(target.frames.back().imageData.data()),target.frames.back().imageData.size(),stride);
+				break;
+			case Format::ARGB8U:
+				WebPDecodeARGBInto(iter.fragment.bytes,iter.fragment.size,
+								   reinterpret_cast<uint8_t*>(target.frames.back().imageData.data()),target.frames.back().imageData.size(),stride);
+				break;
+			default:
+				target.format = Format::RGB8U;
+				stride = width*byteSize(target.format);
+				target.frames.back().stride = stride;
+				targetSize = width*stride;
+				target.frames.back().imageData.resize(targetSize);
+				WebPDecodeRGBInto(iter.fragment.bytes,iter.fragment.size,
+								  reinterpret_cast<uint8_t*>(target.frames.back().imageData.data()),target.frames.back().imageData.size(),stride);
+				break;
 			}
-			if(data) { std::memcpy(target.frames.back().pixels.data(),data,targetSize);
-				WebPFree(data); }
 		} while (WebPDemuxNextFrame(&iter));
 		WebPDemuxReleaseIterator(&iter);
 	}
+	if(target.frames.size() > 1) target.isAnimated = true;
+	else target.isAnimated = false;
 	return true;
 }
 
-bool demux(IoDevice &iodev, DemuxTarget &target)
+bool demux(IoDevice &iodev, DecodeTarget &target)
 {
 	auto buff = iodev.readAll();
 	return demux(buff,target);

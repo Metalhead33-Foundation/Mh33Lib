@@ -1,7 +1,7 @@
 #ifndef MHDATASTREAM_HPP
 #define MHDATASTREAM_HPP
 
-#include "../Util/MhEndianness.hpp"
+#include <Util/MhEndianness.hpp>
 #include "MhIoDevice.hpp"
 #include <string>
 #include <vector>

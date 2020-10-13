@@ -1,36 +1,118 @@
 #include <iostream>
-#include "Media/Image/MhGIF.hpp"
 #include "Io/MhFileIO.hpp"
+#include "Media/Image/MhGIF.hpp"
 #include "Media/Image/MhWEBP.hpp"
+#include "Media/Image/MhTGA.hpp"
+#include "Media/Image/MhPNG.hpp"
+#include "Media/Image/MhJPEG.hpp"
 #include <sstream>
 
 static const char* inGif = "/home/legacy/fonts/Anient/1/anime/aoi_ren/1/2/25.gif";
+static const char* inWebp = "/tmp/coolie.webp";
+static const char* inTga = "/home/legacy/fonts/Anient/1/2194094_b.tga";
+static const char* inPng = "/home/legacy/fonts/Anient/1/109925325_178548090302695_9174570104564186065_o.png";
+static const char* inJpeg = "/home/legacy/fonts/Anient/1/2194094.jpg";
+
+static int imgNum = 0;
+void testGif();
+void testWebp();
+void testTga();
+void testPng();
+void testJpeg();
 
 int main(int argc, char *argv[])
 {
-	MH33::FileIO rfio(inGif,MH33::IoMode::READ);
-	MH33::GFX::GIF::DecodeTarget target;
-	MH33::GFX::GIF::decode(rfio,target);
-	std::cout << "Width: " << target.width << std::endl;
-	std::cout << "Height: " << target.height << std::endl;
-	std::cout << "Frame count: " << target.frames.size() << std::endl;
-	std::cout << "Palette size: " << target.palette.size() << std::endl;
-	for(size_t i = 0; i < target.frames.size(); ++i) {
-		std::stringstream sstream;
-		sstream << "/tmp/frame_" << i << ".webp";
-		MH33::Buffer tmpBuff(sizeof(MH33::GFX::RGB<uint8_t>)*target.width*target.height);
-		MH33::GFX::RGB<uint8_t>* pixels = reinterpret_cast<MH33::GFX::RGB<uint8_t>*>(tmpBuff.data());
-		for(int y = 0; y < target.height; ++y) {
-			const uint8_t* base = &target.frames[i][target.width*y];
-			MH33::GFX::RGB<uint8_t>* currentRow = &pixels[target.width*y];
-			for(int x = 0; x < target.width; ++x) {
-				currentRow[x].r = target.palette[base[x]].r;
-				currentRow[x].g = target.palette[base[x]].g;
-				currentRow[x].b = target.palette[base[x]].b;
-			}
-		}
-		MH33::FileIO wfio(sstream.str(),MH33::IoMode::WRITE);
-		MH33::GFX::WEBP::encode(tmpBuff,target.width,target.height,target.width*3,MH33::GFX::WEBP::ImageFormat::RGB,0.8f,wfio);
-	}
+	//testGif();
+	//testWebp();
+	//testTga();
+	//testPng();
+	testJpeg();
 	return 0;
+}
+void testGif() {
+	MH33::FileIO rio(inGif,MH33::IoMode::READ);
+	MH33::GFX::DecodeTarget target;
+	MH33::GFX::GIF::decode(rio,target);
+	if(target.format == MH33::GFX::Format::INVALID) {
+		std::cout << "Reading GIF failed!" << std::endl;
+		return;
+	}
+	for(auto& it : target.frames) {
+		std::cout << "GIF frame\nWidth: " << it.width << "\nHeight: " << it.height << std::endl;
+		std::stringstream stringstream;
+		stringstream << "/tmp/gif_frame_" << imgNum++ << ".webp";
+		MH33::FileIO wio(stringstream.str(),MH33::IoMode::WRITE);
+		MH33::Buffer buff(it.height*it.stride*sizeof(MH33::GFX::RGB<uint8_t>));
+		MH33::GFX::RGB<uint8_t>* pixels = reinterpret_cast<MH33::GFX::RGB<uint8_t>*>(buff.data());
+		MH33::GFX::RGB<uint8_t>* palette = reinterpret_cast<MH33::GFX::RGB<uint8_t>*>(target.palette->palette.data());
+		for(size_t i = 0; i < it.imageData.size(); ++i) {
+			pixels[i] = palette[*reinterpret_cast<uint8_t*>(&it.imageData[i])];
+		}
+		MH33::GFX::WEBP::encode(buff,it.width,it.height,it.stride*3,MH33::GFX::Format::RGB8U,0.0f,wio);
+	}
+}
+void testWebp() {
+	MH33::FileIO rio(inWebp,MH33::IoMode::READ);
+	MH33::GFX::DecodeTarget target;
+	target.format = MH33::GFX::Format::RGB8U;
+	MH33::GFX::WEBP::demux(rio,target);
+	if(target.format == MH33::GFX::Format::INVALID) {
+		std::cout << "Reading WEBP failed!" << std::endl;
+		return;
+	}
+	for(auto& it : target.frames) {
+		std::cout << "WEBP frame\nWidth: " << it.width << "\nHeight: " << it.height << std::endl;
+		std::stringstream stringstream;
+		stringstream << "/tmp/webp_frame_" << imgNum++ << ".webp";
+		MH33::FileIO wio(stringstream.str(),MH33::IoMode::WRITE);
+		MH33::GFX::WEBP::encode(it.imageData,it.width,it.height,it.stride,target.format,0.0f,wio);
+	}
+}
+void testTga() {
+	MH33::FileIO rio(inTga,MH33::IoMode::READ);
+	MH33::GFX::DecodeTarget target;
+	MH33::GFX::TGA::decode(rio,target);
+	if(target.format == MH33::GFX::Format::INVALID) {
+		std::cout << "Reading TGA failed!" << std::endl;
+		return;
+	}
+	for(auto& it : target.frames) {
+		std::cout << "TGA frame\nWidth: " << it.width << "\nHeight: " << it.height << std::endl;
+		std::stringstream stringstream;
+		stringstream << "/tmp/tga_frame_" << imgNum++ << ".webp";
+		MH33::FileIO wio(stringstream.str(),MH33::IoMode::WRITE);
+		MH33::GFX::WEBP::encode(it.imageData,it.width,it.height,it.stride,target.format,0.0f,wio);
+	}
+}
+void testPng() {
+	MH33::FileIO rio(inPng,MH33::IoMode::READ);
+	MH33::GFX::DecodeTarget target;
+	MH33::GFX::PNG::decode(rio,target);
+	if(target.format == MH33::GFX::Format::INVALID) {
+		std::cout << "Reading PNG failed!" << std::endl;
+		return;
+	}
+	for(auto& it : target.frames) {
+		std::cout << "PNG frame\nWidth: " << it.width << "\nHeight: " << it.height << std::endl;
+		std::stringstream stringstream;
+		stringstream << "/tmp/png_frame_" << imgNum++ << ".webp";
+		MH33::FileIO wio(stringstream.str(),MH33::IoMode::WRITE);
+		MH33::GFX::WEBP::encode(it.imageData,it.width,it.height,it.stride,target.format,0.0f,wio);
+	}
+}
+void testJpeg() {
+	MH33::FileIO rio(inJpeg,MH33::IoMode::READ);
+	MH33::GFX::DecodeTarget target;
+	MH33::GFX::JPEG::decode(rio,target);
+	if(target.format == MH33::GFX::Format::INVALID) {
+		std::cout << "Reading JPEG failed!" << std::endl;
+		return;
+	}
+	for(auto& it : target.frames) {
+		std::cout << "JPEG frame\nWidth: " << it.width << "\nHeight: " << it.height << std::endl;
+		std::stringstream stringstream;
+		stringstream << "/tmp/jpeg_frame_" << imgNum++ << ".webp";
+		MH33::FileIO wio(stringstream.str(),MH33::IoMode::WRITE);
+		MH33::GFX::WEBP::encode(it.imageData,it.width,it.height,it.stride,target.format,0.0f,wio);
+	}
 }
