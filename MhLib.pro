@@ -30,7 +30,6 @@ SOURCES += \
         Media/Image/MhDDS.cpp \
         Media/Image/MhGIF.cpp \
         Media/Image/MhJPEG.cpp \
-        Media/Image/MhMNG.cpp \
         Media/Image/MhPNG.cpp \
         Media/Image/MhTGA.cpp \
         Media/Image/MhWEBP.cpp \
@@ -59,7 +58,6 @@ HEADERS += \
 	Media/Image/MhDecodeTarget.hpp \
 	Media/Image/MhGIF.hpp \
 	Media/Image/MhJPEG.hpp \
-	Media/Image/MhMNG.hpp \
 	Media/Image/MhPNG.hpp \
 	Media/Image/MhStandardColourFormat.hpp \
 	Media/Image/MhTGA.hpp \

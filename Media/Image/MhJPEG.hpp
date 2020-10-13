@@ -7,7 +7,7 @@ namespace GFX {
 
 namespace JPEG
 {
-bool decode(Buffer& sourceBuff, unsigned long jpegSize, DecodeTarget& destination);
+bool decode(Buffer& sourceBuff, DecodeTarget& destination);
 bool decode(IoDevice& input, DecodeTarget& destination);
 bool encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
 			Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual);

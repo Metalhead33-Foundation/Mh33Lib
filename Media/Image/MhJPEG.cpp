@@ -18,12 +18,12 @@ bool JPEG::encode(const Buffer& sourceBuff, int width, int height, int pixelForm
 	return true;
 }
 
-bool JPEG::decode(Buffer& sourceBuff, unsigned long jpegSize, DecodeTarget &destination)
+bool JPEG::decode(Buffer& sourceBuff, DecodeTarget &destination)
 {
 	if(sourceBuff.empty()) { destination.format = Format::INVALID; return false; }
 	auto handle = std::unique_ptr<void,decltype(&tjDestroy) >(tjInitDecompress(),tjDestroy);
 	int width,height,subsamp;
-	tjDecompressHeader2(handle.get(), reinterpret_cast<unsigned char*>(sourceBuff.data()), jpegSize, &width, &height, &subsamp);
+	tjDecompressHeader2(handle.get(), reinterpret_cast<unsigned char*>(sourceBuff.data()), sourceBuff.size(), &width, &height, &subsamp);
 	destination.isAnimated = false;
 	destination.format = Format::RGB8U;
 	destination.frames.push_back(Frame());
@@ -31,7 +31,7 @@ bool JPEG::decode(Buffer& sourceBuff, unsigned long jpegSize, DecodeTarget &dest
 	destination.frames[0].height = height;
 	destination.frames[0].stride = width * 3;
 	destination.frames[0].imageData.resize(width*height*3);
-	tjDecompress2(handle.get(),reinterpret_cast<unsigned char*>(sourceBuff.data()),jpegSize,
+	tjDecompress2(handle.get(),reinterpret_cast<unsigned char*>(sourceBuff.data()),sourceBuff.size(),
 				  reinterpret_cast<unsigned char*>(destination.frames[0].imageData.data()),width,width*3,height,TJPF_RGB,TJFLAG_FASTDCT);
 	return true;
 }
@@ -39,7 +39,7 @@ bool JPEG::decode(Buffer& sourceBuff, unsigned long jpegSize, DecodeTarget &dest
 bool JPEG::decode(IoDevice &input, DecodeTarget &destination)
 {
 	auto buff = input.readAll();
-	return decode(buff,buff.size(),destination);
+	return decode(buff,destination);
 }
 
 bool JPEG::encode(const Buffer &sourceBuff, int width, int height, int pixelFormat, IoDevice &destination, int jpegSubsamp, float jpegQual)

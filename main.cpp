@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	//testWebp();
 	//testTga();
 	//testPng();
-	testJpeg();
+	//testJpeg();
 	return 0;
 }
 void testGif() {
