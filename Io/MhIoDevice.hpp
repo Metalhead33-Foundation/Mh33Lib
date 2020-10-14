@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include "MhBuffer.hpp"
 namespace MH33 {
 
@@ -45,6 +46,7 @@ public:
 		return write(src.data(),src.size());
 	}
 };
+typedef std::shared_ptr<IoDevice> sIoDevice;
 typedef std::function<IoDevice*(IoMode)> IoDeviceCreator;
 
 }

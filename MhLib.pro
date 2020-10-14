@@ -8,7 +8,7 @@ CONFIG -= app_bundle
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-LIBS += -lphysfs -lpng -lmng -lgif -lturbojpeg -lwebpdemux -lwebpmux -lwebp -lwebpdecoder -lzstd
+LIBS += -lphysfs -lpng -lsndfile -lgif -lturbojpeg -lwebpdemux -lwebpmux -lwebp -lwebpdecoder -lzstd
 INCLUDEPATH ''= $$top_srcdir/include
 
 # You can also make your code fail to compile if it uses deprecated APIs.
@@ -27,6 +27,7 @@ SOURCES += \
         Io/MhStdout.cpp \
         Io/PhysFSIO.cpp \
         Io/private/MhSocketUnix.cpp \
+        Media/Audio/MhSoundFile.cpp \
         Media/Image/MhDDS.cpp \
         Media/Image/MhGIF.cpp \
         Media/Image/MhJPEG.cpp \
@@ -54,6 +55,8 @@ HEADERS += \
 	Io/MhStdout.hpp \
 	Io/PhysFSIO.hpp \
 	Io/private/MhSocketUnix.hpp \
+	Media/Audio/MhAudioIterator.hpp \
+	Media/Audio/MhSoundFile.hpp \
 	Media/Image/MhDDS.hpp \
 	Media/Image/MhDecodeTarget.hpp \
 	Media/Image/MhGIF.hpp \
@@ -63,6 +66,7 @@ HEADERS += \
 	Media/Image/MhTGA.hpp \
 	Media/Image/MhWEBP.hpp \
 	Util/MhEndianness.hpp \
+	Util/MhIntegralIterator.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/half.hpp
 
