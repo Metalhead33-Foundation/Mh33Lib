@@ -54,6 +54,7 @@ SOURCES += \
         Media/Image/MhPNG.cpp \
         Media/Image/MhTGA.cpp \
         Media/Image/MhWEBP.cpp \
+        Util/MhRNG.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -90,6 +91,7 @@ HEADERS += \
 	Util/MhEndianness.hpp \
 	Util/MhIntegralIterator.hpp \
 	Util/MhNormDenorm.hpp \
+	Util/MhRNG.hpp \
 	Util/half.hpp
 
 DISTFILES += \
