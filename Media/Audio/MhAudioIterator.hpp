@@ -10,32 +10,32 @@ namespace Audio {
 typedef IntegralIterator<uint_fast8_t> ChannelIndex;
 typedef IntegralIterable<uint_fast8_t> ChannelCount;
 typedef IntegralIterator<uintptr_t> SampleIndex;
-struct SampleCount : public IntegralIterable<uintptr_t> {
-	typedef IntegralIterable<uintptr_t> BaseType;
+struct SampleCount : public IntegralIterable<uint_fast32_t> {
+	typedef IntegralIterable<uint_fast32_t> BaseType;
 	SampleCount(const BaseType& other) : BaseType(other) {
 
 	}
-	explicit SampleCount(uintptr_t num=0) : BaseType(num) {
+	explicit SampleCount(uint_fast32_t num=0) : BaseType(num) {
 
 	}
 	inline uintptr_t toBytes() const { return var * sizeof(float); }
 };
 typedef IntegralIterator<uintptr_t> FrameIndex;
-struct FrameRate : public IntegralIterable<uintptr_t> {
-	typedef IntegralIterable<uintptr_t> BaseType;
+struct FrameRate : public IntegralIterable<uint_fast32_t> {
+	typedef IntegralIterable<uint_fast32_t> BaseType;
 	FrameRate(const BaseType& other) : BaseType(other) {
 
 	}
-	explicit FrameRate(uintptr_t num=0) : BaseType(num) {
+	explicit FrameRate(uint_fast32_t num=0) : BaseType(num) {
 
 	}
 };
-struct FrameCount : public IntegralIterable<uintptr_t> {
-	typedef IntegralIterable<uintptr_t> BaseType;
+struct FrameCount : public IntegralIterable<uint_fast32_t> {
+	typedef IntegralIterable<uint_fast32_t> BaseType;
 	FrameCount(const BaseType& other) : BaseType(other) {
 
 	}
-	explicit FrameCount(uintptr_t num=0) : BaseType(num) {
+	explicit FrameCount(uint_fast32_t num=0) : BaseType(num) {
 
 	}
 	static inline FrameCount fromSamples(const SampleCount& samples, const ChannelCount& channels) {

@@ -796,7 +796,7 @@ public:
 
 	// Getters of non-text data
 	FrameCount getFrameNum( ) const;
-	FrameRate getSamplerate( ) const;
+	FrameRate getFrameRate( ) const;
 	Audio::ChannelCount getChannels( ) const;
 	int getFormat( ) const;
 	int getSections( ) const;

@@ -8,8 +8,26 @@ CONFIG -= app_bundle
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-LIBS += -lphysfs -lpng -lsndfile -lgif -lturbojpeg -lwebpdemux -lwebpmux -lwebp -lwebpdecoder -lzstd
 INCLUDEPATH ''= $$top_srcdir/include
+
+# PNG
+LIBS += -lpng
+# GIF
+LIBS += -lgif
+# JPEG
+LIBS += -lturbojpeg
+# WEBP
+LIBS += -lwebpdemux -lwebpmux -lwebp -lwebpdecoder
+# OpenMPT
+LIBS += -lopenmpt
+# SNDFILE
+LIBS += -lsndfile
+# LibSamplerate
+LIBS += -lsamplerate
+# PHYSFS
+LIBS += -lphysfs
+# ZSTD for compressing and decompressing
+LIBS += -lzstd
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -27,6 +45,7 @@ SOURCES += \
         Io/MhStdout.cpp \
         Io/PhysFSIO.cpp \
         Io/private/MhSocketUnix.cpp \
+        Media/Audio/MhModuleRenderer.cpp \
         Media/Audio/MhSoundFile.cpp \
         Media/Image/MhDDS.cpp \
         Media/Image/MhGIF.cpp \
@@ -56,6 +75,7 @@ HEADERS += \
 	Io/PhysFSIO.hpp \
 	Io/private/MhSocketUnix.hpp \
 	Media/Audio/MhAudioIterator.hpp \
+	Media/Audio/MhModuleRenderer.hpp \
 	Media/Audio/MhSoundFile.hpp \
 	Media/Image/MhDDS.hpp \
 	Media/Image/MhDecodeTarget.hpp \

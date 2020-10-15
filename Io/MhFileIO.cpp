@@ -49,6 +49,7 @@ FileIO::FileIO(const char *path, IoMode mode)
 }
 
 FileIO::FileIO(const std::string &path, IoMode mode)
+	: fdev(nullptr), mode(mode)
 {
 	switch (mode) {
 	case IoMode::READ:

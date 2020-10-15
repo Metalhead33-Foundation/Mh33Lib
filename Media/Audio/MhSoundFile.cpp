@@ -167,7 +167,7 @@ void SoundFile::write_sync( ) const {
 FrameCount SoundFile::getFrameNum( ) const {
 	return FrameCount(SFHNDL_B->frames);
 }
-FrameRate SoundFile::getSamplerate( ) const {
+FrameRate SoundFile::getFrameRate( ) const {
 	return FrameRate(SFHNDL_B->samplerate);
 }
 ChannelCount SoundFile::getChannels( ) const {

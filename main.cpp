@@ -5,6 +5,8 @@
 #include "Media/Image/MhTGA.hpp"
 #include "Media/Image/MhPNG.hpp"
 #include "Media/Image/MhJPEG.hpp"
+#include "Media/Audio/MhSoundFile.hpp"
+#include "Media/Audio/MhModuleRenderer.hpp"
 #include <sstream>
 
 static const char* inGif = "/home/legacy/fonts/Anient/1/anime/aoi_ren/1/2/25.gif";
@@ -12,6 +14,8 @@ static const char* inWebp = "/tmp/coolie.webp";
 static const char* inTga = "/home/legacy/fonts/Anient/1/2194094_b.tga";
 static const char* inPng = "/home/legacy/fonts/Anient/1/109925325_178548090302695_9174570104564186065_o.png";
 static const char* inJpeg = "/home/legacy/fonts/Anient/1/2194094.jpg";
+static const char* inOgg = "/home/legacy/zene/temp.ogg";
+static const char* inMod = "/home/legacy/zene/GameMusic/Unreal Tournament/mod/11 - Hub 2 [Michiel van den Bos].it";
 
 static int imgNum = 0;
 void testGif();
@@ -19,6 +23,8 @@ void testWebp();
 void testTga();
 void testPng();
 void testJpeg();
+void testOgg();
+void testMod();
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +33,8 @@ int main(int argc, char *argv[])
 	//testTga();
 	//testPng();
 	//testJpeg();
+	//testOgg();
+	testMod();
 	return 0;
 }
 void testGif() {
@@ -115,4 +123,24 @@ void testJpeg() {
 		MH33::FileIO wio(stringstream.str(),MH33::IoMode::WRITE);
 		MH33::GFX::WEBP::encode(it.imageData,it.width,it.height,it.stride,target.format,0.0f,wio);
 	}
+}
+void testOgg() {
+	std::string path(inOgg);
+	MH33::Audio::SoundFile sndfile( [path](MH33::IoMode mode) { return new MH33::FileIO(path,mode); },  MH33::IoMode::READ);
+	std::cout << "Channels: " << int(sndfile.getChannels().var) << std::endl;
+	std::cout << "Framerate: " << sndfile.getFrameRate().var << std::endl;
+	std::cout << "Frame count: " << sndfile.getFrameNum().var << std::endl;
+	std::cout << "Length in seconds: " << sndfile.getFrameNum().toSeconds(sndfile.getFrameRate()) << std::endl;
+}
+void testMod() {
+	std::string path(inMod);
+	MH33::Audio::ModuleRenderer sndfile( [path](MH33::IoMode mode) { return new MH33::FileIO(path,mode); },  MH33::IoMode::READ);
+	const char* title=sndfile.getTitle(),*type=sndfile.getType(),*container=sndfile.getContainer(),*tracker=sndfile.getTracker(),
+			   *artist=sndfile.getArtist(),*date=sndfile.getDate();
+	std::cout << "Title: " << (title ? title : "Unknown") << std::endl;
+	std::cout << "Artist: " << (artist ? artist : "Unknown") << std::endl;
+	std::cout << "Date: " << (date ? date : "Unknown") << std::endl;
+	std::cout << "Type: " << (type ? type : "Unknown") << std::endl;
+	std::cout << "Container: " << (container ? container : "Unknown") << std::endl;
+	std::cout << "Tracker: " << (tracker ? tracker : "Unknown") << std::endl;
 }
