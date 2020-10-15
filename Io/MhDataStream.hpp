@@ -13,7 +13,9 @@
 #include <unordered_set>
 #include <map>
 #include <unordered_map>
+#if __cplusplus > 201703L
 #include <span>
+#endif
 #include <stack>
 #include <queue>
 

@@ -4,13 +4,10 @@
 int main(int argc, char *argv[])
 {
 	MH33::RNG rngesus;
-	std::cout << "\nTesting integer RNG" << std::endl;
-	for(int i = 0; i < 10; ++i) {
-		std::cout << rngesus.generate() << " - ";
+	std::string randomstring("Whatever, I'm just going on a tangent here.");
+	for(const auto& it : randomstring) {
+		std::cout << rngesus.pick(randomstring);
 	}
-	std::cout << "\nTesting floating-point RNG" << std::endl;
-	for(int i = 0; i < 10; ++i) {
-		std::cout << rngesus.generateFloat() << " - ";
-	}
+	std::cout << std::endl;
 	return 0;
 }
