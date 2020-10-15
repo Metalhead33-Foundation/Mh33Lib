@@ -46,6 +46,7 @@ SOURCES += \
         Io/PhysFSIO.cpp \
         Io/private/MhSocketUnix.cpp \
         Media/Audio/MhModuleRenderer.cpp \
+        Media/Audio/MhResampler.cpp \
         Media/Audio/MhSoundFile.cpp \
         Media/Image/MhDDS.cpp \
         Media/Image/MhGIF.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
 	Io/private/MhSocketUnix.hpp \
 	Media/Audio/MhAudioIterator.hpp \
 	Media/Audio/MhModuleRenderer.hpp \
+	Media/Audio/MhResampler.hpp \
 	Media/Audio/MhSoundFile.hpp \
 	Media/Image/MhDDS.hpp \
 	Media/Image/MhDecodeTarget.hpp \

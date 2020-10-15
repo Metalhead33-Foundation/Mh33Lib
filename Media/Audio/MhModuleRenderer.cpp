@@ -142,37 +142,37 @@ const char* ModuleRenderer::getDate( ) const {
 	return openmpt_module_get_metadata(MODULE_HDNL,"date");
 }          // get_metadata('date')
 // Rendering
-FrameCount ModuleRenderer::readMono( FrameRate samplerate, FrameCount frames, int16_t *mono ) {
-	return FrameCount(openmpt_module_read_mono(MODULE_HDNL,samplerate.var,frames.var,mono));
+FrameCount ModuleRenderer::readMono(FrameRate framerate, FrameCount frames, int16_t *mono ) {
+	return FrameCount(openmpt_module_read_mono(MODULE_HDNL,framerate.var,frames.var,mono));
 }
-FrameCount ModuleRenderer::readMono( FrameRate samplerate, FrameCount frames, float *mono ) {
-	return FrameCount(openmpt_module_read_float_mono(MODULE_HDNL,samplerate.var,frames.var,mono));
+FrameCount ModuleRenderer::readMono( FrameRate framerate, FrameCount frames, float *mono ) {
+	return FrameCount(openmpt_module_read_float_mono(MODULE_HDNL,framerate.var,frames.var,mono));
 }
-FrameCount ModuleRenderer::readStereo( FrameRate samplerate, FrameCount frames, int16_t *left, int16_t *right ) {
-	return FrameCount(openmpt_module_read_stereo(MODULE_HDNL,samplerate.var,frames.var,left,right));
+FrameCount ModuleRenderer::readStereo(FrameRate framerate, FrameCount frames, int16_t *left, int16_t *right ) {
+	return FrameCount(openmpt_module_read_stereo(MODULE_HDNL,framerate.var,frames.var,left,right));
 }
-FrameCount ModuleRenderer::readStereo( FrameRate samplerate, FrameCount frames, float *left, float *right ) {
-	return FrameCount(openmpt_module_read_float_stereo(MODULE_HDNL,samplerate.var,frames.var,left,right));
+FrameCount ModuleRenderer::readStereo( FrameRate framerate, FrameCount frames, float *left, float *right ) {
+	return FrameCount(openmpt_module_read_float_stereo(MODULE_HDNL,framerate.var,frames.var,left,right));
 }
-FrameCount ModuleRenderer::readQuad( FrameRate samplerate, FrameCount frames, int16_t *left,
+FrameCount ModuleRenderer::readQuad( FrameRate framerate, FrameCount frames, int16_t *left,
 								int16_t *right, int16_t *rear_left,	int16_t *rear_right ) {
-	return FrameCount(openmpt_module_read_quad(MODULE_HDNL,samplerate.var,frames.var,left,right,rear_left,rear_right));
+	return FrameCount(openmpt_module_read_quad(MODULE_HDNL,framerate.var,frames.var,left,right,rear_left,rear_right));
 }
-FrameCount ModuleRenderer::readQuad( FrameRate samplerate, FrameCount frames, float *left,
+FrameCount ModuleRenderer::readQuad( FrameRate framerate, FrameCount frames, float *left,
 								float *right, float *rear_left, float *rear_right ) {
-	return FrameCount(openmpt_module_read_float_quad(MODULE_HDNL,samplerate.var,frames.var,left,right,rear_left,rear_right));
+	return FrameCount(openmpt_module_read_float_quad(MODULE_HDNL,framerate.var,frames.var,left,right,rear_left,rear_right));
 }
-FrameCount ModuleRenderer::readInterleavedStereo( FrameRate samplerate, FrameCount frames, int16_t *interleaved_stereo ) {
-	return FrameCount(openmpt_module_read_interleaved_stereo(MODULE_HDNL,samplerate.var,frames.var,interleaved_stereo));
+FrameCount ModuleRenderer::readInterleavedStereo( FrameRate framerate, FrameCount frames, int16_t *interleaved_stereo ) {
+	return FrameCount(openmpt_module_read_interleaved_stereo(MODULE_HDNL,framerate.var,frames.var,interleaved_stereo));
 }
-FrameCount ModuleRenderer::readInterleavedStereo( FrameRate samplerate, FrameCount frames, float *interleaved_stereo ) {
-	return FrameCount(openmpt_module_read_interleaved_float_stereo(MODULE_HDNL,samplerate.var,frames.var,interleaved_stereo));
+FrameCount ModuleRenderer::readInterleavedStereo( FrameRate framerate, FrameCount frames, float *interleaved_stereo ) {
+	return FrameCount(openmpt_module_read_interleaved_float_stereo(MODULE_HDNL,framerate.var,frames.var,interleaved_stereo));
 }
-FrameCount ModuleRenderer::readInterleavedQuad( FrameRate samplerate, FrameCount frames, int16_t *interleaved_quad ) {
-	return FrameCount(openmpt_module_read_interleaved_quad(MODULE_HDNL,samplerate.var,frames.var,interleaved_quad));
+FrameCount ModuleRenderer::readInterleavedQuad( FrameRate framerate, FrameCount frames, int16_t *interleaved_quad ) {
+	return FrameCount(openmpt_module_read_interleaved_quad(MODULE_HDNL,framerate.var,frames.var,interleaved_quad));
 }
-FrameCount ModuleRenderer::readInterleavedQuad( FrameRate samplerate, FrameCount frames, float *interleaved_quad ) {
-	return FrameCount(openmpt_module_read_interleaved_float_quad(MODULE_HDNL,samplerate.var,frames.var,interleaved_quad));
+FrameCount ModuleRenderer::readInterleavedQuad( FrameRate framerate, FrameCount frames, float *interleaved_quad ) {
+	return FrameCount(openmpt_module_read_interleaved_float_quad(MODULE_HDNL,framerate.var,frames.var,interleaved_quad));
 }
 
 

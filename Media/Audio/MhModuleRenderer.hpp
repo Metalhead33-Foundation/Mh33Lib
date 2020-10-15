@@ -52,18 +52,18 @@ public:
 	const char *getTitle( ) const;         // get_metadata('title')
 	const char *getDate( ) const;          // get_metadata('date')
 	// Rendering
-	FrameCount readMono( FrameRate samplerate, FrameCount frames, int16_t *mono );
-	FrameCount readMono( FrameRate samplerate, FrameCount frames, float *mono );
-	FrameCount readStereo( FrameRate samplerate, FrameCount frames, int16_t *left, int16_t *right );
-	FrameCount readStereo( FrameRate samplerate, FrameCount frames, float *left, float *right );
-	FrameCount readQuad( FrameRate samplerate, FrameCount frames, int16_t *left,
+	FrameCount readMono( FrameRate framerate, FrameCount frames, int16_t *mono );
+	FrameCount readMono(FrameRate framerate, FrameCount frames, float *mono );
+	FrameCount readStereo( FrameRate framerate, FrameCount frames, int16_t *left, int16_t *right );
+	FrameCount readStereo( FrameRate framerate, FrameCount frames, float *left, float *right );
+	FrameCount readQuad( FrameRate framerate, FrameCount frames, int16_t *left,
 					int16_t *right, int16_t *rear_left,	int16_t *rear_right );
-	FrameCount readQuad( FrameRate samplerate, FrameCount frames, float *left,
+	FrameCount readQuad( FrameRate framerate, FrameCount frames, float *left,
 					float *right, float *rear_left, float *rear_right );
-	FrameCount readInterleavedStereo( FrameRate samplerate, FrameCount frames, int16_t *interleaved_stereo );
-	FrameCount readInterleavedStereo( FrameRate samplerate, FrameCount frames, float *interleaved_stereo );
-	FrameCount readInterleavedQuad( FrameRate samplerate, FrameCount frames, int16_t *interleaved_quad );
-	FrameCount readInterleavedQuad( FrameRate samplerate, FrameCount frames, float *interleaved_quad );
+	FrameCount readInterleavedStereo( FrameRate framerate, FrameCount frames, int16_t *interleaved_stereo );
+	FrameCount readInterleavedStereo( FrameRate framerate, FrameCount frames, float *interleaved_stereo );
+	FrameCount readInterleavedQuad( FrameRate framerate, FrameCount frames, int16_t *interleaved_quad );
+	FrameCount readInterleavedQuad( FrameRate framerate, FrameCount frames, float *interleaved_quad );
 };
 
 }
