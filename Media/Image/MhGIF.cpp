@@ -12,13 +12,13 @@ static void CLOSE_GIF(GifFileType* ptr) { DGifCloseFile(ptr,&LATEST_ERROR); }
 static int GIF_INPUT(GifFileType* container, GifByteType* buffer, int size)
 {
 	if(!container) return -1;
-	IoDevice* filehandle = reinterpret_cast<IoDevice*>(container->UserData);
+	Io::Device* filehandle = reinterpret_cast<Io::Device*>(container->UserData);
 	if(!filehandle) return -1;
 	return int(filehandle->read(buffer,size));
 }
 typedef std::unique_ptr<GifFileType, decltype (&CLOSE_GIF)> HandleType;
 
-void decode(IoDevice &iodev, DecodeTarget &target)
+void decode(Io::Device &iodev, DecodeTarget &target)
 {
 	HandleType handle(DGifOpen(&iodev,&GIF_INPUT,&LATEST_ERROR),CLOSE_GIF);
 	DGifSlurp(handle.get());

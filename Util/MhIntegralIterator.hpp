@@ -1,6 +1,7 @@
 #ifndef MHINTEGRALITERATOR_HPP
 #define MHINTEGRALITERATOR_HPP
 namespace MH33 {
+namespace Util {
 
 template <typename T> struct IntegralIterator {
 	typedef T dataType;
@@ -174,5 +175,6 @@ template <typename T> struct IntegralIterable {
 	inline iterator end() const { return iterator(var); }
 };
 
+}
 }
 #endif // MHINTEGRALITERATOR_HPP

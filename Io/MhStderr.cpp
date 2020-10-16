@@ -1,5 +1,6 @@
 #include "MhStderr.hpp"
 namespace MH33 {
+namespace Io {
 
 Stderr::Stderr()
 {
@@ -40,9 +41,10 @@ size_t Stderr::read(void *destination, size_t dataSize)
 	return 0; // Write-only stream
 }
 
-IoMode Stderr::getMode() const
+Mode Stderr::getMode() const
 {
-	return IoMode::APPEND;
+	return Mode::APPEND;
 }
 
+}
 }

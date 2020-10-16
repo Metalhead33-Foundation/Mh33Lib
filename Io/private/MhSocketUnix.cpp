@@ -2,6 +2,7 @@
 #include <cstring>
 
 namespace MH33 {
+namespace Io {
 Socket::SocketPriv::SocketPriv()
 {
 
@@ -88,7 +89,7 @@ Socket::SocketPriv Socket::SocketPriv::acceptConnection() const
 }
 */
 
-MH33::CONNECTION_TYPE Socket::SocketPriv::getConType() const
+MH33::Io::CONNECTION_TYPE Socket::SocketPriv::getConType() const
 {
 	return conType;
 }
@@ -171,7 +172,7 @@ int Socket::SocketPriv::listenTo(int backlog) const
 
 bool Socket::SocketPriv::getDebug() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,IPPROTO_TCP,SO_DEBUG,&retval,&len) == -1) return false;
 	else return bool(retval.integer);
@@ -183,7 +184,7 @@ void Socket::SocketPriv::setDebug(bool nval)
 }
 bool Socket::SocketPriv::getBroadcast() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_BROADCAST,&retval,&len) == -1) return false;
 	else return bool(retval.integer);
@@ -195,7 +196,7 @@ void Socket::SocketPriv::setBroadcast(bool nval)
 }
 bool Socket::SocketPriv::getReuseAddr() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&retval,&len) == -1) return false;
 	else return bool(retval.integer);
@@ -207,7 +208,7 @@ void Socket::SocketPriv::setReuseAddr(bool nval)
 }
 bool Socket::SocketPriv::getKeepAlive() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_KEEPALIVE,&retval,&len) == -1) return false;
 	else return bool(retval.integer);
@@ -219,7 +220,7 @@ void Socket::SocketPriv::setKeepAlive(bool nval)
 }
 int Socket::SocketPriv::getOobinline() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_OOBINLINE,&retval,&len) == -1) return -1;
 	else return retval.integer;
@@ -230,7 +231,7 @@ void Socket::SocketPriv::setOobinline(int nval)
 }
 int Socket::SocketPriv::getSndBuffSize() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_SNDBUF,&retval,&len) == -1) return -1;
 	else return retval.integer;
@@ -241,7 +242,7 @@ void Socket::SocketPriv::setSndBuffSize(int nval)
 }
 int Socket::SocketPriv::getRcvBuffSize() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_RCVBUF,&retval,&len) == -1) return -1;
 	else return retval.integer;
@@ -252,7 +253,7 @@ void Socket::SocketPriv::setRcvBuffSize(int nval)
 }
 bool Socket::SocketPriv::getDontRoute() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_DONTROUTE,&retval,&len) == -1) return false;
 	else return bool(retval.integer);
@@ -264,7 +265,7 @@ void Socket::SocketPriv::setDontRoute(bool nval)
 }
 int Socket::SocketPriv::getRclLoWat() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_RCVLOWAT,&retval,&len) == -1) return -1;
 	else return retval.integer;
@@ -275,7 +276,7 @@ void Socket::SocketPriv::setRclLoWat(int nval)
 }
 timeval Socket::SocketPriv::getRcvTimeout() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(timeval);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_RCVTIMEO,&retval,&len) == -1) return timeval();
 	else return retval.tim;
@@ -286,7 +287,7 @@ void Socket::SocketPriv::setRcvTimeout(timeval nval)
 }
 int Socket::SocketPriv::getSndLoWat() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(int);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_SNDLOWAT,&retval,&len) == -1) return -1;
 	else return retval.integer;
@@ -297,7 +298,7 @@ void Socket::SocketPriv::setSndLoWat(int nval)
 }
 timeval Socket::SocketPriv::getSndTimeout() const
 {
-	ReceptClass retval;
+	ReceiptClass retval;
 	socklen_t len=sizeof(timeval);
 	if(getsockopt(sockfd,SOL_SOCKET,SO_SNDTIMEO,&retval,&len) == -1) return timeval();
 	else return retval.tim;
@@ -313,4 +314,5 @@ void Socket::SocketPriv::setBlocking(bool isBlocking)
 	ioctl(sockfd,FIONBIO,&n);
 }
 
+}
 }

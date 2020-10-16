@@ -30,7 +30,7 @@ ModuleRenderer::~ModuleRenderer()
 	if(handle) openmpt_module_destroy(MODULE_HDNL);
 }
 
-ModuleRenderer::ModuleRenderer(const sIoDevice &iodev) : handle(nullptr), iodev(iodev)
+ModuleRenderer::ModuleRenderer(const Io::sDevice &iodev) : handle(nullptr), iodev(iodev)
 {
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
@@ -39,7 +39,7 @@ ModuleRenderer::ModuleRenderer(const sIoDevice &iodev) : handle(nullptr), iodev(
 	}
 }
 
-ModuleRenderer::ModuleRenderer(sIoDevice &&iodev) : handle(nullptr), iodev(std::move(iodev))
+ModuleRenderer::ModuleRenderer(Io::sDevice &&iodev) : handle(nullptr), iodev(std::move(iodev))
 {
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
@@ -48,7 +48,7 @@ ModuleRenderer::ModuleRenderer(sIoDevice &&iodev) : handle(nullptr), iodev(std::
 	}
 }
 
-ModuleRenderer::ModuleRenderer(const IoDeviceCreator &iodev_creator, IoMode mode) : handle(nullptr), iodev(iodev_creator(mode))
+ModuleRenderer::ModuleRenderer(const Io::DeviceCreator &iodev_creator, Io::Mode mode) : handle(nullptr), iodev(iodev_creator(mode))
 {
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
@@ -180,22 +180,22 @@ FrameCount ModuleRenderer::readInterleavedQuad( FrameRate framerate, FrameCount 
 }
 
 size_t vfio_openmpt_read( void *stream, void *dst, size_t bytes ) {
-	return size_t( reinterpret_cast< MH33::IoDevice* >( stream )->read(
+	return size_t( reinterpret_cast< MH33::Io::Device* >( stream )->read(
 		dst, int64_t( bytes ) ) );
 }
 int vfio_openmpt_seek( void *stream, int64_t offset, int whence ) {
-	MH33::IoDevice* chandle = reinterpret_cast< MH33::IoDevice* >( stream );
+	MH33::Io::Device* chandle = reinterpret_cast< MH33::Io::Device* >( stream );
 	switch ( whence ) {
 	case OPENMPT_STREAM_SEEK_SET:
-		chandle->seek( MH33::SeekOrigin::SET, offset ); return chandle->tell() ? 0 : -1;
+		chandle->seek( MH33::Io::SeekOrigin::SET, offset ); return chandle->tell() ? 0 : -1;
 	case OPENMPT_STREAM_SEEK_CUR:
-		chandle->seek( MH33::SeekOrigin::CUR, offset ); return chandle->tell() ? 0 : -1;
+		chandle->seek( MH33::Io::SeekOrigin::CUR, offset ); return chandle->tell() ? 0 : -1;
 	case OPENMPT_STREAM_SEEK_END:
-		chandle->seek( MH33::SeekOrigin::END, offset ); return chandle->tell() ? 0 : -1;
+		chandle->seek( MH33::Io::SeekOrigin::END, offset ); return chandle->tell() ? 0 : -1;
 	default:
 		return -1;
 	}
 }
 int64_t vfio_openmpt_tell( void *stream ) {
-	return int64_t( reinterpret_cast< MH33::IoDevice* >( stream )->tell( ) );
+	return int64_t( reinterpret_cast< MH33::Io::Device* >( stream )->tell( ) );
 }

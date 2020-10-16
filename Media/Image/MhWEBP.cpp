@@ -11,7 +11,7 @@ namespace MH33 {
 namespace GFX {
 namespace WEBP {
 
-bool decode(const Buffer &srcBuffer, DecodeTarget &target)
+bool decode(const Util::Buffer &srcBuffer, DecodeTarget &target)
 {
 	if(srcBuffer.empty()) return false;
 	int width,height;
@@ -43,7 +43,7 @@ bool decode(const Buffer &srcBuffer, DecodeTarget &target)
 	}
 }
 
-bool decode(IoDevice &iodev, DecodeTarget &target)
+bool decode(Io::Device &iodev, DecodeTarget &target)
 {
 	auto buff = iodev.readAll();
 	return decode(buff,target);
@@ -79,7 +79,7 @@ size_t encode(const uint8_t* pixdat, int width, int height, int stride, Format f
 		}
 	}
 }
-bool encode(const Buffer &srcBuffer, int width, int height, int stride, Format format, float compressionLevel, Buffer &dstBuffer)
+bool encode(const Util::Buffer &srcBuffer, int width, int height, int stride, Format format, float compressionLevel, Util::Buffer &dstBuffer)
 {
 	if(srcBuffer.empty()) return false;
 	uint8_t* out;
@@ -91,7 +91,7 @@ bool encode(const Buffer &srcBuffer, int width, int height, int stride, Format f
 	return true;
 }
 
-bool encode(const Buffer &srcBuffer, int width, int height, int stride, Format format, float compressionLevel, IoDevice &dst)
+bool encode(const Util::Buffer &srcBuffer, int width, int height, int stride, Format format, float compressionLevel, Io::Device &dst)
 {
 	if(srcBuffer.empty()) return false;
 	uint8_t* out;
@@ -102,7 +102,7 @@ bool encode(const Buffer &srcBuffer, int width, int height, int stride, Format f
 	return true;
 }
 
-bool demux(const Buffer &srcBuffer, DecodeTarget &target)
+bool demux(const Util::Buffer &srcBuffer, DecodeTarget &target)
 {
 	if(srcBuffer.empty()) return false;
 	typedef std::unique_ptr<WebPDemuxer,decltype (&WebPDemuxDelete)> Configuration;
@@ -168,7 +168,7 @@ bool demux(const Buffer &srcBuffer, DecodeTarget &target)
 	return true;
 }
 
-bool demux(IoDevice &iodev, DecodeTarget &target)
+bool demux(Io::Device &iodev, DecodeTarget &target)
 {
 	auto buff = iodev.readAll();
 	return demux(buff,target);

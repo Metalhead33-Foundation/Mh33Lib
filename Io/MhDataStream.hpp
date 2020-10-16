@@ -1,6 +1,5 @@
 #ifndef MHDATASTREAM_HPP
 #define MHDATASTREAM_HPP
-
 #include <Util/MhEndianness.hpp>
 #include "MhIoDevice.hpp"
 #include <string>
@@ -20,10 +19,11 @@
 #include <queue>
 
 namespace MH33 {
+namespace Io {
 
-template <Endian io_endianness> struct DataStream : public IoDevice {
-	IoDevice& device;
-	DataStream(IoDevice& ndevice) : device(ndevice) {
+template <Util::Endian io_endianness> struct DataStream : public Device {
+	Device& device;
+	DataStream(Device& ndevice) : device(ndevice) {
 
 	}
 	// Proxy around the IoDevice
@@ -33,7 +33,7 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 	intptr_t size() { return device.size(); }
 	size_t write(const void* data, size_t dataSize) { return device.write(data,dataSize); }
 	size_t read(void* destination, size_t dataSize) { return device.read(destination,dataSize); }
-	IoMode getMode() const { return device.getMode(); }
+	Mode getMode() const { return device.getMode(); }
 	// Now come the convenience functions
 	inline DataStream& operator<<(uint8_t data) {
 		device.write(&data,sizeof(uint8_t));
@@ -60,93 +60,93 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		return *this;
 	}
 	inline DataStream& operator<<(uint16_t data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint16_t));
 		return *this;
 	}
 	inline DataStream& operator>>(uint16_t& data) {
 		device.read(&data,sizeof(uint16_t));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	inline DataStream& operator<<(int16_t data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int16_t));
 		return *this;
 	}
 	inline DataStream& operator>>(int16_t& data) {
 		device.read(&data,sizeof(int16_t));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	inline DataStream& operator<<(half_float::half data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(half_float::half));
 		return *this;
 	}
 	inline DataStream& operator>>(half_float::half& data) {
 		device.read(&data,sizeof(half_float::half));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	inline DataStream& operator<<(uint32_t data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint32_t));
 		return *this;
 	}
 	inline DataStream& operator>>(uint32_t& data) {
 		device.read(&data,sizeof(uint32_t));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	inline DataStream& operator<<(int32_t data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int32_t));
 		return *this;
 	}
 	inline DataStream& operator>>(int32_t& data) {
 		device.read(&data,sizeof(int32_t));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	inline DataStream& operator<<(float data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(float));
 		return *this;
 	}
 	inline DataStream& operator>>(float& data) {
 		device.read(&data,sizeof(float));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	inline DataStream& operator<<(uint64_t data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint64_t));
 		return *this;
 	}
 	inline DataStream& operator>>(uint64_t& data) {
 		device.read(&data,sizeof(uint64_t));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	inline DataStream& operator<<(int64_t data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int64_t));
 		return *this;
 	}
 	inline DataStream& operator>>(int64_t& data) {
 		device.read(&data,sizeof(int64_t));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	inline DataStream& operator<<(double data) {
-		convert_endian<Endian::Native,io_endianness>(data);
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(double));
 		return *this;
 	}
 	inline DataStream& operator>>(double& data) {
 		device.read(&data,sizeof(double));
-		convert_endian<io_endianness,Endian::Native>(data);
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
 	template <typename T, class Traits = std::char_traits<T>, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::basic_string<T,Traits,Allocator>& data) {
@@ -316,10 +316,10 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		return *this;
 	}
 	template <class Key,
-		class T,
-		class Hash = std::hash<Key>,
-		class KeyEqual = std::equal_to<Key>,
-		class Allocator = std::allocator< std::pair<const Key, T>>> inline DataStream& operator<<(const std::unordered_map<Key,T,Hash,KeyEqual,Allocator>& data) {
+			 class T,
+			 class Hash = std::hash<Key>,
+			 class KeyEqual = std::equal_to<Key>,
+			 class Allocator = std::allocator< std::pair<const Key, T>>> inline DataStream& operator<<(const std::unordered_map<Key,T,Hash,KeyEqual,Allocator>& data) {
 		*this << uint32_t(data.size());
 		for(auto it = std::begin(data); it != std::end(data); ++it) {
 			*this << it->first << it->second;
@@ -327,10 +327,10 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 		return *this;
 	}
 	template <class Key,
-		class T,
-		class Hash = std::hash<Key>,
-		class KeyEqual = std::equal_to<Key>,
-		class Allocator = std::allocator< std::pair<const Key, T>>> inline DataStream& operator>>(std::unordered_map<Key,T,Hash,KeyEqual,Allocator>& data) {
+			 class T,
+			 class Hash = std::hash<Key>,
+			 class KeyEqual = std::equal_to<Key>,
+			 class Allocator = std::allocator< std::pair<const Key, T>>> inline DataStream& operator>>(std::unordered_map<Key,T,Hash,KeyEqual,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
 		for(uint32_t i = 0; i < len;++i) {
@@ -364,10 +364,11 @@ template <Endian io_endianness> struct DataStream : public IoDevice {
 	}*/
 };
 
-typedef DataStream<Endian::Little> DataStreamLE;
-typedef DataStream<Endian::Big> DataStreamBE;
-typedef DataStream<Endian::Native> DataStreamNE;
+typedef DataStream<Util::Endian::Little> DataStreamLE;
+typedef DataStream<Util::Endian::Big> DataStreamBE;
+typedef DataStream<Util::Endian::Native> DataStreamNE;
 
+}
 }
 
 #endif // MHDATASTREAM_HPP

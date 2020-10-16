@@ -4,6 +4,7 @@
 #define MCHANDLE reinterpret_cast<ZSTD_CCtx*>(handle)
 
 namespace MH33 {
+namespace Io {
 
 Compressor::Compressor(Compressor &&mov)
 	: handle(mov.handle), input(mov.input), output(mov.output), inBuff(std::move(mov.inBuff)), outBuff(std::move(mov.outBuff))
@@ -11,27 +12,27 @@ Compressor::Compressor(Compressor &&mov)
 	mov.handle = nullptr;
 }
 
-IoDevice *Compressor::getInput() const
+Device *Compressor::getInput() const
 {
 	return input;
 }
 
-void Compressor::setInput(IoDevice *value)
+void Compressor::setInput(Device *value)
 {
 	input = value;
 }
 
-IoDevice *Compressor::getOutput() const
+Device *Compressor::getOutput() const
 {
 	return output;
 }
 
-void Compressor::setOutput(IoDevice *value)
+void Compressor::setOutput(Device *value)
 {
 	output = value;
 }
 
-void Compressor::quickCompress(IoDevice &input, IoDevice &output, float compressionLevel, bool checksum)
+void Compressor::quickCompress(Device &input, Device &output, float compressionLevel, bool checksum)
 {
 	Compressor tmp(&input,&output);
 	tmp.setCompressionLevel(compressionLevel);
@@ -57,7 +58,7 @@ Compressor::Compressor() : handle(ZSTD_createCCtx()), inBuff(ZSTD_CStreamInSize(
 
 }
 
-Compressor::Compressor(IoDevice *input, IoDevice *output) : handle(ZSTD_createCCtx()), input(input), output(output),
+Compressor::Compressor(Device *input, Device *output) : handle(ZSTD_createCCtx()), input(input), output(output),
 	  inBuff(ZSTD_CStreamInSize()), outBuff(ZSTD_CStreamOutSize())
 {
 
@@ -101,5 +102,5 @@ void Compressor::setChecksum(bool value)
 	ZSTD_CCtx_setParameter(MCHANDLE,ZSTD_c_checksumFlag,value);
 }
 
-
+}
 }

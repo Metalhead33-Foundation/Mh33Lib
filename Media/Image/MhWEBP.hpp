@@ -7,13 +7,13 @@ namespace MH33 {
 namespace GFX {
 namespace WEBP
 {
-bool decode(const Buffer& srcBuffer, DecodeTarget& target);
-bool decode(IoDevice& iodev, DecodeTarget& target);
-bool encode(const Buffer& srcBuffer, int width, int height, int stride, Format format, float compressionLevel, Buffer& dstBuffer);
-bool encode(const Buffer& srcBuffer, int width, int height, int stride, Format format, float compressionLevel, IoDevice& dst);
+bool decode(const Util::Buffer& srcBuffer, DecodeTarget& target);
+bool decode(Io::Device& iodev, DecodeTarget& target);
+bool encode(const Util::Buffer& srcBuffer, int width, int height, int stride, Format format, float compressionLevel, Util::Buffer& dstBuffer);
+bool encode(const Util::Buffer& srcBuffer, int width, int height, int stride, Format format, float compressionLevel, Io::Device& dst);
 
-bool demux(const Buffer& srcBuffer, DecodeTarget& target);
-bool demux(IoDevice& iodev, DecodeTarget& target);
+bool demux(const Util::Buffer& srcBuffer, DecodeTarget& target);
+bool demux(Io::Device& iodev, DecodeTarget& target);
 
 }
 }

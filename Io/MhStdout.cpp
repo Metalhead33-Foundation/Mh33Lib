@@ -1,5 +1,6 @@
 #include "MhStdout.hpp"
 namespace MH33 {
+namespace Io {
 
 Stdout::Stdout()
 {
@@ -41,9 +42,10 @@ size_t Stdout::read(void *destination, size_t dataSize)
 	return 0; // Write-only stream
 }
 
-IoMode Stdout::getMode() const
+Mode Stdout::getMode() const
 {
-	return IoMode::APPEND;
+	return Mode::APPEND;
 }
 
+}
 }

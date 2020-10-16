@@ -11,6 +11,7 @@
 
 namespace MH33 {
 
+namespace Util {
 class RNG
 {
 private:
@@ -65,6 +66,7 @@ public:
 		return data[generate() % data.size()];
 	}
 };
+}
 
 }
 #endif // MHRNG_HPP

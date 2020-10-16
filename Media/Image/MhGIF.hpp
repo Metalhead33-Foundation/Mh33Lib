@@ -7,7 +7,7 @@ namespace MH33 {
 namespace GFX {
 namespace GIF {
 
-void decode(IoDevice& iodev, DecodeTarget& target);
+void decode(Io::Device& iodev, DecodeTarget& target);
 
 }
 }

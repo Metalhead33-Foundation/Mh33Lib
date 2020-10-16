@@ -7,7 +7,7 @@ namespace MH33 {
 namespace GFX {
 namespace DDS {
 
-void decode(IoDevice& iodev, DecodeTarget &destination);
+void decode(Io::Device& iodev, DecodeTarget &destination);
 
 }
 }

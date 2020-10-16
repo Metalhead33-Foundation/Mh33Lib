@@ -13,6 +13,7 @@ extern "C" {
 }
 
 namespace MH33 {
+namespace Io {
 struct Socket::SocketPriv
 {
 	sockaddr_in socketAddress;
@@ -59,5 +60,6 @@ struct Socket::SocketPriv
 
 	void setBlocking(bool isBlocking);
 };
+}
 }
 #endif // MHSOCKETUNIX_HPP

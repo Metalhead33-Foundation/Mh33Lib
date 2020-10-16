@@ -4,8 +4,9 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include "MhBuffer.hpp"
+#include <Util/MhBuffer.hpp>
 namespace MH33 {
+namespace Io {
 
 enum class SeekOrigin {
 	SET, // Beginning of file
@@ -13,7 +14,7 @@ enum class SeekOrigin {
 	END // End of file
 };
 
-enum class IoMode {
+enum class Mode {
 	READ = 1,
 	WRITE = 2,
 	APPEND = 4,
@@ -21,33 +22,34 @@ enum class IoMode {
 	READ_APPEND = (READ | APPEND)
 };
 
-class IoDevice {
+class Device {
 public:
-	virtual ~IoDevice() = default;
+	virtual ~Device() = default;
 	virtual bool flush() = 0;
 	virtual bool seek(SeekOrigin whence, intptr_t offset) = 0;
 	virtual intptr_t tell() = 0;
 	virtual intptr_t size() = 0;
 	virtual size_t write(const void* data, size_t dataSize) = 0;
 	virtual size_t read(void* destination, size_t dataSize) = 0;
-	virtual IoMode getMode() const = 0;
+	virtual Mode getMode() const = 0;
 	// A convenience function
-	void readAll(Buffer& dst) {
+	void readAll(Util::Buffer& dst) {
 		auto sz = size()-tell();
 		dst.resize(sz);
 		read(dst.data(),sz);
 	}
-	Buffer readAll(void) {
-		Buffer tmp;
+	Util::Buffer readAll(void) {
+		Util::Buffer tmp;
 		readAll(tmp);
 		return tmp;
 	}
-	size_t write(const Buffer& src) {
+	size_t write(const Util::Buffer& src) {
 		return write(src.data(),src.size());
 	}
 };
-typedef std::shared_ptr<IoDevice> sIoDevice;
-typedef std::function<IoDevice*(IoMode)> IoDeviceCreator;
+typedef std::shared_ptr<Device> sDevice;
+typedef std::function<Device*(Mode)> DeviceCreator;
 
+}
 }
 #endif // MHIODEVICE_HPP

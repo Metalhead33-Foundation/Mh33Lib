@@ -2,6 +2,7 @@
 #include "MhNormDenorm.hpp"
 namespace MH33 {
 
+namespace Util {
 uint32_t RNG::getSeed() const
 {
 	return seed;
@@ -30,12 +31,12 @@ uint32_t RNG::generate()
 
 float RNG::generateFloat()
 {
-	return fnormalize(generate());
+	return Util::fnormalize(generate());
 }
 
 double RNG::generateDouble()
 {
-	return dnormalize(generate());
+	return Util::dnormalize(generate());
 }
 
 uint32_t RNG::generate(uint32_t max)
@@ -70,5 +71,5 @@ double RNG::generateDouble(double min, double max)
 	const double range = max - min;
 	return generateDouble(range) + min;
 }
-
+}
 }

@@ -7,12 +7,12 @@ namespace GFX {
 
 namespace JPEG
 {
-bool decode(Buffer& sourceBuff, DecodeTarget& destination);
-bool decode(IoDevice& input, DecodeTarget& destination);
-bool encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
-			Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual);
-bool encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
-			IoDevice& destination, int jpegSubsamp, float jpegQual);
+bool decode(Util::Buffer& sourceBuff, DecodeTarget& destination);
+bool decode(Io::Device& input, DecodeTarget& destination);
+bool encode(const Util::Buffer& sourceBuff, int width, int height, int pixelFormat,
+			Util::Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual);
+bool encode(const Util::Buffer& sourceBuff, int width, int height, int pixelFormat,
+			Io::Device& destination, int jpegSubsamp, float jpegQual);
 };
 
 }

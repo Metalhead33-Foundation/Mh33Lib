@@ -57,12 +57,13 @@ struct Header
 		std::vector<std::byte> bytes;
 	};
 	std::vector<Mipmap> mipmaps;
-	void load(IoDevice& input);
+	void load(Io::Device& input);
 };
 
-void Header::load(IoDevice &input)
+void Header::load(Io::Device &input)
 {
-	DataStream<Endian::Little> ddsInput(input); // Implying we already read the magic word at the beginning.
+	input.seek(Io::SeekOrigin::SET,4);
+	Io::DataStream<Util::Endian::Little> ddsInput(input); // Implying we already read the magic word at the beginning.
 	ddsInput >> dwSize;
 	if(dwSize != 124) {
 		this->type = Type::INVALID;
@@ -150,7 +151,7 @@ const unsigned FI16_565_RED_SHIFT = 11;
 const unsigned FI16_565_GREEN_SHIFT = 5;
 const unsigned FI16_565_BLUE_SHIFT = 0;
 
-void decode(IoDevice &iodev, DecodeTarget &destination)
+void decode(Io::Device &iodev, DecodeTarget &destination)
 {
 	Header head;
 	head.load(iodev);

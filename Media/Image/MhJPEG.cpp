@@ -5,8 +5,8 @@
 namespace MH33 {
 namespace GFX {
 
-bool JPEG::encode(const Buffer& sourceBuff, int width, int height, int pixelFormat,
-	Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual)
+bool JPEG::encode(const Util::Buffer& sourceBuff, int width, int height, int pixelFormat,
+	Util::Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual)
 {
 	if(sourceBuff.empty()) return false;
 	auto handle = std::unique_ptr<void,decltype(&tjDestroy) >(tjInitCompress(),tjDestroy);
@@ -18,7 +18,7 @@ bool JPEG::encode(const Buffer& sourceBuff, int width, int height, int pixelForm
 	return true;
 }
 
-bool JPEG::decode(Buffer& sourceBuff, DecodeTarget &destination)
+bool JPEG::decode(Util::Buffer& sourceBuff, DecodeTarget &destination)
 {
 	if(sourceBuff.empty()) { destination.format = Format::INVALID; return false; }
 	auto handle = std::unique_ptr<void,decltype(&tjDestroy) >(tjInitDecompress(),tjDestroy);
@@ -36,15 +36,15 @@ bool JPEG::decode(Buffer& sourceBuff, DecodeTarget &destination)
 	return true;
 }
 
-bool JPEG::decode(IoDevice &input, DecodeTarget &destination)
+bool JPEG::decode(Io::Device &input, DecodeTarget &destination)
 {
 	auto buff = input.readAll();
 	return decode(buff,destination);
 }
 
-bool JPEG::encode(const Buffer &sourceBuff, int width, int height, int pixelFormat, IoDevice &destination, int jpegSubsamp, float jpegQual)
+bool JPEG::encode(const Util::Buffer &sourceBuff, int width, int height, int pixelFormat, Io::Device &destination, int jpegSubsamp, float jpegQual)
 {
-	Buffer tmpBUff;
+	Util::Buffer tmpBUff;
 	unsigned long jpegSize;
 	bool retval = encode(sourceBuff,width,height,pixelFormat,tmpBUff,jpegSize,jpegSubsamp,jpegQual);
 	if(retval) destination.write(tmpBUff.data(),jpegSize);

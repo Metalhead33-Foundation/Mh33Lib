@@ -8,8 +8,8 @@ namespace MH33 {
 namespace GFX {
 namespace PNG
 {
-	void decode(IoDevice& iodev, DecodeTarget &destination);
-	void encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Buffer &pixelData, float compressionLevel);
+	void decode(Io::Device& iodev, DecodeTarget &destination);
+	void encode(Io::Device& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Util::Buffer &pixelData, float compressionLevel);
 };
 
 }

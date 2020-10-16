@@ -757,7 +757,7 @@ class SoundFile
 {
 private:
 	void *handleA,*handleB;
-	sIoDevice iodev;
+	Io::sDevice iodev;
 	// No copy construction or assignment
 	SoundFile(const SoundFile& cpy) = delete;
 	SoundFile& operator=(const SoundFile& cpy) = delete;
@@ -767,9 +767,9 @@ public:
 	SoundFile& operator=(SoundFile&& mov);
 	// Actual constructor and destructor
 	~SoundFile();
-	SoundFile(const sIoDevice& iodev);
-	SoundFile(sIoDevice&& iodev);
-	SoundFile(const IoDeviceCreator& iodev_creator, IoMode mode);
+	SoundFile(const Io::sDevice& iodev);
+	SoundFile(Io::sDevice&& iodev);
+	SoundFile(const Io::DeviceCreator& iodev_creator, Io::Mode mode);
 	// IO
 	FrameIndex seekSet( FrameCount frames ) const;
 	FrameIndex seekCur( FrameCount frames ) const;

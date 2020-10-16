@@ -48,7 +48,7 @@ public:
 		uint32_t postageStampOffset;
 		uint32_t scanlineOffset;
 		uint8_t attributeType;
-		void load(DataStream<Endian::Little>& input);
+		void load(Io::DataStream<Util::Endian::Little>& input);
 	};
 	// Deduced information - deduced from read info
 	int version;
@@ -56,20 +56,20 @@ public:
 	std::vector<std::byte> colorMap;
 	std::vector<std::byte> imageData;
 	// Commands
-	void load(IoDevice& input);
+	void load(Io::Device& input);
 private:
-	void decodeImage(size_t imageSize, IoDevice& input);
-	void decodeCompressedImage(size_t imageSize, IoDevice& input);
+	void decodeImage(size_t imageSize, Io::Device& input);
+	void decodeCompressedImage(size_t imageSize, Io::Device& input);
 	void flipVert();
 	void flipHoriz();
 };
 
-void Header::load(IoDevice &input)
+void Header::load(Io::Device &input)
 {
-	DataStream<Endian::Little> tgaInput(input); // TGA is little-endian.
+	Io::DataStream<Util::Endian::Little> tgaInput(input); // TGA is little-endian.
 
 	auto currPos = tgaInput.tell();
-	tgaInput.seek(SeekOrigin::END,26);
+	tgaInput.seek(Io::SeekOrigin::END,26);
 	tgaInput >> extensionOffset;
 	tgaInput >> developerAreaOffset;
 	char versionCheck[17] = "";
@@ -81,7 +81,7 @@ void Header::load(IoDevice &input)
 		extensionOffset = -1;
 		developerAreaOffset = -1;
 	}
-	tgaInput.seek(SeekOrigin::SET,currPos);
+	tgaInput.seek(Io::SeekOrigin::SET,currPos);
 
 	tgaInput >> idLen;
 	tgaInput >> colmapType;
@@ -125,7 +125,7 @@ void Header::load(IoDevice &input)
 		format = Type::INVALID;
 		break;
 	}
-	tgaInput.seek(SeekOrigin::CUR,idLen); // Skip ID.
+	tgaInput.seek(Io::SeekOrigin::CUR,idLen); // Skip ID.
 	if(colmapType) {
 		size_t colMapSize = colorMapSpecification.colorMapLength * (colorMapSpecification.colorMapEntrySize / 8);
 		colorMap.resize(colMapSize);
@@ -140,17 +140,17 @@ void Header::load(IoDevice &input)
 	if(fliphoriz) flipHoriz();
 }
 
-void Header::decodeImage(size_t imageSize, IoDevice& input)
+void Header::decodeImage(size_t imageSize, Io::Device& input)
 {
 	imageData.resize(imageSize);
 	input.read(imageData.data(),imageSize); // Will read past the end of file in case of RLE.
 }
 
-void Header::decodeCompressedImage(size_t imageSize, IoDevice &input)
+void Header::decodeCompressedImage(size_t imageSize, Io::Device &input)
 {
 	imageData.resize(imageSize);
 	input.read(imageData.data(),imageSize); // Will read past the end of file in case of RLE.
-	Buffer tempImageData = imageData;
+	Util::Buffer tempImageData = imageData;
 	int indexAccum = 0;
 	int bytesPerPixel = ( imageSpecification.pixelDepth / 8 );
 	int bytesPerPixelRLE = bytesPerPixel + 1;
@@ -181,7 +181,7 @@ void Header::decodeCompressedImage(size_t imageSize, IoDevice &input)
 void Header::flipVert()
 {
 	const uint32_t stride = imageSpecification.width * (imageSpecification.pixelDepth / 8);
-	Buffer reverseImage(imageData.size());
+	Util::Buffer reverseImage(imageData.size());
 	for(uint32_t i = 0; i < imageSpecification.height; ++i) {
 		memcpy(&reverseImage[stride*(imageSpecification.height-(i+1))], &imageData[i*stride], stride);
 	}
@@ -235,7 +235,7 @@ void Header::flipHoriz()
 	}
 }
 
-void Header::ExtensionInformation::load(DataStream<Endian::Little> &input)
+void Header::ExtensionInformation::load(Io::DataStream<Util::Endian::Little> &input)
 {
 	input >> extensionSize;
 	input >> authorName;
@@ -254,7 +254,7 @@ void Header::ExtensionInformation::load(DataStream<Endian::Little> &input)
 	input >> attributeType;
 }
 
-void decode(IoDevice &iodev, DecodeTarget &destination)
+void decode(Io::Device &iodev, DecodeTarget &destination)
 {
 	Header head;
 	head.load(iodev);

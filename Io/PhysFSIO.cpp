@@ -31,16 +31,16 @@ IO::IO() : handle(nullptr)
 
 }
 
-IO::IO(const char *path, MH33::IoMode mode) : handle(nullptr), mode(mode)
+IO::IO(const char *path, MH33::Io::Mode mode) : handle(nullptr), mode(mode)
 {
 	switch (mode) {
-	case MH33::IoMode::READ:
+	case MH33::Io::Mode::READ:
 		handle = PHYSFS_openRead(path);
 		break;
-	case MH33::IoMode::WRITE:
+	case MH33::Io::Mode::WRITE:
 		handle = PHYSFS_openWrite(path);
 		break;
-	case MH33::IoMode::APPEND:
+	case MH33::Io::Mode::APPEND:
 		handle = PHYSFS_openAppend(path);
 		break;
 	default:
@@ -48,16 +48,16 @@ IO::IO(const char *path, MH33::IoMode mode) : handle(nullptr), mode(mode)
 	}
 }
 
-IO::IO(const std::string &path, MH33::IoMode mode) : handle(nullptr), mode(mode)
+IO::IO(const std::string &path, MH33::Io::Mode mode) : handle(nullptr), mode(mode)
 {
 	switch (mode) {
-	case MH33::IoMode::READ:
+	case MH33::Io::Mode::READ:
 		handle = PHYSFS_openRead(path.c_str());
 		break;
-	case MH33::IoMode::WRITE:
+	case MH33::Io::Mode::WRITE:
 		handle = PHYSFS_openWrite(path.c_str());
 		break;
-	case MH33::IoMode::APPEND:
+	case MH33::Io::Mode::APPEND:
 		handle = PHYSFS_openAppend(path.c_str());
 		break;
 	default:
@@ -70,14 +70,14 @@ bool IO::flush()
 	return PHYSFS_flush(static_cast<PHYSFS_File*>(handle));
 }
 
-bool IO::seek(MH33::SeekOrigin whence, intptr_t offset)
+bool IO::seek(MH33::Io::SeekOrigin whence, intptr_t offset)
 {
 	switch (whence) {
-	case MH33::SeekOrigin::CUR:
+	case MH33::Io::SeekOrigin::CUR:
 		return PHYSFS_seek(static_cast<PHYSFS_File*>(handle),PHYSFS_tell(static_cast<PHYSFS_File*>(handle)-offset));
-	case MH33::SeekOrigin::END:
+	case MH33::Io::SeekOrigin::END:
 		return PHYSFS_seek(static_cast<PHYSFS_File*>(handle),PHYSFS_fileLength(static_cast<PHYSFS_File*>(handle)-offset));
-	case MH33::SeekOrigin::SET:
+	case MH33::Io::SeekOrigin::SET:
 		return PHYSFS_seek(static_cast<PHYSFS_File*>(handle),offset);
 	}
 }
@@ -102,7 +102,7 @@ size_t IO::read(void *destination, size_t dataSize)
 	return PHYSFS_readBytes(static_cast<PHYSFS_File*>(handle),destination,dataSize);
 }
 
-MH33::IoMode IO::getMode() const
+MH33::Io::Mode IO::getMode() const
 {
 	return mode;
 }

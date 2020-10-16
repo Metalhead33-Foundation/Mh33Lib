@@ -1,5 +1,6 @@
 #include "MhStdin.hpp"
 namespace MH33 {
+namespace Io {
 
 Stdin::Stdin()
 {
@@ -40,9 +41,10 @@ size_t Stdin::read(void *destination, size_t dataSize)
 	return fread(destination,1,dataSize,stdin);
 }
 
-IoMode Stdin::getMode() const
+Mode Stdin::getMode() const
 {
-	return IoMode::READ;
+	return Mode::READ;
 }
 
+}
 }

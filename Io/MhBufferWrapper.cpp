@@ -1,7 +1,8 @@
 #include "MhBufferWrapper.hpp"
 namespace MH33 {
+namespace Io {
 
-const Buffer &BufferWrapper::getBuffer() const
+const Util::Buffer &BufferWrapper::getBuffer() const
 {
 	return buffer;
 }
@@ -66,17 +67,17 @@ size_t BufferWrapper::read(void *destination, size_t dataSize)
 	return readData;
 }
 
-IoMode BufferWrapper::getMode() const
+Mode BufferWrapper::getMode() const
 {
-	return IoMode::READ_WRITE;
+	return Mode::READ_WRITE;
 }
 
-void BufferWrapper::yield(Buffer &target)
+void BufferWrapper::yield(Util::Buffer &target)
 {
 	target = std::move(buffer);
 }
 
-Buffer &BufferWrapper::getBuffer()
+Util::Buffer &BufferWrapper::getBuffer()
 {
 	return buffer;
 }
@@ -107,13 +108,13 @@ BufferWrapper &BufferWrapper::operator=(BufferWrapper &&mov)
 	return *this;
 }
 
-BufferWrapper::BufferWrapper(const Buffer &cpy)
+BufferWrapper::BufferWrapper(const Util::Buffer &cpy)
 	: buffer(cpy), cursor(0)
 {
 
 }
 
-BufferWrapper::BufferWrapper(Buffer &&mov)
+BufferWrapper::BufferWrapper(Util::Buffer &&mov)
 	: buffer(std::move(mov)), cursor(0)
 {
 
@@ -127,5 +128,6 @@ BufferWrapper::BufferWrapper() : buffer(0), cursor(0)
 BufferWrapper::BufferWrapper(size_t sz) : buffer(sz), cursor(0)
 {
 
+}
 }
 }

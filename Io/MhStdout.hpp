@@ -4,8 +4,9 @@
 #include <cstdio>
 
 namespace MH33 {
+namespace Io {
 
-class Stdout : public IoDevice
+class Stdout : public Device
 {
 public:
 	Stdout();
@@ -15,8 +16,9 @@ public:
 	intptr_t size();
 	size_t write(const void* data, size_t dataSize);
 	size_t read(void* destination, size_t dataSize);
-	IoMode getMode() const;
+	Mode getMode() const;
 };
 
+}
 }
 #endif // MHSTDOUT_HPP

@@ -4,8 +4,9 @@
 #include <cstdio>
 
 namespace MH33 {
+namespace Io {
 
-class Stderr : public IoDevice
+class Stderr : public Device
 {
 public:
 	Stderr();
@@ -15,8 +16,9 @@ public:
 	intptr_t size();
 	size_t write(const void* data, size_t dataSize);
 	size_t read(void* destination, size_t dataSize);
-	IoMode getMode() const;
+	Mode getMode() const;
 };
 
+}
 }
 #endif // MHSTDERR_HPP

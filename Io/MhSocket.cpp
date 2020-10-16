@@ -6,6 +6,7 @@
 #endif
 
 namespace MH33 {
+namespace Io {
 Socket::Socket() : impl(nullptr)
 {
 
@@ -41,8 +42,9 @@ size_t Socket::read(void *destination, size_t dataSize)
 	return impl->receiveMessage(destination,dataSize);
 }
 
-IoMode Socket::getMode() const
+Mode Socket::getMode() const
 {
 	return mode;
+}
 }
 }

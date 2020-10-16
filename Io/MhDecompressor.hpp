@@ -3,14 +3,15 @@
 #include "MhIoDevice.hpp"
 
 namespace MH33 {
+namespace Io {
 class Decompressor
 {
 private:
 	void* handle;
-	IoDevice* input;
-	IoDevice* output;
-	Buffer inBuff;
-	Buffer outBuff;
+	Device* input;
+	Device* output;
+	Util::Buffer inBuff;
+	Util::Buffer outBuff;
 	// No copy construction or assignment
 	Decompressor(const Decompressor& cpy) = delete;
 	Decompressor& operator=(const Decompressor& cpy) = delete;
@@ -20,16 +21,17 @@ public:
 	Decompressor& operator=(Decompressor&& mov);
 	// Actual constructor and destructor
 	Decompressor();
-	Decompressor(IoDevice* input, IoDevice* output);
+	Decompressor(Device* input, Device* output);
 	~Decompressor();
 	void decompress();
-	IoDevice *getInput() const;
-	void setInput(IoDevice *value);
-	IoDevice *getOutput() const;
-	void setOutput(IoDevice *value);
+	Device *getInput() const;
+	void setInput(Device *value);
+	Device *getOutput() const;
+	void setOutput(Device *value);
 
-	static void qucikDecompress(IoDevice &input, IoDevice &output);
+	static void qucikDecompress(Device &input, Device &output);
 };
+}
 }
 
 #endif // MHDECOMPRESSOR_HPP

@@ -54,44 +54,44 @@ SoundFile::~SoundFile()
 	}
 }
 
-SoundFile::SoundFile(const sIoDevice &iodev)
+SoundFile::SoundFile(const Io::sDevice &iodev)
 	: handleA(nullptr), handleB(nullptr), iodev(iodev)
 {
 	if(!this->iodev) return;
 	handleB = malloc(sizeof(SF_INFO));
 	memset( handleB, 0, sizeof( SF_INFO ) );
 	switch (iodev->getMode()) {
-	case MH33::IoMode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
-	case MH33::IoMode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
-	case MH33::IoMode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
 	default: break;
 	}
 }
 
-SoundFile::SoundFile(sIoDevice &&iodev)
+SoundFile::SoundFile(Io::sDevice &&iodev)
 	: handleA(nullptr), handleB(nullptr), iodev(std::move(iodev))
 {
 	if(!this->iodev) return;
 	handleB = malloc(sizeof(SF_INFO));
 	memset( handleB, 0, sizeof( SF_INFO ) );
 	switch (iodev->getMode()) {
-	case MH33::IoMode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
-	case MH33::IoMode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
-	case MH33::IoMode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
 	default: break;
 	}
 }
 
-SoundFile::SoundFile(const IoDeviceCreator &iodev_creator, IoMode mode)
+SoundFile::SoundFile(const Io::DeviceCreator &iodev_creator, Io::Mode mode)
 	: handleA(nullptr), handleB(nullptr), iodev(iodev_creator(mode))
 {
 	if(!this->iodev) return;
 	handleB = malloc(sizeof(SF_INFO));
 	memset( handleB, 0, sizeof( SF_INFO ) );
 	switch (iodev->getMode()) {
-	case MH33::IoMode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
-	case MH33::IoMode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
-	case MH33::IoMode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
 	default: break;
 	}
 }
@@ -283,23 +283,23 @@ int SoundFile::setGenre( const std::string &str ) const {
 }
 sf_count_t sfGetFilelen( void *user_data ) {
 	return sf_count_t(
-		reinterpret_cast< MH33::IoDevice* >( user_data )->size( ) );
+		reinterpret_cast< MH33::Io::Device* >( user_data )->size( ) );
 }
 sf_count_t sfSeek( sf_count_t offset, int whence, void *user_data ) {
-	auto chandle = reinterpret_cast< MH33::IoDevice* >( user_data );
+	auto chandle = reinterpret_cast< MH33::Io::Device* >( user_data );
 	bool cunt = false;
 	switch ( whence ) {
 	case SEEK_SET:
 		cunt =
-			sf_count_t( chandle->seek( MH33::SeekOrigin::SET, offset ) );
+			sf_count_t( chandle->seek( MH33::Io::SeekOrigin::SET, offset ) );
 		break;
 	case SEEK_CUR:
 		cunt =
-			sf_count_t( chandle->seek( MH33::SeekOrigin::CUR, offset ) );
+			sf_count_t( chandle->seek( MH33::Io::SeekOrigin::CUR, offset ) );
 		break;
 	case SEEK_END:
 		cunt =
-			sf_count_t( chandle->seek(  MH33::SeekOrigin::END, offset ) );
+			sf_count_t( chandle->seek(  MH33::Io::SeekOrigin::END, offset ) );
 		break;
 	default:
 		cunt = false;
@@ -311,13 +311,13 @@ sf_count_t sfSeek( sf_count_t offset, int whence, void *user_data ) {
 }
 sf_count_t sfRead( void *ptr, sf_count_t count, void *user_data ) {
 	return sf_count_t(
-		reinterpret_cast< MH33::IoDevice* >( user_data )->read( ptr, count ) );
+		reinterpret_cast< MH33::Io::Device* >( user_data )->read( ptr, count ) );
 }
 sf_count_t sfWrite( const void *ptr, sf_count_t count, void *user_data ) {
 	return sf_count_t(
-		reinterpret_cast< MH33::IoDevice* >( user_data )->write( ptr, count ) );
+		reinterpret_cast< MH33::Io::Device* >( user_data )->write( ptr, count ) );
 }
 sf_count_t sfTell( void *user_data ) {
 	return sf_count_t(
-		reinterpret_cast< MH33::IoDevice* >( user_data )->tell( ) );
+		reinterpret_cast< MH33::Io::Device* >( user_data )->tell( ) );
 }

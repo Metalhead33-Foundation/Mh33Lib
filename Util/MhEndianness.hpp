@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "half.hpp"
 namespace MH33 {
+namespace Util {
 
 enum class Endian
 {
@@ -107,9 +108,10 @@ template <> struct _endianness_swp<double> {
 };
 
 template <Endian src, Endian dst, typename T> void convert_endian(T& val) {
-		if constexpr(src == dst) (void)val;
-		else _endianness_swp<T>::do_swp(val);
+	if constexpr(src == dst) (void)val;
+	else _endianness_swp<T>::do_swp(val);
 };
 
+}
 }
 #endif // MHENDIANNESS_HPP

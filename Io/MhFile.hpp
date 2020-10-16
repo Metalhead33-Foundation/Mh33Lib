@@ -5,26 +5,27 @@
 #include <string>
 
 namespace MH33 {
+namespace Io {
 
-class FileIO : public IoDevice
+class File : public Device
 {
 private:
 	FILE* fdev;
-	IoMode mode;
-	FileIO(const FileIO& cpy) = delete; // No copy constructor
-	FileIO& operator=(const FileIO& cpy) = delete; // No copy assignment operator
+	Mode mode;
+	File(const File& cpy) = delete; // No copy constructor
+	File& operator=(const File& cpy) = delete; // No copy assignment operator
 public:
 	// Destructor
-	~FileIO();
+	~File();
 	// Move constructor
-	FileIO(FileIO&& mov);
+	File(File&& mov);
 	// Move assignment operator
-	FileIO& operator=(FileIO&& mov);
+	File& operator=(File&& mov);
 	// Default constructor
-	FileIO();
+	File();
 	// Actual constructor
-	FileIO(const char* path, IoMode mode);
-	FileIO(const std::string& path, IoMode mode);
+	File(const char* path, Mode mode);
+	File(const std::string& path, Mode mode);
 	// Actual imnplementation
 	bool flush();
 	bool seek(SeekOrigin whence, intptr_t offset);
@@ -32,8 +33,9 @@ public:
 	intptr_t size();
 	size_t write(const void* data, size_t dataSize);
 	size_t read(void* destination, size_t dataSize);
-	IoMode getMode() const;
+	Mode getMode() const;
 };
 
+}
 }
 #endif // MHFILEIO_HPP

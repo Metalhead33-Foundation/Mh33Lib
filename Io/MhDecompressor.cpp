@@ -4,6 +4,7 @@
 #define MHDHANDLE reinterpret_cast<ZSTD_DCtx*>(handle)
 
 namespace MH33 {
+namespace Io {
 
 Decompressor::Decompressor(Decompressor &&mov)
 	: handle(mov.handle), input(mov.input), output(mov.output), inBuff(std::move(mov.inBuff)), outBuff(std::move(mov.outBuff))
@@ -11,27 +12,27 @@ Decompressor::Decompressor(Decompressor &&mov)
 	mov.handle = nullptr;
 }
 
-IoDevice *Decompressor::getInput() const
+Device *Decompressor::getInput() const
 {
 	return input;
 }
 
-void Decompressor::setInput(IoDevice *value)
+void Decompressor::setInput(Device *value)
 {
 	input = value;
 }
 
-IoDevice *Decompressor::getOutput() const
+Device *Decompressor::getOutput() const
 {
 	return output;
 }
 
-void Decompressor::setOutput(IoDevice *value)
+void Decompressor::setOutput(Device *value)
 {
 	output = value;
 }
 
-void Decompressor::qucikDecompress(IoDevice &input, IoDevice &output)
+void Decompressor::qucikDecompress(Device &input, Device &output)
 {
 	Decompressor tmp(&input,&output);
 	tmp.decompress();
@@ -55,7 +56,7 @@ Decompressor::Decompressor() : handle(ZSTD_createDCtx()), inBuff(ZSTD_DStreamInS
 
 }
 
-Decompressor::Decompressor(IoDevice *input, IoDevice *output) : handle(ZSTD_createDCtx()), input(input), output(output),
+Decompressor::Decompressor(Device *input, Device *output) : handle(ZSTD_createDCtx()), input(input), output(output),
 	  inBuff(ZSTD_DStreamInSize()), outBuff(ZSTD_DStreamOutSize())
 {
 
@@ -82,4 +83,5 @@ void Decompressor::decompress()
 	}
 }
 
+}
 }

@@ -10,7 +10,7 @@ class ModuleRenderer
 {
 private:
 	void* handle;
-	sIoDevice iodev;
+	Io::sDevice iodev;
 	// No copy construction or assignment
 	ModuleRenderer(const ModuleRenderer& cpy) = delete;
 	ModuleRenderer& operator=(const ModuleRenderer& cpy) = delete;
@@ -20,9 +20,9 @@ public:
 	ModuleRenderer& operator=(ModuleRenderer&& mov);
 	// Actual constructor and destructor
 	~ModuleRenderer();
-	ModuleRenderer(const sIoDevice& iodev);
-	ModuleRenderer(sIoDevice&& iodev);
-	ModuleRenderer(const IoDeviceCreator& iodev_creator, IoMode mode);
+	ModuleRenderer(const Io::sDevice& iodev);
+	ModuleRenderer(Io::sDevice&& iodev);
+	ModuleRenderer(const Io::DeviceCreator& iodev_creator, Io::Mode mode);
 
 	// Getters and setters
 	void setSubsong( int32_t subsong );

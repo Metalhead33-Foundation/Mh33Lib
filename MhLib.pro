@@ -38,7 +38,7 @@ SOURCES += \
         Io/MhBufferWrapper.cpp \
         Io/MhCompressor.cpp \
         Io/MhDecompressor.cpp \
-        Io/MhFileIO.cpp \
+        Io/MhFile.cpp \
         Io/MhSocket.cpp \
         Io/MhStderr.cpp \
         Io/MhStdin.cpp \
@@ -64,12 +64,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-	Io/MhBuffer.hpp \
 	Io/MhBufferWrapper.hpp \
 	Io/MhCompressor.hpp \
 	Io/MhDataStream.hpp \
 	Io/MhDecompressor.hpp \
-	Io/MhFileIO.hpp \
+	Io/MhFile.hpp \
 	Io/MhIoDevice.hpp \
 	Io/MhSocket.hpp \
 	Io/MhStderr.hpp \
@@ -89,6 +88,7 @@ HEADERS += \
 	Media/Image/MhStandardColourFormat.hpp \
 	Media/Image/MhTGA.hpp \
 	Media/Image/MhWEBP.hpp \
+	Util/MhBuffer.hpp \
 	Util/MhEndianness.hpp \
 	Util/MhIntegralIterator.hpp \
 	Util/MhNormDenorm.hpp \

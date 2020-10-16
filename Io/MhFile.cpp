@@ -1,18 +1,19 @@
-#include "MhFileIO.hpp"
+#include "MhFile.hpp"
 namespace MH33 {
+namespace Io {
 
-FileIO::~FileIO()
+File::~File()
 {
 	if(fdev) fclose(fdev);
 }
 
-FileIO::FileIO(FileIO &&mov)
+File::File(File &&mov)
 	: fdev(mov.fdev)
 {
 	mov.fdev = nullptr;
 }
 
-FileIO &FileIO::operator=(FileIO &&mov)
+File &File::operator=(File &&mov)
 {
 	if(fdev) fclose(fdev);
 	this->fdev = mov.fdev;
@@ -20,80 +21,80 @@ FileIO &FileIO::operator=(FileIO &&mov)
 	return *this;
 }
 
-FileIO::FileIO()
+File::File()
 	: fdev(nullptr)
 {
 
 }
 
-FileIO::FileIO(const char *path, IoMode mode)
+File::File(const char *path, Mode mode)
 	: fdev(nullptr), mode(mode)
 {
 	switch (mode) {
-	case IoMode::READ:
+	case Mode::READ:
 		fdev = fopen(path,"rb");
 		break;
-	case IoMode::WRITE:
+	case Mode::WRITE:
 		fdev = fopen(path,"wb");
 		break;
-	case IoMode::APPEND:
+	case Mode::APPEND:
 		fdev = fopen(path,"ab");
 		break;
-	case IoMode::READ_WRITE:
+	case Mode::READ_WRITE:
 		if(!(fdev = fopen(path,"r+b"))) fdev = fopen(path,"w+b");
 		break;
-	case IoMode::READ_APPEND:
+	case Mode::READ_APPEND:
 		fdev = fopen(path,"a+b");
 		break;
 	}
 }
 
-FileIO::FileIO(const std::string &path, IoMode mode)
+File::File(const std::string &path, Mode mode)
 	: fdev(nullptr), mode(mode)
 {
 	switch (mode) {
-	case IoMode::READ:
+	case Mode::READ:
 		fdev = fopen(path.c_str(),"rb");
 		break;
-	case IoMode::WRITE:
+	case Mode::WRITE:
 		fdev = fopen(path.c_str(),"wb");
 		break;
-	case IoMode::APPEND:
+	case Mode::APPEND:
 		fdev = fopen(path.c_str(),"ab");
 		break;
-	case IoMode::READ_WRITE:
+	case Mode::READ_WRITE:
 		if(!(fdev = fopen(path.c_str(),"r+b"))) fdev = fopen(path.c_str(),"w+b");
 		break;
-	case IoMode::READ_APPEND:
+	case Mode::READ_APPEND:
 		fdev = fopen(path.c_str(),"a+b");
 		break;
 	}
 }
 
-bool FileIO::flush()
+bool File::flush()
 {
 	return fflush(fdev) == 0;
 }
 
-bool FileIO::seek(SeekOrigin whence, intptr_t offset)
+bool File::seek(SeekOrigin whence, intptr_t offset)
 {
 	switch (whence) {
-		case SeekOrigin::CUR:
-			return fseek(fdev,offset,SEEK_CUR) == 0;
-		case SeekOrigin::SET:
-			return fseek(fdev,offset,SEEK_SET) == 0;
-		case SeekOrigin::END:
-			return fseek(fdev,offset,SEEK_END) == 0;
+	case SeekOrigin::CUR:
+		return fseek(fdev,offset,SEEK_CUR) == 0;
+	case SeekOrigin::SET:
+		return fseek(fdev,offset,SEEK_SET) == 0;
+	case SeekOrigin::END:
+		return fseek(fdev,offset,SEEK_END) == 0;
 	}
 	return false;
 }
 
-intptr_t FileIO::tell()
+intptr_t File::tell()
 {
 	return ftell(fdev);
 }
 
-intptr_t FileIO::size()
+intptr_t File::size()
 {
 	auto originalPos = ftell(fdev);
 	fseek(fdev,0,SEEK_END);
@@ -102,19 +103,20 @@ intptr_t FileIO::size()
 	return theEnd;
 }
 
-size_t FileIO::write(const void *data, size_t dataSize)
+size_t File::write(const void *data, size_t dataSize)
 {
 	return fwrite(data,1,dataSize,fdev);
 }
 
-size_t FileIO::read(void *destination, size_t dataSize)
+size_t File::read(void *destination, size_t dataSize)
 {
 	return fread(destination,1,dataSize,fdev);
 }
 
-IoMode FileIO::getMode() const
+Mode File::getMode() const
 {
 	return mode;
 }
 
+}
 }

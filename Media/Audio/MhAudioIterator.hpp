@@ -7,11 +7,11 @@
 namespace MH33 {
 namespace Audio {
 
-typedef IntegralIterator<uint_fast8_t> ChannelIndex;
-typedef IntegralIterable<uint_fast8_t> ChannelCount;
-typedef IntegralIterator<uintptr_t> SampleIndex;
-struct SampleCount : public IntegralIterable<uint_fast32_t> {
-	typedef IntegralIterable<uint_fast32_t> BaseType;
+typedef Util::IntegralIterator<uint_fast8_t> ChannelIndex;
+typedef Util::IntegralIterable<uint_fast8_t> ChannelCount;
+typedef Util::IntegralIterator<uintptr_t> SampleIndex;
+struct SampleCount : public Util::IntegralIterable<uint_fast32_t> {
+	typedef Util::IntegralIterable<uint_fast32_t> BaseType;
 	SampleCount(const BaseType& other) : BaseType(other) {
 
 	}
@@ -20,9 +20,9 @@ struct SampleCount : public IntegralIterable<uint_fast32_t> {
 	}
 	inline uintptr_t toBytes() const { return var * sizeof(float); }
 };
-typedef IntegralIterator<uintptr_t> FrameIndex;
-struct FrameRate : public IntegralIterable<uint_fast32_t> {
-	typedef IntegralIterable<uint_fast32_t> BaseType;
+typedef Util::IntegralIterator<uintptr_t> FrameIndex;
+struct FrameRate : public Util::IntegralIterable<uint_fast32_t> {
+	typedef Util::IntegralIterable<uint_fast32_t> BaseType;
 	FrameRate(const BaseType& other) : BaseType(other) {
 
 	}
@@ -30,8 +30,8 @@ struct FrameRate : public IntegralIterable<uint_fast32_t> {
 
 	}
 };
-struct FrameCount : public IntegralIterable<uint_fast32_t> {
-	typedef IntegralIterable<uint_fast32_t> BaseType;
+struct FrameCount : public Util::IntegralIterable<uint_fast32_t> {
+	typedef Util::IntegralIterable<uint_fast32_t> BaseType;
 	FrameCount(const BaseType& other) : BaseType(other) {
 
 	}

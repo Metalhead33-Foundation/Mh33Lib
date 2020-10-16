@@ -2,8 +2,8 @@
 #include <png.h>
 #include <algorithm>
 
-void mh33_set_read_callbacks(png_structp read_ptr, MH33::IoDevice* dev);
-void mh33_set_write_callbacks(png_structp write_ptr, MH33::IoDevice* dev);
+void mh33_set_read_callbacks(png_structp read_ptr, MH33::Io::Device* dev);
+void mh33_set_write_callbacks(png_structp write_ptr, MH33::Io::Device* dev);
 void mh33_read_data(png_structp png_ptr, png_bytep data, png_size_t length);
 void mh33_write_data(png_structp png_ptr, png_bytep data, png_size_t length);
 void mh33_flush_data(png_structp png_ptr);
@@ -23,7 +23,7 @@ constexpr size_t type2bytes(uint8_t color_type, uint8_t bit_depth) {
 }
 }
 
-void decode(IoDevice& iodev, DecodeTarget &destination)
+void decode(Io::Device& iodev, DecodeTarget &destination)
 {
 	uint8_t color_type;
 	uint8_t bit_depth;
@@ -106,7 +106,7 @@ void decode(IoDevice& iodev, DecodeTarget &destination)
 	png_destroy_read_struct(&pngPtr,&infoPtr,&endInfoPtr);
 }
 
-void encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Buffer &pixelData, float compressionLevel)
+void encode(Io::Device& iodev, uint16_t width, uint16_t height, uint8_t color_type, uint8_t bit_depth, Util::Buffer &pixelData, float compressionLevel)
 {
 	auto pngPtr = png_create_write_struct(PNG_LIBPNG_VER_STRING,nullptr,nullptr,nullptr);
 	if(!pngPtr) return;
@@ -133,18 +133,18 @@ void encode(IoDevice& iodev, uint16_t width, uint16_t height, uint8_t color_type
 }
 }
 
-void mh33_set_read_callbacks(png_structp read_ptr, MH33::IoDevice* dev) {
+void mh33_set_read_callbacks(png_structp read_ptr, MH33::Io::Device* dev) {
 	png_set_read_fn(read_ptr, dev, mh33_read_data);
 }
-void mh33_set_write_callbacks(png_structp write_ptr, MH33::IoDevice* dev) {
+void mh33_set_write_callbacks(png_structp write_ptr, MH33::Io::Device* dev) {
 	png_set_write_fn(write_ptr, dev, mh33_write_data, mh33_flush_data);
 }
 void mh33_read_data(png_structp png_ptr, png_bytep data, png_size_t length) {
-	reinterpret_cast<MH33::IoDevice*>(png_get_io_ptr(png_ptr))->read(data,length);
+	reinterpret_cast<MH33::Io::Device*>(png_get_io_ptr(png_ptr))->read(data,length);
 }
 void mh33_write_data(png_structp png_ptr, png_bytep data, png_size_t length) {
-	reinterpret_cast<MH33::IoDevice*>(png_get_io_ptr(png_ptr))->write(data,length);
+	reinterpret_cast<MH33::Io::Device*>(png_get_io_ptr(png_ptr))->write(data,length);
 }
 void mh33_flush_data(png_structp png_ptr) {
-	reinterpret_cast<MH33::IoDevice*>(png_get_io_ptr(png_ptr))->flush();
+	reinterpret_cast<MH33::Io::Device*>(png_get_io_ptr(png_ptr))->flush();
 }
