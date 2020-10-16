@@ -250,7 +250,7 @@ void UUID::fromTimeAndRandom(const std::chrono::milliseconds& time, uint64_t ran
 	*this = buff.getBuffer();
 }
 
-void UUID::toTimeAndRandom(std::chrono::milliseconds &time, uint32_t &randomNumA, uint32_t &randomNumB)
+void UUID::toTimeAndRandom(std::chrono::milliseconds &time, uint32_t &randomNumA, uint32_t &randomNumB) const
 {
 	BufferWrapper buff(size);
 	memcpy(buff.getBuffer().data(),__uuid,size);
@@ -263,7 +263,7 @@ void UUID::toTimeAndRandom(std::chrono::milliseconds &time, uint32_t &randomNumA
 	time = std::chrono::milliseconds(tmpTime);
 }
 
-void UUID::toTimeAndRandom(std::chrono::milliseconds &time, uint64_t &randomNum)
+void UUID::toTimeAndRandom(std::chrono::milliseconds &time, uint64_t &randomNum) const
 {
 	BufferWrapper buff(size);
 	memcpy(buff.getBuffer().data(),__uuid,size);
@@ -275,7 +275,7 @@ void UUID::toTimeAndRandom(std::chrono::milliseconds &time, uint64_t &randomNum)
 	time = std::chrono::milliseconds(tmpTime);
 }
 
-void UUID::toRandom(uint32_t &randomNum1, uint32_t &randomNum2, uint32_t &randomNum3, uint32_t &randomNum4)
+void UUID::toRandom(uint32_t &randomNum1, uint32_t &randomNum2, uint32_t &randomNum3, uint32_t &randomNum4) const
 {
 	BufferWrapper buff(size);
 	memcpy(buff.getBuffer().data(),__uuid,size);

@@ -37,9 +37,9 @@ struct UUID
 	void fromTimeAndRandom(RNG& rng);
 	void fromTimeAndRandom(const std::chrono::milliseconds& time, uint64_t randomnum);
 
-	void toTimeAndRandom(std::chrono::milliseconds& time, uint32_t& randomNumA, uint32_t& randomNumB);
-	void toTimeAndRandom(std::chrono::milliseconds& time, uint64_t& randomNum);
-	void toRandom(uint32_t& randomNum1, uint32_t& randomNum2, uint32_t& randomNum3, uint32_t& randomNum4);
+	void toTimeAndRandom(std::chrono::milliseconds& time, uint32_t& randomNumA, uint32_t& randomNumB) const;
+	void toTimeAndRandom(std::chrono::milliseconds& time, uint64_t& randomNum) const;
+	void toRandom(uint32_t& randomNum1, uint32_t& randomNum2, uint32_t& randomNum3, uint32_t& randomNum4) const;
 
 };
 
