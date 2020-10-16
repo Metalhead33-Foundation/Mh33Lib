@@ -55,6 +55,7 @@ SOURCES += \
         Media/Image/MhTGA.cpp \
         Media/Image/MhWEBP.cpp \
         Util/MhRNG.cpp \
+        Util/MhUUID.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -92,6 +93,7 @@ HEADERS += \
 	Util/MhIntegralIterator.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/MhRNG.hpp \
+	Util/MhUUID.hpp \
 	Util/half.hpp
 
 DISTFILES += \

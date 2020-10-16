@@ -1,13 +1,10 @@
 #include <iostream>
-#include "Util/MhRNG.hpp"
+#include "Util/MhUUID.hpp"
 
 int main(int argc, char *argv[])
 {
-	MH33::RNG rngesus;
-	std::string randomstring("Whatever, I'm just going on a tangent here.");
-	for(const auto& it : randomstring) {
-		std::cout << rngesus.pick(randomstring);
-	}
-	std::cout << std::endl;
+	MH33::UUID uuid("123e4567-e89b-12d3-a456-426614174000");
+	std::cout << uuid.toString(true) << std::endl;
 	return 0;
 }
+
