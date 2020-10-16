@@ -2,7 +2,10 @@
 #define MHUUID_HPP
 #include <Io/MhBuffer.hpp>
 #include <Io/MhDataStream.hpp>
+#include "MhRNG.hpp"
 #include <cstring>
+#include <chrono>
+
 namespace MH33 {
 struct UUID
 {
@@ -25,6 +28,19 @@ struct UUID
 	std::string toString(bool curlyBraces=true) const;
 	UUID& operator=(const std::string& string);
 	UUID(const std::string& string);
+	UUID(const std::chrono::milliseconds& time, uint32_t randomnumA, uint32_t randomnumB);
+	UUID(RNG& rng, bool encodeTime=true);
+	UUID(const std::chrono::milliseconds &time, uint64_t randomnumA);
+
+	void fromRandom(RNG& rng);
+	void fromTimeAndRandom(const std::chrono::milliseconds& time, uint32_t randomnumA, uint32_t randomnumB);
+	void fromTimeAndRandom(RNG& rng);
+	void fromTimeAndRandom(const std::chrono::milliseconds& time, uint64_t randomnum);
+
+	void toTimeAndRandom(std::chrono::milliseconds& time, uint32_t& randomNumA, uint32_t& randomNumB);
+	void toTimeAndRandom(std::chrono::milliseconds& time, uint64_t& randomNum);
+	void toRandom(uint32_t& randomNum1, uint32_t& randomNum2, uint32_t& randomNum3, uint32_t& randomNum4);
+
 };
 
 template <Endian io_endianness> DataStream<io_endianness>& operator<<(DataStream<io_endianness>& stream, const UUID& uuid) {

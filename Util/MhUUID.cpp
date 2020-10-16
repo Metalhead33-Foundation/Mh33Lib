@@ -1,8 +1,25 @@
 #include "MhUUID.hpp"
 #include <cstring>
 #include <sstream>
+#include <Io/MhBufferWrapper.hpp>
 namespace MH33 {
 
+void uuid_encode(Buffer& buff) {
+	uint8_t i=0;
+	for(auto& it : buff) {
+		it ^= std::byte{0xAA};
+		it ^= std::byte{i};
+		++i;
+	}
+}
+void uuid_decode(Buffer& buff) {
+	uint8_t i=0;
+	for(auto& it : buff) {
+		it ^= std::byte{i};
+		it ^= std::byte{0xAA};
+		++i;
+	}
+}
 
 constexpr uint8_t charToHex(char upper, char lower) {
 	uint8_t num = 0;
@@ -173,6 +190,100 @@ UUID::UUID(const std::string &string)
 {
 	memset(__uuid,0,size);
 	*this = string;
+}
+
+UUID::UUID(const std::chrono::milliseconds &time, uint32_t randomnumA, uint32_t randomnumB)
+{
+	fromTimeAndRandom(time,randomnumA,randomnumB);
+}
+
+UUID::UUID(RNG &rng, bool encodeTime)
+{
+	if(encodeTime) fromTimeAndRandom(rng);
+	else fromRandom(rng);
+}
+
+UUID::UUID(const std::chrono::milliseconds& time, uint64_t randomnumA)
+{
+	fromTimeAndRandom(time,randomnumA);
+}
+
+void UUID::fromRandom(RNG &rng)
+{
+	BufferWrapper buff;
+	buff.getBuffer().reserve(16);
+	DataStream<Endian::Big> stream(buff);
+	stream << uint32_t(rng.generate());
+	stream << uint32_t(rng.generate());
+	stream << uint32_t(rng.generate());
+	stream << uint32_t(rng.generate());
+	*this = buff.getBuffer();
+}
+
+void UUID::fromTimeAndRandom(const std::chrono::milliseconds& time, uint32_t randomnumA, uint32_t randomnumB)
+{
+	BufferWrapper buff;
+	buff.getBuffer().reserve(16);
+	DataStream<Endian::Big> stream(buff);
+	stream << int64_t(time.count());
+	stream << randomnumA;
+	stream << randomnumB;
+	uuid_encode(buff.getBuffer());
+	*this = buff.getBuffer();
+}
+
+void UUID::fromTimeAndRandom(RNG &rng)
+{
+	fromTimeAndRandom(std::chrono::duration_cast< std::chrono::milliseconds >(
+						  std::chrono::system_clock::now().time_since_epoch()
+						  ),rng.generate(),rng.generate());
+}
+
+void UUID::fromTimeAndRandom(const std::chrono::milliseconds& time, uint64_t randomnum)
+{
+	BufferWrapper buff;
+	buff.getBuffer().reserve(16);
+	DataStream<Endian::Big> stream(buff);
+	stream << int64_t(time.count());
+	stream << randomnum;
+	uuid_encode(buff.getBuffer());
+	*this = buff.getBuffer();
+}
+
+void UUID::toTimeAndRandom(std::chrono::milliseconds &time, uint32_t &randomNumA, uint32_t &randomNumB)
+{
+	BufferWrapper buff(size);
+	memcpy(buff.getBuffer().data(),__uuid,size);
+	uuid_decode(buff.getBuffer());
+	DataStream<Endian::Big> stream(buff);
+	int64_t tmpTime;
+	stream >> tmpTime;
+	stream >> randomNumA;
+	stream >> randomNumB;
+	time = std::chrono::milliseconds(tmpTime);
+}
+
+void UUID::toTimeAndRandom(std::chrono::milliseconds &time, uint64_t &randomNum)
+{
+	BufferWrapper buff(size);
+	memcpy(buff.getBuffer().data(),__uuid,size);
+	uuid_decode(buff.getBuffer());
+	DataStream<Endian::Big> stream(buff);
+	int64_t tmpTime;
+	stream >> tmpTime;
+	stream >> randomNum;
+	time = std::chrono::milliseconds(tmpTime);
+}
+
+void UUID::toRandom(uint32_t &randomNum1, uint32_t &randomNum2, uint32_t &randomNum3, uint32_t &randomNum4)
+{
+	BufferWrapper buff(size);
+	memcpy(buff.getBuffer().data(),__uuid,size);
+	DataStream<Endian::Big> stream(buff);
+	stream >> randomNum1;
+	stream >> randomNum2;
+	stream >> randomNum3;
+	stream >> randomNum4;
 }
 
 
