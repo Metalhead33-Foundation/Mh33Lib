@@ -30,6 +30,7 @@ public:
 	size_t write(const void* data, size_t dataSize);
 	size_t read(void* destination, size_t dataSize);
 	MH33::Io::Mode getMode() const;
+	void setBuffer(size_t newBuffsize);
 };
 
 }

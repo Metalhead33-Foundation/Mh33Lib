@@ -107,4 +107,9 @@ MH33::Io::Mode IO::getMode() const
 	return mode;
 }
 
+void IO::setBuffer(size_t newBuffsize)
+{
+	PHYSFS_setBuffer(static_cast<PHYSFS_File*>(handle),newBuffsize);
+}
+
 }
