@@ -50,11 +50,27 @@ void Filesystem::enumerate(const char *path, bool withPath, System::FilenameCall
 	auto tmpath = std::filesystem::directory_iterator(path);
 	if(withPath) {
 		for(const auto& p : tmpath ) {
-			functor(p.path().c_str());
+			const auto tmp = p.path();
+			functor(tmp.c_str());
 		}
 	} else {
 		for(const auto& p : tmpath ) {
-			functor(p.path().filename().c_str());
+			const auto tmp = p.path().filename();
+			functor(tmp.c_str());
+		}
+	}
+}
+
+void Filesystem::enumerate(const char *path, bool withPath, System::FilenameCallbackPP functor)
+{
+	auto tmpath = std::filesystem::directory_iterator(path);
+	if(withPath) {
+		for(const auto& p : tmpath ) {
+			functor(p.path().string());
+		}
+	} else {
+		for(const auto& p : tmpath ) {
+			functor(p.path().filename().string());
 		}
 	}
 }
@@ -63,7 +79,17 @@ void Filesystem::enumerate(const char *path, System::FilesystemCallback functor)
 {
 	auto tmpath = std::filesystem::directory_iterator(path);
 	for(const auto& p : tmpath ) {
-		functor(this,p.path().c_str());
+		const auto tmpA = p.path();
+		const auto tmpB = tmpA.filename();
+		functor(this,tmpA.c_str(),tmpB.c_str());
+	}
+}
+
+void Filesystem::enumerate(const char *path, System::FilesystemCallbackPP functor)
+{
+	auto tmpath = std::filesystem::directory_iterator(path);
+	for(const auto& p : tmpath ) {
+		functor(this,p.path().string(),p.path().filename().string());
 	}
 }
 

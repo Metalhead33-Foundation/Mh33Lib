@@ -62,6 +62,25 @@ void IoSystem::enumerate(const char *path, bool withPath, IoSystem::FilenameCall
 	PHYSFS_freeList(rc);
 }
 
+void IoSystem::enumerate(const char *path, bool withPath, MH33::Io::System::FilenameCallbackPP functor)
+{
+	char **rc = PHYSFS_enumerateFiles(path);
+	char **i;
+	if(withPath) {
+		std::string str(path);
+		if(!(str.back() == '\\' || str.back() == '/')) str += separator();
+		for (i = rc; *i != nullptr; i++) {
+			std::string tmpstr = str + *i;
+			functor(tmpstr);
+		}
+	} else {
+		for (i = rc; *i != nullptr; i++) {
+			functor(std::string(*i));
+		}
+	}
+	PHYSFS_freeList(rc);
+}
+
 void IoSystem::enumerate(const char *path, MH33::Io::System::FilesystemCallback functor)
 {
 	char **rc = PHYSFS_enumerateFiles(path);
@@ -70,7 +89,20 @@ void IoSystem::enumerate(const char *path, MH33::Io::System::FilesystemCallback 
 	if(!(str.back() == '\\' || str.back() == '/')) str += separator();
 	for (i = rc; *i != nullptr; i++) {
 		std::string tmpstr = str + *i;
-		functor(this,tmpstr.c_str());
+		functor(this,tmpstr.c_str(),*i);
+	}
+	PHYSFS_freeList(rc);
+}
+
+void IoSystem::enumerate(const char *path, MH33::Io::System::FilesystemCallbackPP functor)
+{
+	char **rc = PHYSFS_enumerateFiles(path);
+	char **i;
+	std::string str(path);
+	if(!(str.back() == '\\' || str.back() == '/')) str += separator();
+	for (i = rc; *i != nullptr; i++) {
+		std::string tmpstr = str + *i;
+		functor(this,tmpstr,std::string(*i));
 	}
 	PHYSFS_freeList(rc);
 }

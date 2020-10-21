@@ -9,7 +9,9 @@ namespace Io {
 class System {
 public:
 	typedef std::function<void(const char*)> FilenameCallback;
-	typedef std::function<void(System*, const char*)> FilesystemCallback;
+	typedef std::function<void(const std::string&)> FilenameCallbackPP;
+	typedef std::function<void(System*, const char*, const char*)> FilesystemCallback; // First string is full path, second is just filename
+	typedef std::function<void(System*, const std::string&, const std::string&)> FilesystemCallbackPP; // First string is full path, second is just filename
 	virtual ~System() = default;
 	// The actual functions to be implemented
 	virtual Device* open(const char* path, Mode mode) = 0;
@@ -17,7 +19,9 @@ public:
 	virtual char separator() const = 0;
 	virtual void enumerate(const char* path, bool withPath, std::vector<std::string>& output) = 0;
 	virtual void enumerate(const char* path, bool withPath, FilenameCallback functor) = 0;
+	virtual void enumerate(const char* path, bool withPath, FilenameCallbackPP functor) = 0;
 	virtual void enumerate(const char* path, FilesystemCallback functor) = 0;
+	virtual void enumerate(const char* path, FilesystemCallbackPP functor) = 0;
 	virtual bool isDirectory(const char* path) = 0;
 	virtual bool isSymlink(const char* path) = 0;
 	virtual bool isFile(const char* path) = 0;
@@ -47,7 +51,13 @@ public:
 	inline void enumerate(const std::string& path, bool withPath, FilenameCallback functor) {
 		enumerate(path.c_str(),withPath,functor);
 	}
+	inline void enumerate(const std::string& path, bool withPath, FilenameCallbackPP functor) {
+		enumerate(path.c_str(),withPath,functor);
+	}
 	inline void enumerate(const std::string& path, FilesystemCallback functor) {
+		enumerate(path.c_str(),functor);
+	}
+	inline void enumerate(const std::string& path, FilesystemCallbackPP functor) {
 		enumerate(path.c_str(),functor);
 	}
 	bool isDirectory(const std::string& path) {
