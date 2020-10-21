@@ -14,8 +14,12 @@ public:
 	virtual Device* open(const char* path, Mode mode) = 0;
 	virtual bool exists(const char* path) = 0;
 	virtual char separator() const = 0;
-	virtual void enumerate(const char* path, std::vector<std::string>& output) = 0;
-	virtual void enumerate(const char* path, FilenameCallback functor) = 0;
+	virtual void enumerate(const char* path, bool withPath, std::vector<std::string>& output) = 0;
+	virtual void enumerate(const char* path, bool withPath, FilenameCallback functor) = 0;
+	virtual bool isDirectory(const char* path) = 0;
+	virtual bool isSymlink(const char* path) = 0;
+	virtual bool isFile(const char* path) = 0;
+	virtual bool mkdir(const char* dir) = 0;
 
 	// Convenience wrappers
 	inline Device* open(const std::string& path, Mode mode) {
@@ -24,21 +28,33 @@ public:
 	inline bool exists(const std::string& path) {
 		return exists(path.c_str());
 	}
-	inline void enumerate(const std::string& path, std::vector<std::string>& output) {
-		enumerate(path.c_str(),output);
+	inline void enumerate(const std::string& path, bool withPath, std::vector<std::string>& output) {
+		enumerate(path.c_str(),withPath,output);
 	}
-	inline std::vector<std::string> enumerate(const char* path) {
+	inline std::vector<std::string> enumerate(const char* path, bool withPath) {
 		std::vector<std::string> tmp;
-		enumerate(path,tmp);
+		enumerate(path,withPath,tmp);
 		return tmp;
 	}
-	inline std::vector<std::string> enumerate(const std::string& path) {
+	inline std::vector<std::string> enumerate(const std::string& path, bool withPath) {
 		std::vector<std::string> tmp;
-		enumerate(path,tmp);
+		enumerate(path,withPath,tmp);
 		return tmp;
 	}
-	inline void enumerate(const std::string& path, FilenameCallback functor) {
-		enumerate(path.c_str(),functor);
+	inline void enumerate(const std::string& path, bool withPath, FilenameCallback functor) {
+		enumerate(path.c_str(),withPath,functor);
+	}
+	bool isDirectory(const std::string& path) {
+		return isDirectory(path.c_str());
+	}
+	bool isSymlink(const std::string& path) {
+		return isSymlink(path.c_str());
+	}
+	bool isFile(const std::string& path) {
+		return isFile(path.c_str());
+	}
+	inline bool mkdir(const std::string& dir) {
+		return mkdir(dir.c_str());
 	}
 };
 
