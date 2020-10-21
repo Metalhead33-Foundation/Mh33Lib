@@ -82,7 +82,7 @@ SoundFile::SoundFile(Io::sDevice &&iodev)
 	}
 }
 
-SoundFile::SoundFile(const Io::DeviceCreator &iodev_creator, Io::Mode mode)
+SoundFile::SoundFile(Io::DeviceCreator iodev_creator, Io::Mode mode)
 	: handleA(nullptr), handleB(nullptr), iodev(iodev_creator(mode))
 {
 	if(!this->iodev) return;

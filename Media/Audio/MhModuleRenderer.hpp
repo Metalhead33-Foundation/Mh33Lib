@@ -22,7 +22,7 @@ public:
 	~ModuleRenderer();
 	ModuleRenderer(const Io::sDevice& iodev);
 	ModuleRenderer(Io::sDevice&& iodev);
-	ModuleRenderer(const Io::DeviceCreator& iodev_creator, Io::Mode mode);
+	ModuleRenderer(Io::DeviceCreator iodev_creator, Io::Mode mode);
 
 	// Getters and setters
 	void setSubsong( int32_t subsong );

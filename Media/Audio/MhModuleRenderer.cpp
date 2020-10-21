@@ -48,7 +48,7 @@ ModuleRenderer::ModuleRenderer(Io::sDevice &&iodev) : handle(nullptr), iodev(std
 	}
 }
 
-ModuleRenderer::ModuleRenderer(const Io::DeviceCreator &iodev_creator, Io::Mode mode) : handle(nullptr), iodev(iodev_creator(mode))
+ModuleRenderer::ModuleRenderer(Io::DeviceCreator iodev_creator, Io::Mode mode) : handle(nullptr), iodev(iodev_creator(mode))
 {
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,

@@ -769,7 +769,7 @@ public:
 	~SoundFile();
 	SoundFile(const Io::sDevice& iodev);
 	SoundFile(Io::sDevice&& iodev);
-	SoundFile(const Io::DeviceCreator& iodev_creator, Io::Mode mode);
+	SoundFile(Io::DeviceCreator iodev_creator, Io::Mode mode);
 	// IO
 	FrameIndex seekSet( FrameCount frames ) const;
 	FrameIndex seekCur( FrameCount frames ) const;
