@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <sstream>
 #include <Util/MhBuffer.hpp>
 namespace MH33 {
 namespace Io {
@@ -42,6 +43,27 @@ public:
 		Util::Buffer tmp;
 		readAll(tmp);
 		return tmp;
+	}
+	void readAllAsString(std::string& dst) {
+		auto sz = size()-tell();
+		dst.resize(sz+1,0);
+		read(dst.data(),sz);
+	}
+	std::string readAllAsString(void) {
+		std::string tmp;
+		readAllAsString(tmp);
+		return tmp;
+	}
+	void readLine(std::stringstream& stream) {
+		char tmp = 0;
+		while(read(&tmp,sizeof(char)) && tmp != '\n') {
+			stream << tmp;
+		}
+	}
+	std::string readLine(void) {
+		std::stringstream stream;
+		readLine(stream);
+		return stream.str();
 	}
 	size_t write(const Util::Buffer& src) {
 		return write(src.data(),src.size());
