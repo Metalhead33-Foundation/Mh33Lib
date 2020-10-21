@@ -293,6 +293,21 @@ void decode(Io::Device &iodev, DecodeTarget &destination)
 	destination.frames.back().stride = head.imageSpecification.width * byteSize(destination.format);
 	destination.frames.back().imageData = std::move(head.imageData);
 }
+void decode(Io::System &iosys, const char *path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
+
+void decode(Io::System &iosys, const std::string &path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
 
 }
 }

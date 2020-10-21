@@ -59,6 +59,14 @@ void Filesystem::enumerate(const char *path, bool withPath, System::FilenameCall
 	}
 }
 
+void Filesystem::enumerate(const char *path, System::FilesystemCallback functor)
+{
+	auto tmpath = std::filesystem::directory_iterator(path);
+	for(const auto& p : tmpath ) {
+		functor(this,p.path().c_str());
+	}
+}
+
 bool Filesystem::isDirectory(const char *path)
 {
 	return std::filesystem::is_directory(path);
@@ -77,6 +85,11 @@ bool Filesystem::isFile(const char *path)
 bool Filesystem::mkdir(const char *dir)
 {
 	return std::filesystem::create_directory(dir);
+}
+
+bool Filesystem::remove(const char *path)
+{
+	return std::filesystem::remove_all(path);
 }
 
 }

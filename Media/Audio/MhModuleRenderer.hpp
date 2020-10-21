@@ -2,6 +2,7 @@
 #define MHMODULERENDERER_HPP
 
 #include <Io/MhIoDevice.hpp>
+#include <IoSys/MhIoSystem.hpp>
 #include "MhAudioIterator.hpp"
 namespace MH33 {
 namespace Audio {
@@ -23,6 +24,8 @@ public:
 	ModuleRenderer(const Io::sDevice& iodev);
 	ModuleRenderer(Io::sDevice&& iodev);
 	ModuleRenderer(Io::DeviceCreator iodev_creator, Io::Mode mode);
+	ModuleRenderer(Io::System& iosys, const char* path, Io::Mode mode);
+	ModuleRenderer(Io::System& iosys, const std::string& path, Io::Mode mode);
 
 	// Getters and setters
 	void setSubsong( int32_t subsong );

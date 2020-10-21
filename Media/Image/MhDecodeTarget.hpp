@@ -1,6 +1,7 @@
 #ifndef MHDECODETARGET_HPP
 #define MHDECODETARGET_HPP
 #include <Io/MhIoDevice.hpp>
+#include <IoSys/MhIoSystem.hpp>
 #include "MhStandardColourFormat.hpp"
 #include <optional>
 

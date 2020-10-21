@@ -95,6 +95,34 @@ SoundFile::SoundFile(Io::DeviceCreator iodev_creator, Io::Mode mode)
 	default: break;
 	}
 }
+
+SoundFile::SoundFile(Io::System &iosys, const char *path, Io::Mode mode)
+	: handleA(nullptr), handleB(nullptr), iodev(iosys.open(path,mode))
+{
+	if(!this->iodev) return;
+	handleB = malloc(sizeof(SF_INFO));
+	memset( handleB, 0, sizeof( SF_INFO ) );
+	switch (iodev->getMode()) {
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	default: break;
+	}
+}
+
+SoundFile::SoundFile(Io::System &iosys, const std::string &path, Io::Mode mode)
+	: handleA(nullptr), handleB(nullptr), iodev(iosys.open(path,mode))
+{
+	if(!this->iodev) return;
+	handleB = malloc(sizeof(SF_INFO));
+	memset( handleB, 0, sizeof( SF_INFO ) );
+	switch (iodev->getMode()) {
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	default: break;
+	}
+}
 // IO
 FrameIndex SoundFile::seekSet( FrameCount frames ) const {
 	return FrameIndex(sf_seek(SFHNDL_A,frames.var,SEEK_SET));

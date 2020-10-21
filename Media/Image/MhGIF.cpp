@@ -61,6 +61,21 @@ void decode(Io::Device &iodev, DecodeTarget &target)
 		memcpy(target.frames[i].imageData.data(),handle->SavedImages[i].RasterBits,fullsize);
 	}
 }
+void decode(Io::System &iosys, const char *path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
+
+void decode(Io::System &iosys, const std::string &path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
 
 }
 }

@@ -1,6 +1,7 @@
 #ifndef MHSOUNDFILE_HPP
 #define MHSOUNDFILE_HPP
 #include <Io/MhIoDevice.hpp>
+#include <IoSys/MhIoSystem.hpp>
 #include "MhAudioIterator.hpp"
 namespace MH33 {
 namespace Audio {
@@ -770,6 +771,8 @@ public:
 	SoundFile(const Io::sDevice& iodev);
 	SoundFile(Io::sDevice&& iodev);
 	SoundFile(Io::DeviceCreator iodev_creator, Io::Mode mode);
+	SoundFile(Io::System& iosys, const char* path, Io::Mode mode);
+	SoundFile(Io::System& iosys, const std::string& path, Io::Mode mode);
 	// IO
 	FrameIndex seekSet( FrameCount frames ) const;
 	FrameIndex seekCur( FrameCount frames ) const;

@@ -128,6 +128,21 @@ void encode(Io::Device& iodev, uint16_t width, uint16_t height, uint8_t color_ty
 	png_write_end(pngPtr,infoPtr);
 	png_destroy_write_struct(&pngPtr,&infoPtr);
 }
+void decode(Io::System &iosys, const char *path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
+
+void decode(Io::System &iosys, const std::string &path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
 
 }
 }

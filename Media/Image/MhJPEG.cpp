@@ -4,8 +4,9 @@
 
 namespace MH33 {
 namespace GFX {
+namespace JPEG {
 
-bool JPEG::encode(const Util::Buffer& sourceBuff, int width, int height, int pixelFormat,
+bool encode(const Util::Buffer& sourceBuff, int width, int height, int pixelFormat,
 	Util::Buffer& destinationBuffer, unsigned long &jpegSize, int jpegSubsamp, float jpegQual)
 {
 	if(sourceBuff.empty()) return false;
@@ -18,7 +19,7 @@ bool JPEG::encode(const Util::Buffer& sourceBuff, int width, int height, int pix
 	return true;
 }
 
-bool JPEG::decode(Util::Buffer& sourceBuff, DecodeTarget &destination)
+bool decode(Util::Buffer& sourceBuff, DecodeTarget &destination)
 {
 	if(sourceBuff.empty()) { destination.format = Format::INVALID; return false; }
 	auto handle = std::unique_ptr<void,decltype(&tjDestroy) >(tjInitDecompress(),tjDestroy);
@@ -36,13 +37,13 @@ bool JPEG::decode(Util::Buffer& sourceBuff, DecodeTarget &destination)
 	return true;
 }
 
-bool JPEG::decode(Io::Device &input, DecodeTarget &destination)
+bool decode(Io::Device &input, DecodeTarget &destination)
 {
 	auto buff = input.readAll();
 	return decode(buff,destination);
 }
 
-bool JPEG::encode(const Util::Buffer &sourceBuff, int width, int height, int pixelFormat, Io::Device &destination, int jpegSubsamp, float jpegQual)
+bool encode(const Util::Buffer &sourceBuff, int width, int height, int pixelFormat, Io::Device &destination, int jpegSubsamp, float jpegQual)
 {
 	Util::Buffer tmpBUff;
 	unsigned long jpegSize;
@@ -50,7 +51,23 @@ bool JPEG::encode(const Util::Buffer &sourceBuff, int width, int height, int pix
 	if(retval) destination.write(tmpBUff.data(),jpegSize);
 	return retval;
 }
+void decode(Io::System &iosys, const char *path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
+
+void decode(Io::System &iosys, const std::string &path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
 
 
+}
 }
 }

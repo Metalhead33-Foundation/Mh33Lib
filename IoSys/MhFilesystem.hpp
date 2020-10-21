@@ -13,10 +13,12 @@ public:
 	char separator() const;
 	void enumerate(const char* path, bool withPath, std::vector<std::string>& output);
 	void enumerate(const char* path, bool withPath, FilenameCallback functor);
+	void enumerate(const char* path, FilesystemCallback functor);
 	bool isDirectory(const char* path);
 	bool isSymlink(const char* path);
 	bool isFile(const char* path);
 	bool mkdir(const char* dir);
+	bool remove(const char* path);
 };
 
 }

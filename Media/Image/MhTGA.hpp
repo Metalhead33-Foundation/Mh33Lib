@@ -8,6 +8,8 @@ namespace GFX {
 namespace TGA {
 
 void decode(Io::Device& iodev, DecodeTarget &destination);
+void decode(Io::System& iosys, const char* path, DecodeTarget &destination);
+void decode(Io::System& iosys, const std::string& path, DecodeTarget &destination);
 
 }
 }

@@ -56,6 +56,26 @@ ModuleRenderer::ModuleRenderer(Io::DeviceCreator iodev_creator, Io::Mode mode) :
 										nullptr, nullptr);
 	}
 }
+
+ModuleRenderer::ModuleRenderer(Io::System &iosys, const char *path, Io::Mode mode)
+	: handle(nullptr), iodev(iosys.open(path,mode))
+{
+	if(this->iodev) {
+		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
+										nullptr, nullptr, nullptr, nullptr,
+										nullptr, nullptr);
+	}
+}
+
+ModuleRenderer::ModuleRenderer(Io::System &iosys, const std::string &path, Io::Mode mode)
+	: handle(nullptr), iodev(iosys.open(path,mode))
+{
+	if(this->iodev) {
+		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
+										nullptr, nullptr, nullptr, nullptr,
+										nullptr, nullptr);
+	}
+}
 // Getters and setters
 void ModuleRenderer::setSubsong( int32_t subsong ) {
 	openmpt_module_select_subsong(MODULE_HDNL,subsong);

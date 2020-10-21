@@ -8,6 +8,8 @@ namespace GFX {
 namespace GIF {
 
 void decode(Io::Device& iodev, DecodeTarget& target);
+void decode(Io::System& iosys, const char* path, DecodeTarget &destination);
+void decode(Io::System& iosys, const std::string& path, DecodeTarget &destination);
 
 }
 }

@@ -173,6 +173,36 @@ bool demux(Io::Device &iodev, DecodeTarget &target)
 	auto buff = iodev.readAll();
 	return demux(buff,target);
 }
+void decode(Io::System &iosys, const char *path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
+
+void decode(Io::System &iosys, const std::string &path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		decode(*iodev,destination);
+	}
+}
+void demux(Io::System &iosys, const char *path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		demux(*iodev,destination);
+	}
+}
+
+void demux(Io::System &iosys, const std::string &path, DecodeTarget &destination)
+{
+	std::unique_ptr<Io::Device> iodev(iosys.open(path,Io::Mode::READ));
+	if(iodev) {
+		demux(*iodev,destination);
+	}
+}
 
 
 }

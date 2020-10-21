@@ -62,6 +62,19 @@ void IoSystem::enumerate(const char *path, bool withPath, IoSystem::FilenameCall
 	PHYSFS_freeList(rc);
 }
 
+void IoSystem::enumerate(const char *path, MH33::Io::System::FilesystemCallback functor)
+{
+	char **rc = PHYSFS_enumerateFiles(path);
+	char **i;
+	std::string str(path);
+	if(!(str.back() == '\\' || str.back() == '/')) str += separator();
+	for (i = rc; *i != nullptr; i++) {
+		std::string tmpstr = str + *i;
+		functor(this,tmpstr.c_str());
+	}
+	PHYSFS_freeList(rc);
+}
+
 bool IoSystem::isDirectory(const char *path)
 {
 	PHYSFS_Stat stats;
@@ -129,6 +142,11 @@ void IoSystem::setWriteDir(const char *dir)
 bool IoSystem::mkdir(const char *dir)
 {
 	return PHYSFS_mkdir(dir) != 0;
+}
+
+bool IoSystem::remove(const char *path)
+{
+	return PHYSFS_delete(path) != 0;
 }
 
 void IoSystem::initialize(const char *argv0)
