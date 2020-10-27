@@ -1,5 +1,6 @@
 #include <limits>
 #include <cmath>
+#include <type_traits>
 #include "half.hpp"
 namespace MH33 {
 namespace Util {
@@ -84,6 +85,13 @@ template <> struct _dnorm_ddenorm<double> {
 
 template <typename T> inline double dnormalize(const T& val) { return _dnorm_ddenorm<T>::normalize(val); }
 template <typename T> inline T ddenormalize(const double& val) { return _dnorm_ddenorm<T>::denormalize(val); }
+
+template <typename T1, typename T2> void normalizing_cast(const T1& src, T2& dst) {
+	if constexpr(std::is_same<T1,T2>()) dst = src;
+	else {
+		dst = Util::fdenormalize<T2>(Util::fnormalize(src));
+	}
+}
 
 }
 }

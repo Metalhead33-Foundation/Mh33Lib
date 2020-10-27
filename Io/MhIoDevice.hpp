@@ -48,6 +48,7 @@ public:
 		auto sz = size()-tell();
 		dst.resize(sz+1,0);
 		read(dst.data(),sz);
+		dst.shrink_to_fit();
 	}
 	std::string readAllAsString(void) {
 		std::string tmp;
