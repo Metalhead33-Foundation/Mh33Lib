@@ -35,6 +35,14 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 	size_t read(void* destination, size_t dataSize) { return device.read(destination,dataSize); }
 	Mode getMode() const { return device.getMode(); }
 	// Now come the convenience functions
+	inline DataStream& operator<<(std::nullopt_t ptr) {
+		(void)ptr;
+		return *this;
+	}
+	inline DataStream& operator>>(std::nullopt_t& ptr) {
+		(void)ptr;
+		return *this;
+	}
 	inline DataStream& operator<<(uint8_t data) {
 		device.write(&data,sizeof(uint8_t));
 		return *this;
