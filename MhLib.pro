@@ -2,6 +2,7 @@ QT -= gui
 
 CONFIG += c++2a console
 CONFIG -= app_bundle
+QMAKE_CXXFLAGS += -march=native -mtune=native
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -56,6 +57,10 @@ SOURCES += \
         Media/Image/MhPNG.cpp \
         Media/Image/MhTGA.cpp \
         Media/Image/MhWEBP.cpp \
+        SIMD/private/x86/MhFloat32x4_private.cpp \
+        SIMD/private/x86/MhFloat32x8_private.cpp \
+        SIMD/private/x86/MhFloat64x2_private.cpp \
+        SIMD/private/x86/MhInt32x4_private.cpp \
         Util/MhRNG.cpp \
         Util/MhUUID.cpp \
         main.cpp
@@ -93,6 +98,11 @@ HEADERS += \
 	Media/Image/MhStandardColourFormat.hpp \
 	Media/Image/MhTGA.hpp \
 	Media/Image/MhWEBP.hpp \
+	SIMD/MhSIMD.hpp \
+	SIMD/private/x86/MhFloat32x4_private.hpp \
+	SIMD/private/x86/MhFloat32x8_private.hpp \
+	SIMD/private/x86/MhFloat64x2_private.hpp \
+	SIMD/private/x86/MhInt32x4_private.hpp \
 	Util/MhBuffer.hpp \
 	Util/MhEndianness.hpp \
 	Util/MhIntegralIterator.hpp \

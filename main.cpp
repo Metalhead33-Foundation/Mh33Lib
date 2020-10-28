@@ -1,14 +1,22 @@
 #include <iostream>
-#include <Media/Image/MhStandardColourFormat.hpp>
-#include <decimal/decimal>
+#include <SIMD/MhSIMD.hpp>
+#include <Util/MhRNG.hpp>
 
 int main(int argc, char *argv[])
 {
-	std::decimal::decimal64 z;
-	MH33::GFX::RGB<uint8_t> a = { 122, 66, 20 };
-	MH33::GFX::RGB<uint8_t> b;
-	MH33::GFX::colour_cast(a,b);
-	std::cout << "R: " << reinterpret_cast<size_t>(&b) - reinterpret_cast<size_t>(&a) << std::endl;
+	MH33::Util::RNG rng(31314);
+	MH33::SIMD::Float32x8 avxa;
+	MH33::SIMD::Float32x8 avxb;
+	for(auto& it : avxa) {
+		it = rng.generateFloat();
+	}
+	for(auto& it : avxb) {
+		it = rng.generateFloat();
+	}
+	avxa += avxb;
+	for(const auto& it : avxa) {
+		std::cout << it << std::endl;
+	}
 	return 0;
 }
 
