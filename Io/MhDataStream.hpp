@@ -34,7 +34,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 	size_t write(const void* data, size_t dataSize) { return device.write(data,dataSize); }
 	size_t read(void* destination, size_t dataSize) { return device.read(destination,dataSize); }
 	Mode getMode() const { return device.getMode(); }
-	// Now come the convenience functions
+	// Primitives
 	inline DataStream& operator<<(std::nullopt_t ptr) {
 		(void)ptr;
 		return *this;
@@ -43,6 +43,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		(void)ptr;
 		return *this;
 	}
+#ifdef __UINT8_TYPE__
 	inline DataStream& operator<<(uint8_t data) {
 		device.write(&data,sizeof(uint8_t));
 		return *this;
@@ -51,6 +52,8 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		device.read(&data,sizeof(uint8_t));
 		return *this;
 	}
+#endif
+#ifdef __INT8_TYPE__
 	inline DataStream& operator<<(int8_t data) {
 		device.write(&data,sizeof(int8_t));
 		return *this;
@@ -59,6 +62,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		device.read(&data,sizeof(int8_t));
 		return *this;
 	}
+#endif
 	inline DataStream& operator<<(bool data) {
 		device.write(&data,sizeof(bool));
 		return *this;
@@ -67,6 +71,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		device.read(&data,sizeof(bool));
 		return *this;
 	}
+#ifdef __UINT16_TYPE__
 	inline DataStream& operator<<(uint16_t data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint16_t));
@@ -77,6 +82,8 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#endif
+#ifdef __INT16_TYPE__
 	inline DataStream& operator<<(int16_t data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int16_t));
@@ -87,6 +94,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#endif
 	inline DataStream& operator<<(half_float::half data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(half_float::half));
@@ -97,6 +105,31 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#ifdef __UINT24_TYPE__
+	inline DataStream& operator<<(uint24_t data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(uint24_t));
+		return *this;
+	}
+	inline DataStream& operator>>(uint24_t& data) {
+		device.read(&data,sizeof(uint24_t));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+#endif
+#ifdef __INT24_TYPE__
+	inline DataStream& operator<<(int24_t data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(int24_t));
+		return *this;
+	}
+	inline DataStream& operator>>(int24_t& data) {
+		device.read(&data,sizeof(int24_t));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+#endif
+#ifdef __UINT32_TYPE__
 	inline DataStream& operator<<(uint32_t data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint32_t));
@@ -107,6 +140,8 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#endif
+#ifdef __INT32_TYPE__
 	inline DataStream& operator<<(int32_t data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int32_t));
@@ -117,6 +152,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#endif
 	inline DataStream& operator<<(float data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(float));
@@ -127,6 +163,31 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#ifdef __UINT48_TYPE__
+	inline DataStream& operator<<(uint48_t data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(uint48_t));
+		return *this;
+	}
+	inline DataStream& operator>>(uint48_t& data) {
+		device.read(&data,sizeof(uint48_t));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+#endif
+#ifdef __INT48_TYPE__
+	inline DataStream& operator<<(int48_t data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(int48_t));
+		return *this;
+	}
+	inline DataStream& operator>>(int48_t& data) {
+		device.read(&data,sizeof(int48_t));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+#endif
+#ifdef __UINT64_TYPE__
 	inline DataStream& operator<<(uint64_t data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(uint64_t));
@@ -137,6 +198,8 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#endif
+#ifdef __INT64_TYPE__
 	inline DataStream& operator<<(int64_t data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(int64_t));
@@ -147,6 +210,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#endif
 	inline DataStream& operator<<(double data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(double));
@@ -157,6 +221,61 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+#ifdef __GNUC__
+	inline DataStream& operator<<(unsigned __int128 data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(unsigned __int128));
+		return *this;
+	}
+	inline DataStream& operator>>(unsigned __int128& data) {
+		device.read(&data,sizeof(unsigned __int128));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+	inline DataStream& operator<<(__int128 data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(__int128));
+		return *this;
+	}
+	inline DataStream& operator>>(__int128& data) {
+		device.read(&data,sizeof(__int128));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+#ifdef __STDC_DEC_FP__
+	inline DataStream& operator<<(_Decimal32 data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(_Decimal32));
+		return *this;
+	}
+	inline DataStream& operator>>(_Decimal32& data) {
+		device.read(&data,sizeof(_Decimal32));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+	inline DataStream& operator<<(_Decimal64 data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(_Decimal64));
+		return *this;
+	}
+	inline DataStream& operator>>(_Decimal64& data) {
+		device.read(&data,sizeof(_Decimal64));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+	inline DataStream& operator<<(_Decimal128 data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(_Decimal128));
+		return *this;
+	}
+	inline DataStream& operator>>(_Decimal128& data) {
+		device.read(&data,sizeof(_Decimal128));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+#endif
+#endif
+	// Containers
 	template <typename T, class Traits = std::char_traits<T>, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::basic_string<T,Traits,Allocator>& data) {
 		*this << uint32_t(data.size());
 		if constexpr(sizeof(T) == 1) device.write(data.data(),data.size());
