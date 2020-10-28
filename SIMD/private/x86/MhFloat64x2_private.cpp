@@ -75,6 +75,17 @@ void Float64x2_private::operator=(const double *arr)
 	_data = _mm_load_pd(arr);
 }
 
+void Float64x2_private::operator=(Float64x2_private::InitializerList a)
+{
+	std::copy(a.begin(),a.end(),begin());
+}
+
+Float64x2_private::Float64x2_private(Float64x2_private::InitializerList a)
+	: _data(_mm_setzero_pd())
+{
+	std::copy(a.begin(),a.end(),begin());
+}
+
 void Float64x2_private::operator=(const Float64x2_private::ArrayType &arr)
 {
 	_data = _mm_load_pd(arr.data());
@@ -197,11 +208,11 @@ void Float64x2_private::operator>>=(const Float64x2_private& b) // Maximum
 {
 	_data = _mm_max_sd(_data,b._data);
 }
-Float64x2_private Float64x2_private::operator<<(const Float64x2_private& b) // Minimum
+Float64x2_private Float64x2_private::operator<<(const Float64x2_private& b) const // Minimum
 {
 	return Float64x2_private(_mm_min_pd(_data,b._data));
 }
-Float64x2_private Float64x2_private::operator>>(const Float64x2_private& b) // Maximum
+Float64x2_private Float64x2_private::operator>>(const Float64x2_private& b) const // Maximum
 {
 	return Float64x2_private(_mm_max_pd(_data,b._data));
 }
@@ -226,7 +237,20 @@ double Float64x2_private::vectorialMul(double b) const
 {
 	return storeVectorialSumAs(_data,_mm_set1_pd(b));
 }
+Float64x2_private Float32x4_private::min(const Float64x2_private &a, float b)
+{
+	return min(a,Float64x2_private(b));
+}
 
+Float64x2_private Float64x2_private::max(const Float64x2_private &a, float b)
+{
+	return max(a,Float64x2_private(b));
+}
+
+Float64x2_private Float64x2_private::clamp(const Float64x2_private &a, float _min, float _max)
+{
+	return clamp(a,Float64x2_private(_min),Float64x2_private(_max));
+}
 void Float64x2_private::operator+=(double b)
 {
 	_data = _mm_add_pd(_data,_mm_set1_pd(b));

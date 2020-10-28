@@ -99,6 +99,7 @@ HEADERS += \
 	Media/Image/MhTGA.hpp \
 	Media/Image/MhWEBP.hpp \
 	SIMD/MhSIMD.hpp \
+	SIMD/private/fallback/MhFallbackVector.hpp \
 	SIMD/private/x86/MhFloat32x4_private.hpp \
 	SIMD/private/x86/MhFloat32x8_private.hpp \
 	SIMD/private/x86/MhFloat64x2_private.hpp \

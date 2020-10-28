@@ -3,6 +3,7 @@
 #ifdef __SSE4_1__
 #include <cstdint>
 #include <array>
+#include <initializer_list>
 extern "C" {
 #include <xmmintrin.h>
 #include <emmintrin.h>
@@ -16,10 +17,12 @@ public:
 	typedef float* iterator;
 	typedef const float* const_iterator;
 	typedef std::array<float,4> ArrayType;
+	typedef std::initializer_list<float> InitializerList;
 private:
 	__m128 _data;
 public:
 	Float32x4_private();
+	Float32x4_private(InitializerList a);
 	Float32x4_private(const ArrayType& a);
 	Float32x4_private(const __m128& a);
 	Float32x4_private(float a);
@@ -27,6 +30,7 @@ public:
 	Float32x4_private(float e0, float e1, float e2, float e3);
 	Float32x4_private(const Float32x4_private& cpy); // Copy constructor;
 	void operator=(const Float32x4_private& cpy); // Copy assignment
+	void operator=(InitializerList a);
 	void operator=(float a);
 	void operator=(const float* arr);
 	void operator=(const ArrayType& arr);
@@ -82,8 +86,11 @@ public:
 	Float32x4_private operator-(float b) const;
 	Float32x4_private operator*(float b) const;
 	Float32x4_private operator/(float b) const;
-	Float32x4_private operator<<(float b); // Minimum
-	Float32x4_private operator>>(float b); // Maximum
+	Float32x4_private operator<<(float b) const; // Minimum
+	Float32x4_private operator>>(float b) const; // Maximum
+	static Float32x4_private min(const Float32x4_private& a, float b); // Minimum
+	static Float32x4_private max(const Float32x4_private& a, float b); // Maximum
+	static Float32x4_private clamp(const Float32x4_private& a, float _min, float _max); // Clamp
 	bool operator==(float b) const;
 	bool operator!=(float b) const;
 	bool operator>(float b) const;

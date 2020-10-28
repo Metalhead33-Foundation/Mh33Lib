@@ -13,6 +13,12 @@ Int32x4_private::Int32x4_private()
 
 }
 
+Int32x4_private::Int32x4_private(Int32x4_private::InitializerList a)
+	: _data(_mm_setzero_si128())
+{
+	std::copy(a.begin(),a.end(),begin());
+}
+
 Int32x4_private::Int32x4_private(const Int32x4_private::ArrayType &a)
 	: _data(_mm_lddqu_si128(reinterpret_cast<const __m128i*>(a.data())))
 {
@@ -52,6 +58,11 @@ Int32x4_private::Int32x4_private(const Int32x4_private &cpy)
 void Int32x4_private::operator=(const Int32x4_private &cpy)
 {
 	_data = cpy._data;
+}
+
+void Int32x4_private::operator=(Int32x4_private::InitializerList a)
+{
+	std::copy(a.begin(),a.end(),begin());
 }
 
 void Int32x4_private::operator=(int32_t a)
@@ -172,11 +183,11 @@ bool Int32x4_private::operator<=(const Int32x4_private& b) const
 {
 	return (*this == b) || (*this < b);
 }
-Int32x4_private Int32x4_private::operator<<(const Int32x4_private& b)
+Int32x4_private Int32x4_private::operator<<(const Int32x4_private& b) const
 {
 	return Int32x4_private(_mm_min_epi32(_data,b._data));
 } // Minimum
-Int32x4_private Int32x4_private::operator>>(const Int32x4_private& b)
+Int32x4_private Int32x4_private::operator>>(const Int32x4_private& b) const
 {
 	return Int32x4_private(_mm_max_epi32(_data,b._data));
 } // Maximum
@@ -252,6 +263,21 @@ Int32x4_private Int32x4_private::operator<<(int32_t b)
 Int32x4_private Int32x4_private::operator>>(int32_t b)
 {
 	return Int32x4_private(_mm_max_epi32(_data,_mm_set1_epi32(b)));
+}
+
+Int32x4_private Int32x4_private::min(const Int32x4_private &a, int32_t b)
+{
+	return min(a,Int32x4_private(b));
+}
+
+Int32x4_private Int32x4_private::max(const Int32x4_private &a, int32_t b)
+{
+	return max(a,Int32x4_private(b));
+}
+
+Int32x4_private Int32x4_private::clamp(const Int32x4_private &a, int32_t _min, int32_t _max)
+{
+	return clamp(a,Int32x4_private(_min),Int32x4_private(_max));
 } // Maximum
 bool Int32x4_private::operator==(int32_t b) const
 {

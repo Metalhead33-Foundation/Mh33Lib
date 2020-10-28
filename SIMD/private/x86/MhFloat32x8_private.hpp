@@ -2,7 +2,8 @@
 #define FLOAT32X8_PRIVATE_HPP
 #ifdef __AVX__
 #include <cstdint>
-#include <array>
+#include <array>>
+#include <initializer_list>
 extern "C" {
 #include <immintrin.h>
 }
@@ -14,10 +15,12 @@ public:
 	typedef float* iterator;
 	typedef const float* const_iterator;
 	typedef std::array<float,8> ArrayType;
+	typedef std::initializer_list<float> InitializerList;
 private:
 	__m256 _data;
 public:
 	Float32x8_private();
+	Float32x8_private(InitializerList a);
 	Float32x8_private(const ArrayType& a);
 	Float32x8_private(const __m256& a);
 	Float32x8_private(float a);
@@ -25,6 +28,7 @@ public:
 	Float32x8_private(float e0, float e1, float e2, float e3, float e4, float e5, float e6, float e7);
 	Float32x8_private(const Float32x8_private& cpy); // Copy constructor;
 	void operator=(const Float32x8_private& cpy); // Copy assignment
+	void operator=(InitializerList a);
 	void operator=(float a);
 	void operator=(const float* arr);
 	void operator=(const ArrayType& arr);
@@ -76,12 +80,15 @@ public:
 	void operator/=(float b);
 	void operator<<=(float b); // Minimum
 	void operator>>=(float b); // Maximum
+	static Float32x8_private min(const Float32x8_private& a, float b); // Minimum
+	static Float32x8_private max(const Float32x8_private& a, float b); // Maximum
+	static Float32x8_private clamp(const Float32x8_private& a, float _min, float _max); // Clamp
 	Float32x8_private operator+(float b) const;
 	Float32x8_private operator-(float b) const;
 	Float32x8_private operator*(float b) const;
 	Float32x8_private operator/(float b) const;
-	Float32x8_private operator<<(float b); // Minimum
-	Float32x8_private operator>>(float b); // Maximum
+	Float32x8_private operator<<(float b) const; // Minimum
+	Float32x8_private operator>>(float b) const; // Maximum
 	bool operator==(float b) const;
 	bool operator!=(float b) const;
 	bool operator>(float b) const;

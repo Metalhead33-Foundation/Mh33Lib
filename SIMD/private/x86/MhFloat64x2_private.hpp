@@ -2,7 +2,8 @@
 #define FLOAT64X2_PRIVATE_HPP
 #ifdef __AVX512VL__
 #include <cstdint>
-#include <array>
+#include <array>>
+#include <initializer_list>
 extern "C" {
 #include <xmmintrin.h>
 #include <emmintrin.h>
@@ -20,6 +21,7 @@ private:
 	__m128d _data;
 public:
 	Float64x2_private();
+	Float64x2_private(InitializerList a);
 	Float64x2_private(const ArrayType& a);
 	Float64x2_private(const __m128d& a);
 	Float64x2_private(double a);
@@ -27,6 +29,7 @@ public:
 	Float64x2_private(double e0, double e1);
 	Float64x2_private(const Float64x2_private& cpy); // Copy constructor;
 	void operator=(const Float64x2_private& cpy); // Copy assignment
+	void operator=(InitializerList a);
 	void operator=(double a);
 	void operator=(const double* arr);
 	void operator=(const ArrayType& arr);
@@ -82,8 +85,11 @@ public:
 	Float64x2_private operator-(double b) const;
 	Float64x2_private operator*(double b) const;
 	Float64x2_private operator/(double b) const;
-	Float64x2_private operator<<(double b); // Minimum
-	Float64x2_private operator>>(double b); // Maximum
+	Float64x2_private operator<<(double b) const; // Minimum
+	Float64x2_private operator>>(double b) const; // Maximum
+	static Float64x2_private min(const Float64x2_private& a, float b); // Minimum
+	static Float64x2_private max(const Float64x2_private& a, float b); // Maximum
+	static Float64x2_private clamp(const Float64x2_private& a, float _min, float _max); // Clamp
 	bool operator==(double b) const;
 	bool operator!=(double b) const;
 	bool operator>(double b) const;

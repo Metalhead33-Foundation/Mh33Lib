@@ -23,6 +23,12 @@ Float32x4_private::Float32x4_private()
 
 }
 
+Float32x4_private::Float32x4_private(Float32x4_private::InitializerList a)
+	: _data(_mm_setzero_ps())
+{
+	std::copy(a.begin(),a.end(),begin());
+}
+
 Float32x4_private::Float32x4_private(const Float32x4_private::ArrayType &a)
 	: _data(_mm_load_ps(a.data()))
 {
@@ -62,6 +68,11 @@ Float32x4_private::Float32x4_private(const Float32x4_private &cpy)
 void Float32x4_private::operator=(const Float32x4_private &cpy)
 {
 	_data = cpy._data;
+}
+
+void Float32x4_private::operator=(Float32x4_private::InitializerList a)
+{
+	std::copy(a.begin(),a.end(),begin());
 }
 
 void Float32x4_private::operator=(float a)
@@ -279,13 +290,28 @@ void Float32x4_private::operator>>=(float b) // Maximum
 {
 	_data = _mm_max_ps(_data,_mm_set1_ps(b));
 }
-Float32x4_private Float32x4_private::operator<<(float b) // Minimum
+Float32x4_private Float32x4_private::operator<<(float b) const // Minimum
 {
 	return Float32x4_private(_mm_min_ps(_data,_mm_set1_ps(b)));
 }
-Float32x4_private Float32x4_private::operator>>(float b) // Maximum
+Float32x4_private Float32x4_private::operator>>(float b) const // Maximum
 {
 	return Float32x4_private(_mm_max_ps(_data,_mm_set1_ps(b)));
+}
+
+Float32x4_private Float32x4_private::min(const Float32x4_private &a, float b)
+{
+	return min(a,Float32x4_private(b));
+}
+
+Float32x4_private Float32x4_private::max(const Float32x4_private &a, float b)
+{
+	return max(a,Float32x4_private(b));
+}
+
+Float32x4_private Float32x4_private::clamp(const Float32x4_private &a, float _min, float _max)
+{
+	return clamp(a,Float32x4_private(_min),Float32x4_private(_max));
 }
 
 bool Float32x4_private::operator==(const Float32x4_private& b) const
