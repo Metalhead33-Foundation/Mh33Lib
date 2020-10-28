@@ -1,8 +1,10 @@
 #include <iostream>
 #include <Media/Image/MhStandardColourFormat.hpp>
+#include <decimal/decimal>
 
 int main(int argc, char *argv[])
 {
+	std::decimal::decimal64 z;
 	MH33::GFX::RGB<uint8_t> a = { 122, 66, 20 };
 	MH33::GFX::RGB<uint8_t> b;
 	MH33::GFX::colour_cast(a,b);

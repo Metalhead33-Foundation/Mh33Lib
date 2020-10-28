@@ -17,6 +17,9 @@
 #endif
 #include <stack>
 #include <queue>
+#ifdef __GNUC__
+#include <decimal/decimal>
+#endif
 
 namespace MH33 {
 namespace Io {
@@ -242,38 +245,36 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
-#ifdef __STDC_DEC_FP__
-	inline DataStream& operator<<(_Decimal32 data) {
+	inline DataStream& operator<<(std::decimal::decimal32 data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
-		device.write(&data,sizeof(_Decimal32));
+		device.write(&data,sizeof(std::decimal::decimal32));
 		return *this;
 	}
-	inline DataStream& operator>>(_Decimal32& data) {
-		device.read(&data,sizeof(_Decimal32));
+	inline DataStream& operator>>(std::decimal::decimal32& data) {
+		device.read(&data,sizeof(std::decimal::decimal32));
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
-	inline DataStream& operator<<(_Decimal64 data) {
+	inline DataStream& operator<<(std::decimal::decimal64 data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
-		device.write(&data,sizeof(_Decimal64));
+		device.write(&data,sizeof(std::decimal::decimal64));
 		return *this;
 	}
-	inline DataStream& operator>>(_Decimal64& data) {
-		device.read(&data,sizeof(_Decimal64));
+	inline DataStream& operator>>(std::decimal::decimal64& data) {
+		device.read(&data,sizeof(std::decimal::decimal64));
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
-	inline DataStream& operator<<(_Decimal128 data) {
+	inline DataStream& operator<<(std::decimal::decimal128 data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
-		device.write(&data,sizeof(_Decimal128));
+		device.write(&data,sizeof(std::decimal::decimal128));
 		return *this;
 	}
-	inline DataStream& operator>>(_Decimal128& data) {
-		device.read(&data,sizeof(_Decimal128));
+	inline DataStream& operator>>(std::decimal::decimal128& data) {
+		device.read(&data,sizeof(std::decimal::decimal128));
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
-#endif
 #endif
 	// Containers
 	template <typename T, class Traits = std::char_traits<T>, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::basic_string<T,Traits,Allocator>& data) {
