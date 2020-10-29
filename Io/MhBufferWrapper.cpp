@@ -72,6 +72,11 @@ Mode BufferWrapper::getMode() const
 	return Mode::READ_WRITE;
 }
 
+bool BufferWrapper::isValid() const
+{
+	return true;
+}
+
 void BufferWrapper::yield(Util::Buffer &target)
 {
 	target = std::move(buffer);

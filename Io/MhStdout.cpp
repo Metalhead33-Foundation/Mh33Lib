@@ -47,5 +47,10 @@ Mode Stdout::getMode() const
 	return Mode::APPEND;
 }
 
+bool Stdout::isValid() const
+{
+	return true;
+}
+
 }
 }

@@ -33,6 +33,7 @@ public:
 	size_t write(const void* data, size_t dataSize);
 	size_t read(void* destination, size_t dataSize);
 	Mode getMode() const;
+	bool isValid() const;
 	void yield(Util::Buffer& target);
 };
 

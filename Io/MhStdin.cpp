@@ -46,5 +46,10 @@ Mode Stdin::getMode() const
 	return Mode::READ;
 }
 
+bool Stdin::isValid() const
+{
+	return true;
+}
+
 }
 }

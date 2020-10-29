@@ -33,6 +33,7 @@ public:
 	virtual size_t write(const void* data, size_t dataSize) = 0;
 	virtual size_t read(void* destination, size_t dataSize) = 0;
 	virtual Mode getMode() const = 0;
+	virtual bool isValid() const = 0;
 	// A convenience function
 	void readAll(Util::Buffer& dst) {
 		auto sz = size()-tell();

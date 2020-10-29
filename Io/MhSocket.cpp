@@ -46,5 +46,10 @@ Mode Socket::getMode() const
 {
 	return mode;
 }
+
+bool Socket::isValid() const
+{
+	return impl != nullptr;
+}
 }
 }

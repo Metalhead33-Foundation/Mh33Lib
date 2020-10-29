@@ -1,4 +1,5 @@
 #include "MhFile.hpp"
+#include <cassert>
 namespace MH33 {
 namespace Io {
 
@@ -73,11 +74,13 @@ File::File(const std::string &path, Mode mode)
 
 bool File::flush()
 {
+	assert(fdev);
 	return fflush(fdev) == 0;
 }
 
 bool File::seek(SeekOrigin whence, intptr_t offset)
 {
+	assert(fdev);
 	switch (whence) {
 	case SeekOrigin::CUR:
 		return fseek(fdev,offset,SEEK_CUR) == 0;
@@ -91,11 +94,13 @@ bool File::seek(SeekOrigin whence, intptr_t offset)
 
 intptr_t File::tell()
 {
+	assert(fdev);
 	return ftell(fdev);
 }
 
 intptr_t File::size()
 {
+	assert(fdev);
 	auto originalPos = ftell(fdev);
 	fseek(fdev,0,SEEK_END);
 	auto theEnd = ftell(fdev);
@@ -105,17 +110,24 @@ intptr_t File::size()
 
 size_t File::write(const void *data, size_t dataSize)
 {
+	assert(fdev);
 	return fwrite(data,1,dataSize,fdev);
 }
 
 size_t File::read(void *destination, size_t dataSize)
 {
+	assert(fdev);
 	return fread(destination,1,dataSize,fdev);
 }
 
 Mode File::getMode() const
 {
 	return mode;
+}
+
+bool File::isValid() const
+{
+	return fdev != nullptr;
 }
 
 }

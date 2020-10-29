@@ -2,6 +2,7 @@
 #include <gif_lib.h>
 #include <memory>
 #include <cstring>
+#include <cassert>
 
 namespace MH33 {
 namespace GFX {
@@ -11,6 +12,8 @@ static int LATEST_ERROR;
 static void CLOSE_GIF(GifFileType* ptr) { DGifCloseFile(ptr,&LATEST_ERROR); }
 static int GIF_INPUT(GifFileType* container, GifByteType* buffer, int size)
 {
+	assert(container);
+	assert(container->UserData);
 	if(!container) return -1;
 	Io::Device* filehandle = reinterpret_cast<Io::Device*>(container->UserData);
 	if(!filehandle) return -1;

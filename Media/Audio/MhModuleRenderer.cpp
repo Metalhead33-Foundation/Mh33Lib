@@ -1,5 +1,6 @@
 #include "MhModuleRenderer.hpp"
 #include <libopenmpt/libopenmpt.h>
+#include <cassert>
 
 size_t vfio_openmpt_read( void *stream, void *dst, size_t bytes );
 int vfio_openmpt_seek( void *stream, int64_t offset, int whence );
@@ -32,6 +33,7 @@ ModuleRenderer::~ModuleRenderer()
 
 ModuleRenderer::ModuleRenderer(const Io::sDevice &iodev) : handle(nullptr), iodev(iodev)
 {
+	assert(this->iodev);
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
 										nullptr, nullptr, nullptr, nullptr,
@@ -41,6 +43,7 @@ ModuleRenderer::ModuleRenderer(const Io::sDevice &iodev) : handle(nullptr), iode
 
 ModuleRenderer::ModuleRenderer(Io::sDevice &&iodev) : handle(nullptr), iodev(std::move(iodev))
 {
+	assert(this->iodev);
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
 										nullptr, nullptr, nullptr, nullptr,
@@ -50,6 +53,7 @@ ModuleRenderer::ModuleRenderer(Io::sDevice &&iodev) : handle(nullptr), iodev(std
 
 ModuleRenderer::ModuleRenderer(Io::DeviceCreator iodev_creator, Io::Mode mode) : handle(nullptr), iodev(iodev_creator(mode))
 {
+	assert(this->iodev);
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
 										nullptr, nullptr, nullptr, nullptr,
@@ -60,6 +64,7 @@ ModuleRenderer::ModuleRenderer(Io::DeviceCreator iodev_creator, Io::Mode mode) :
 ModuleRenderer::ModuleRenderer(Io::System &iosys, const char *path, Io::Mode mode)
 	: handle(nullptr), iodev(iosys.open(path,mode))
 {
+	assert(this->iodev);
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
 										nullptr, nullptr, nullptr, nullptr,
@@ -70,6 +75,7 @@ ModuleRenderer::ModuleRenderer(Io::System &iosys, const char *path, Io::Mode mod
 ModuleRenderer::ModuleRenderer(Io::System &iosys, const std::string &path, Io::Mode mode)
 	: handle(nullptr), iodev(iosys.open(path,mode))
 {
+	assert(this->iodev);
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
 										nullptr, nullptr, nullptr, nullptr,
@@ -78,121 +84,198 @@ ModuleRenderer::ModuleRenderer(Io::System &iosys, const std::string &path, Io::M
 }
 // Getters and setters
 void ModuleRenderer::setSubsong( int32_t subsong ) {
-	openmpt_module_select_subsong(MODULE_HDNL,subsong);
+	assert(handle);
+	if(handle) openmpt_module_select_subsong(MODULE_HDNL,subsong);
 }
 int32_t ModuleRenderer::getSubsong( ) const {
-	return openmpt_module_get_selected_subsong(MODULE_HDNL);
+	assert(handle);
+	if(handle) return openmpt_module_get_selected_subsong(MODULE_HDNL);
+	else return 0;
 }
 void ModuleRenderer::setRepeating( bool value ) {
-	openmpt_module_set_repeat_count(MODULE_HDNL, value ? -1 : 0);
+	assert(handle);
+	if(handle) openmpt_module_set_repeat_count(MODULE_HDNL, value ? -1 : 0);
 }
 bool ModuleRenderer::isRepeating( ) const {
-	return openmpt_module_get_repeat_count(MODULE_HDNL) != 0;
+	assert(handle);
+	if(handle) return openmpt_module_get_repeat_count(MODULE_HDNL) != 0;
+	else return false;
 }
 double ModuleRenderer::getDuration( ) const {
-	return openmpt_module_get_duration_seconds(MODULE_HDNL);
+	assert(handle);
+	if(handle) return openmpt_module_get_duration_seconds(MODULE_HDNL);
+	else return 0.0;
 }
 double ModuleRenderer::setPosition( double seconds ) {
-	return openmpt_module_set_position_seconds(MODULE_HDNL,seconds);
+	assert(handle);
+	if(handle) return openmpt_module_set_position_seconds(MODULE_HDNL,seconds);
+	else return 0.0;
 }
 double ModuleRenderer::getPosition( ) const {
-	return openmpt_module_get_position_seconds(MODULE_HDNL);
+	assert(handle);
+	if(handle) return openmpt_module_get_position_seconds(MODULE_HDNL);
+	else return 0.0;
 }
 void ModuleRenderer::setMasterGain(int32_t	value ) {
-	openmpt_module_set_render_param( MODULE_HDNL, OPENMPT_MODULE_RENDER_MASTERGAIN_MILLIBEL, value);
+	assert(handle);
+	if(handle) openmpt_module_set_render_param( MODULE_HDNL, OPENMPT_MODULE_RENDER_MASTERGAIN_MILLIBEL, value);
 } // set_render_param(OPENMPT_MODULE_RENDER_MASTERGAIN_MILLIBEL)
 int32_t ModuleRenderer::getMasterGain( ) const {
-	int32_t val;
-	openmpt_module_get_render_param(MODULE_HDNL,OPENMPT_MODULE_RENDER_MASTERGAIN_MILLIBEL,&val);
+	int32_t val = 0;
+	if(handle) openmpt_module_get_render_param(MODULE_HDNL,OPENMPT_MODULE_RENDER_MASTERGAIN_MILLIBEL,&val);
 	return val;
 } // get_render_param(OPENMPT_MODULE_RENDER_MASTERGAIN_MILLIBEL)
 void ModuleRenderer::setStereoSeparation(int32_t value ) {
-	openmpt_module_set_render_param( MODULE_HDNL, OPENMPT_MODULE_RENDER_STEREOSEPARATION_PERCENT, value);
+	assert(handle);
+	if(handle) openmpt_module_set_render_param( MODULE_HDNL, OPENMPT_MODULE_RENDER_STEREOSEPARATION_PERCENT, value);
 } // set_render_param(OPENMPT_MODULE_RENDER_STEREOSEPARATION_PERCENT)
 int32_t ModuleRenderer::getStereoSeparation( ) const {
-	int32_t val;
-	openmpt_module_get_render_param(MODULE_HDNL,OPENMPT_MODULE_RENDER_STEREOSEPARATION_PERCENT,&val);
+	assert(handle);
+	int32_t val = 0;
+	if(handle) openmpt_module_get_render_param(MODULE_HDNL,OPENMPT_MODULE_RENDER_STEREOSEPARATION_PERCENT,&val);
 	return val;
 } // get_render_param(OPENMPT_MODULE_RENDER_STEREOSEPARATION_PERCENT)
 void ModuleRenderer::setInterpolationFilter(int32_t	value ) {
-	openmpt_module_set_render_param( MODULE_HDNL, OPENMPT_MODULE_RENDER_INTERPOLATIONFILTER_LENGTH, value);
+	assert(handle);
+	if(handle) openmpt_module_set_render_param( MODULE_HDNL, OPENMPT_MODULE_RENDER_INTERPOLATIONFILTER_LENGTH, value);
 } // set_render_param(OPENMPT_MODULE_RENDER_INTERPOLATIONFILTER_LENGTH)
 int32_t ModuleRenderer::getInterpolationFilter( ) const {
-	int32_t val;
-	openmpt_module_get_render_param(MODULE_HDNL,OPENMPT_MODULE_RENDER_INTERPOLATIONFILTER_LENGTH,&val);
+	assert(handle);
+	int32_t val = 0;
+	if(handle) openmpt_module_get_render_param(MODULE_HDNL,OPENMPT_MODULE_RENDER_INTERPOLATIONFILTER_LENGTH,&val);
 	return val;
 } // get_render_param(OPENMPT_MODULE_RENDER_INTERPOLATIONFILTER_LENGTH)
 void ModuleRenderer::setVolumeRamping(int32_t value ) {
-	openmpt_module_set_render_param( MODULE_HDNL, OPENMPT_MODULE_RENDER_VOLUMERAMPING_STRENGTH, value);
+	assert(handle);
+	if(handle) openmpt_module_set_render_param( MODULE_HDNL, OPENMPT_MODULE_RENDER_VOLUMERAMPING_STRENGTH, value);
 } // set_render_param(OPENMPT_MODULE_RENDER_VOLUMERAMPING_STRENGTH)
 int32_t ModuleRenderer::getVolumeRamping( )	const {
-	int32_t val;
-	openmpt_module_get_render_param(MODULE_HDNL,OPENMPT_MODULE_RENDER_VOLUMERAMPING_STRENGTH,&val);
+	assert(handle);
+	int32_t val = 0;
+	if(handle) openmpt_module_get_render_param(MODULE_HDNL,OPENMPT_MODULE_RENDER_VOLUMERAMPING_STRENGTH,&val);
 	return val;
 } // get_render_param(OPENMPT_MODULE_RENDER_VOLUMERAMPING_STRENGTH)
 // Metadata
 const char* ModuleRenderer::getType( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"type");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"type");
+	else return nullptr;
 }         // get_metadata('type')
 const char* ModuleRenderer::getTypeLong( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"type_long");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"type_long");
+	else return nullptr;
 }     // get_metadata('type_long')
 const char* ModuleRenderer::getOriginalType( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"originaltype");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"originaltype");
+	else return nullptr;
 } // get_metadata('originaltype')
 const char* ModuleRenderer::getOriginalTypeLong( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"originaltype_long");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"originaltype_long");
+	else return nullptr;
 }      // get_metadata('originaltype_long')
 const char* ModuleRenderer::getContainer( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"container");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"container");
+	else return nullptr;
 } // get_metadata('container')
 const char* ModuleRenderer::getContainerLong( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"container_long");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"container_long");
+	else return nullptr;
 } // get_metadata('container_long')
 const char* ModuleRenderer::getTracker( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"tracker");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"tracker");
+	else return nullptr;
 }       // get_metadata('tracker')
 const char* ModuleRenderer::getArtist( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"artist");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"artist");
+	else return nullptr;
 }        // get_metadata('artist')
 const char* ModuleRenderer::getTitle( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"title");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"title");
+	else return nullptr;
 }         // get_metadata('title')
 const char* ModuleRenderer::getDate( ) const {
-	return openmpt_module_get_metadata(MODULE_HDNL,"date");
+	assert(handle);
+	if(handle) return openmpt_module_get_metadata(MODULE_HDNL,"date");
+	else return nullptr;
 }          // get_metadata('date')
 // Rendering
 FrameCount ModuleRenderer::readMono(FrameRate framerate, FrameCount frames, int16_t *mono ) {
-	return FrameCount(openmpt_module_read_mono(MODULE_HDNL,framerate.var,frames.var,mono));
+	assert(handle);
+	assert(mono);
+	if(handle) return FrameCount(openmpt_module_read_mono(MODULE_HDNL,framerate.var,frames.var,mono));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readMono( FrameRate framerate, FrameCount frames, float *mono ) {
-	return FrameCount(openmpt_module_read_float_mono(MODULE_HDNL,framerate.var,frames.var,mono));
+	assert(handle);
+	assert(mono);
+	if(handle) return FrameCount(openmpt_module_read_float_mono(MODULE_HDNL,framerate.var,frames.var,mono));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readStereo(FrameRate framerate, FrameCount frames, int16_t *left, int16_t *right ) {
-	return FrameCount(openmpt_module_read_stereo(MODULE_HDNL,framerate.var,frames.var,left,right));
+	assert(handle);
+	assert(left);
+	assert(right);
+	if(handle) return FrameCount(openmpt_module_read_stereo(MODULE_HDNL,framerate.var,frames.var,left,right));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readStereo( FrameRate framerate, FrameCount frames, float *left, float *right ) {
-	return FrameCount(openmpt_module_read_float_stereo(MODULE_HDNL,framerate.var,frames.var,left,right));
+	assert(handle);
+	assert(left);
+	assert(right);
+	if(handle) return FrameCount(openmpt_module_read_float_stereo(MODULE_HDNL,framerate.var,frames.var,left,right));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readQuad( FrameRate framerate, FrameCount frames, int16_t *left,
 								int16_t *right, int16_t *rear_left,	int16_t *rear_right ) {
-	return FrameCount(openmpt_module_read_quad(MODULE_HDNL,framerate.var,frames.var,left,right,rear_left,rear_right));
+	assert(handle);
+	assert(left);
+	assert(right);
+	assert(rear_left);
+	assert(rear_right);
+	if(handle) return FrameCount(openmpt_module_read_quad(MODULE_HDNL,framerate.var,frames.var,left,right,rear_left,rear_right));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readQuad( FrameRate framerate, FrameCount frames, float *left,
 								float *right, float *rear_left, float *rear_right ) {
-	return FrameCount(openmpt_module_read_float_quad(MODULE_HDNL,framerate.var,frames.var,left,right,rear_left,rear_right));
+	assert(handle);
+	assert(left);
+	assert(right);
+	assert(rear_left);
+	assert(rear_right);
+	if(handle) return FrameCount(openmpt_module_read_float_quad(MODULE_HDNL,framerate.var,frames.var,left,right,rear_left,rear_right));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readInterleavedStereo( FrameRate framerate, FrameCount frames, int16_t *interleaved_stereo ) {
-	return FrameCount(openmpt_module_read_interleaved_stereo(MODULE_HDNL,framerate.var,frames.var,interleaved_stereo));
+	assert(handle);
+	assert(interleaved_stereo);
+	if(handle) return FrameCount(openmpt_module_read_interleaved_stereo(MODULE_HDNL,framerate.var,frames.var,interleaved_stereo));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readInterleavedStereo( FrameRate framerate, FrameCount frames, float *interleaved_stereo ) {
-	return FrameCount(openmpt_module_read_interleaved_float_stereo(MODULE_HDNL,framerate.var,frames.var,interleaved_stereo));
+	assert(handle);
+	assert(interleaved_stereo);
+	if(handle) return FrameCount(openmpt_module_read_interleaved_float_stereo(MODULE_HDNL,framerate.var,frames.var,interleaved_stereo));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readInterleavedQuad( FrameRate framerate, FrameCount frames, int16_t *interleaved_quad ) {
-	return FrameCount(openmpt_module_read_interleaved_quad(MODULE_HDNL,framerate.var,frames.var,interleaved_quad));
+	assert(handle);
+	assert(interleaved_quad);
+	if(handle) return FrameCount(openmpt_module_read_interleaved_quad(MODULE_HDNL,framerate.var,frames.var,interleaved_quad));
+	else return FrameCount(0);
 }
 FrameCount ModuleRenderer::readInterleavedQuad( FrameRate framerate, FrameCount frames, float *interleaved_quad ) {
-	return FrameCount(openmpt_module_read_interleaved_float_quad(MODULE_HDNL,framerate.var,frames.var,interleaved_quad));
+	assert(handle);
+	assert(interleaved_quad);
+	if(handle) return FrameCount(openmpt_module_read_interleaved_float_quad(MODULE_HDNL,framerate.var,frames.var,interleaved_quad));
+	else return FrameCount(0);
 }
 
 
@@ -200,10 +283,13 @@ FrameCount ModuleRenderer::readInterleavedQuad( FrameRate framerate, FrameCount 
 }
 
 size_t vfio_openmpt_read( void *stream, void *dst, size_t bytes ) {
+	assert(stream);
+	assert(dst);
 	return size_t( reinterpret_cast< MH33::Io::Device* >( stream )->read(
 		dst, int64_t( bytes ) ) );
 }
 int vfio_openmpt_seek( void *stream, int64_t offset, int whence ) {
+	assert(stream);
 	MH33::Io::Device* chandle = reinterpret_cast< MH33::Io::Device* >( stream );
 	switch ( whence ) {
 	case OPENMPT_STREAM_SEEK_SET:
@@ -217,5 +303,6 @@ int vfio_openmpt_seek( void *stream, int64_t offset, int whence ) {
 	}
 }
 int64_t vfio_openmpt_tell( void *stream ) {
+	assert(stream);
 	return int64_t( reinterpret_cast< MH33::Io::Device* >( stream )->tell( ) );
 }

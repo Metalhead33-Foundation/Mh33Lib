@@ -1,5 +1,6 @@
 #include "MhCompressor.hpp"
 #include <zstd.h>
+#include <cassert>
 
 #define MCHANDLE reinterpret_cast<ZSTD_CCtx*>(handle)
 
@@ -71,6 +72,7 @@ Compressor::~Compressor()
 
 void Compressor::compress()
 {
+	assert(handle);
 	for (;;) {
 		const size_t read = input->read(inBuff.data(),inBuff.size());
 		const bool lastChunk = read < inBuff.size();
@@ -91,6 +93,7 @@ void Compressor::compress()
 
 void Compressor::setCompressionLevel(float value)
 {
+	assert(handle);
 	auto bounds = ZSTD_cParam_getBounds(ZSTD_c_compressionLevel);
 	const float range = float(bounds.upperBound) - float(bounds.lowerBound);
 	int nval = int( (value*range)+float(bounds.lowerBound) );
@@ -99,6 +102,7 @@ void Compressor::setCompressionLevel(float value)
 
 void Compressor::setChecksum(bool value)
 {
+	assert(handle);
 	ZSTD_CCtx_setParameter(MCHANDLE,ZSTD_c_checksumFlag,value);
 }
 

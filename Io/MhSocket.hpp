@@ -35,6 +35,7 @@ public:
 	size_t write(const void* data, size_t dataSize);
 	size_t read(void* destination, size_t dataSize);
 	MH33::Io::Mode getMode() const;
+	bool isValid() const;
 };
 
 }

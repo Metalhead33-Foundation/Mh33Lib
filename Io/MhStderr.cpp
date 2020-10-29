@@ -46,5 +46,10 @@ Mode Stderr::getMode() const
 	return Mode::APPEND;
 }
 
+bool Stderr::isValid() const
+{
+	return true;
+}
+
 }
 }

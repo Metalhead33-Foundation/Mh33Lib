@@ -1,5 +1,6 @@
 #include "MhDecompressor.hpp"
 #include <zstd.h>
+#include <cassert>
 
 #define MHDHANDLE reinterpret_cast<ZSTD_DCtx*>(handle)
 
@@ -69,6 +70,7 @@ Decompressor::~Decompressor()
 
 void Decompressor::decompress()
 {
+	assert(handle);
 	if(!input || !output) return;
 	size_t read = 0;
 	size_t lastRet = 0;

@@ -36,6 +36,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 	intptr_t size() { return device.size(); }
 	size_t write(const void* data, size_t dataSize) { return device.write(data,dataSize); }
 	size_t read(void* destination, size_t dataSize) { return device.read(destination,dataSize); }
+	bool isValid() const { return device.isValid(); }
 	Mode getMode() const { return device.getMode(); }
 	// Primitives
 	inline DataStream& operator<<(std::nullopt_t ptr) {
