@@ -18,6 +18,9 @@ private:
 	uint32_t seed;
 public:
 	RNG(uint32_t seed=0);
+	RNG(const RNG& cpy);
+	RNG& operator=(uint32_t seed);
+	RNG& operator=(const RNG& cpy);
 	uint32_t getSeed() const;
 	void setSeed(uint32_t value);
 

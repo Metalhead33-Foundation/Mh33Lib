@@ -18,6 +18,21 @@ RNG::RNG(uint32_t seed) : seed(seed)
 
 }
 
+RNG::RNG(const RNG &cpy) : seed(cpy.seed)
+{
+
+}
+
+RNG &RNG::operator=(uint32_t seed)
+{
+	this->seed = seed;
+}
+
+RNG &RNG::operator=(const RNG &cpy)
+{
+	this->seed = cpy.seed;
+}
+
 uint32_t RNG::generate()
 {
 	seed += 0xe120fc15;

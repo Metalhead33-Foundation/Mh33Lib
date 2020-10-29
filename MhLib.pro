@@ -36,6 +36,7 @@ LIBS += -lzstd
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Gimmick/MhWordGenerator.cpp \
         Io/MhBufferWrapper.cpp \
         Io/MhCompressor.cpp \
         Io/MhDecompressor.cpp \
@@ -71,6 +72,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+	Gimmick/MhWordGenerator.hpp \
 	Io/MhBufferWrapper.hpp \
 	Io/MhCompressor.hpp \
 	Io/MhDataStream.hpp \
