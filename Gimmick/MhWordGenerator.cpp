@@ -51,7 +51,7 @@ std::string WordGenerator::generate(unsigned minLength, unsigned maxLength, Capi
 	unsigned consonantCounter = 0;
 	std::stringstream stream;
 	for(unsigned i = 0; i < len; ++i) {
-		stream << getCharacter(rng,vowelCounter,consonantCounter,i);
+		stream << getCharacter(rng,vowelCounter,consonantCounter,i == 0);
 	}
 	switch (capitalizationPolicy) {
 	case CapitalizationPolicy::DONT: return stream.str();
