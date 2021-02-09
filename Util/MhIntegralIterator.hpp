@@ -6,7 +6,7 @@ namespace Util {
 template <typename T> struct IntegralIterator {
 	typedef T dataType;
 	dataType var;
-	explicit IntegralIterator(dataType nvar=0) : var(nvar) {
+	IntegralIterator(dataType nvar=0) : var(nvar) {
 
 	}
 	IntegralIterator(const IntegralIterator& cpy) : var(cpy.var) {
@@ -40,47 +40,28 @@ template <typename T> struct IntegralIterator {
 	// Overloaded operators - new data
 	inline IntegralIterator operator+(const IntegralIterator& other) const {
 		IntegralIterator a(*this);
-		a += other.var;
+		a.var += other.var;
 		return a;
 	}
 	inline IntegralIterator operator-(const IntegralIterator& other) const {
 		IntegralIterator a(*this);
-		a -= other.var;
+		a.var -= other.var;
 		return a;
 	}
 	inline IntegralIterator operator*(const IntegralIterator& other) const {
 		IntegralIterator a(*this);
-		a *= other.var;
+		a.var *= other.var;
 		return a;
 	}
 	inline IntegralIterator operator/(const IntegralIterator& other) const {
 		IntegralIterator a(*this);
-		a /= other.var;
+		a.var /= other.var;
 		return a;
 	}
 	inline IntegralIterator operator%(const IntegralIterator& other) const {
 		IntegralIterator a(*this);
-		a %= other.var;
+		a.var %= other.var;
 		return a;
-	}
-	// Overloaded operators - Comparisons
-	inline bool operator==(const IntegralIterator& other) {
-		return this->var == other.var;
-	}
-	inline bool operator!=(const IntegralIterator& other) {
-		return this->var != other.var;
-	}
-	inline bool operator<(const IntegralIterator& other) {
-		return this->var < other.var;
-	}
-	inline bool operator<=(const IntegralIterator& other) {
-		return this->var <= other.var;
-	}
-	inline bool operator>(const IntegralIterator& other) {
-		return this->var > other.var;
-	}
-	inline bool operator>=(const IntegralIterator& other) {
-		return this->var >= other.var;
 	}
 	// Iterator-like functionality
 	inline IntegralIterator& operator++() { ++var; return *this;}
@@ -90,6 +71,25 @@ template <typename T> struct IntegralIterator {
 	inline dataType& operator*() { return var; }
 	inline const dataType& operator*() const { return var; }
 };
+// Overloaded operators - Comparisons
+template <typename T> inline bool operator==(const IntegralIterator<T>& lhs, const IntegralIterator<T>& rhs) {
+	return lhs.var == rhs.var;
+}
+template <typename T> inline bool operator!=(const IntegralIterator<T>& lhs, const IntegralIterator<T>& rhs) {
+	return lhs.var != rhs.var;
+}
+template <typename T> inline bool operator<(const IntegralIterator<T>& lhs, const IntegralIterator<T>& rhs) {
+	return lhs.var < rhs.var;
+}
+template <typename T> inline bool operator<=(const IntegralIterator<T>& lhs, const IntegralIterator<T>& rhs) {
+	return lhs.var <= rhs.var;
+}
+template <typename T> inline bool operator>(const IntegralIterator<T>& lhs, const IntegralIterator<T>& rhs) {
+	return lhs.var > rhs.var;
+}
+template <typename T> inline bool operator>=(const IntegralIterator<T>& lhs, const IntegralIterator<T>& rhs) {
+	return lhs.var >= rhs.var;
+}
 template <typename T> struct IntegralIterable {
 	typedef T dataType;
 	dataType var;
@@ -133,47 +133,47 @@ template <typename T> struct IntegralIterable {
 	}
 	inline IntegralIterable operator-(const IntegralIterable& other) const {
 		IntegralIterable a(*this);
-		a -= other.var;
+		a.var -= other.var;
 		return a;
 	}
 	inline IntegralIterable operator*(const IntegralIterable& other) const {
 		IntegralIterable a(*this);
-		a *= other.var;
+		a.var *= other.var;
 		return a;
 	}
 	inline IntegralIterable operator/(const IntegralIterable& other) const {
 		IntegralIterable a(*this);
-		a /= other.var;
+		a.var /= other.var;
 		return a;
 	}
 	inline IntegralIterable operator%(const IntegralIterable& other) const {
 		IntegralIterable a(*this);
-		a %= other.var;
+		a.var %= other.var;
 		return a;
-	}
-	// Overloaded operators - Comparisons
-	inline bool operator==(const IntegralIterable& other) {
-		return this->var == other.var;
-	}
-	inline bool operator!=(const IntegralIterable& other) {
-		return this->var != other.var;
-	}
-	inline bool operator<(const IntegralIterable& other) {
-		return this->var < other.var;
-	}
-	inline bool operator<=(const IntegralIterable& other) {
-		return this->var <= other.var;
-	}
-	inline bool operator>(const IntegralIterable& other) {
-		return this->var > other.var;
-	}
-	inline bool operator>=(const IntegralIterable& other) {
-		return this->var >= other.var;
 	}
 	// Iterators
 	inline iterator begin() const { return iterator(0); }
 	inline iterator end() const { return iterator(var); }
 };
+// Overloaded operators - Comparisons
+template <typename T> inline bool operator==(const IntegralIterable<T>& lhs, const IntegralIterable<T>& rhs) {
+	return lhs.var == rhs.var;
+}
+template <typename T> inline bool operator!=(const IntegralIterable<T>& lhs, const IntegralIterable<T>& rhs) {
+	return lhs.var != rhs.var;
+}
+template <typename T> inline bool operator<(const IntegralIterable<T>& lhs, const IntegralIterable<T>& rhs) {
+	return lhs.var < rhs.var;
+}
+template <typename T> inline bool operator<=(const IntegralIterable<T>& lhs, const IntegralIterable<T>& rhs) {
+	return lhs.var <= rhs.var;
+}
+template <typename T> inline bool operator>(const IntegralIterable<T>& lhs, const IntegralIterable<T>& rhs) {
+	return lhs.var > rhs.var;
+}
+template <typename T> inline bool operator>=(const IntegralIterable<T>& lhs, const IntegralIterable<T>& rhs) {
+	return lhs.var >= rhs.var;
+}
 
 }
 }

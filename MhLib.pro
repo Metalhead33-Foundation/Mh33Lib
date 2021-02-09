@@ -49,6 +49,12 @@ SOURCES += \
         Io/private/MhSocketUnix.cpp \
         IoSys/MhFilesystem.cpp \
         IoSys/PhysFSIoSystem.cpp \
+        Media/AdvancedAudio/MhAudioBuffer.cpp \
+        Media/AdvancedAudio/MhAudioError.cpp \
+        Media/AdvancedAudio/MhAudioMixer.cpp \
+        Media/AdvancedAudio/MhAudioStreamer.cpp \
+        Media/AdvancedAudio/MhModulePlayer.cpp \
+        Media/AdvancedAudio/MhSoundSource.cpp \
         Media/Audio/MhModuleRenderer.cpp \
         Media/Audio/MhResampler.cpp \
         Media/Audio/MhSoundFile.cpp \
@@ -90,6 +96,15 @@ HEADERS += \
 	IoSys/MhFilesystem.hpp \
 	IoSys/MhIoSystem.hpp \
 	IoSys/PhysFSIoSystem.hpp \
+	Media/AdvancedAudio/MhAudioBuffer.hpp \
+	Media/AdvancedAudio/MhAudioError.hpp \
+	Media/AdvancedAudio/MhAudioMixer.hpp \
+	Media/AdvancedAudio/MhAudioPacket.hpp \
+	Media/AdvancedAudio/MhAudioPlayable.hpp \
+	Media/AdvancedAudio/MhAudioStatus.hpp \
+	Media/AdvancedAudio/MhAudioStreamer.hpp \
+	Media/AdvancedAudio/MhModulePlayer.hpp \
+	Media/AdvancedAudio/MhSoundSource.hpp \
 	Media/Audio/MhAudioIterator.hpp \
 	Media/Audio/MhModuleRenderer.hpp \
 	Media/Audio/MhResampler.hpp \
@@ -97,6 +112,7 @@ HEADERS += \
 	Media/Image/MhDDS.hpp \
 	Media/Image/MhDecodeTarget.hpp \
 	Media/Image/MhGIF.hpp \
+	Media/Image/MhImageType.hpp \
 	Media/Image/MhJPEG.hpp \
 	Media/Image/MhPNG.hpp \
 	Media/Image/MhStandardColourFormat.hpp \

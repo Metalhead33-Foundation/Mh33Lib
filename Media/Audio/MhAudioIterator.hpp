@@ -10,7 +10,28 @@ namespace Audio {
 typedef Util::IntegralIterator<uint_fast8_t> ChannelIndex;
 typedef Util::IntegralIterable<uint_fast8_t> ChannelCount;
 typedef Util::IntegralIterator<uintptr_t> SampleIndex;
-struct SampleCount : public Util::IntegralIterable<uint_fast32_t> {
+typedef Util::IntegralIterator<uintptr_t> FrameIndex;
+typedef Util::IntegralIterable<uint_fast32_t> SampleCount;
+typedef Util::IntegralIterable<uint_fast32_t> FrameRate;
+typedef Util::IntegralIterable<uint_fast32_t> FrameCount;
+
+inline uintptr_t samplesToBytes(const SampleCount& samples) { return samples.var * sizeof(float); }
+inline SampleCount framesToSamples(const FrameCount& frames, const ChannelCount& channels) {
+	return SampleCount(frames.var * channels.var);
+}
+inline FrameCount framesFromSamples(const SampleCount& samples, const ChannelCount& channels)  {
+	return FrameCount(samples.var / uintptr_t(channels.var));
+}
+template<typename SecondType = double> inline SecondType framesToSeconds(const FrameCount& frames, const FrameRate& framerate) {
+	static_assert (std::is_floating_point<SecondType>(),"Must use floating point types when calculating seconds!");
+	return SecondType(frames.var) / SecondType(framerate.var);
+}
+template<typename SecondType = double> inline FrameCount framesFromSeconds(SecondType seconds, const FrameRate& framerate) {
+	static_assert (std::is_floating_point<SecondType>(),"Must use floating point types when calculating seconds!");
+	return FrameCount(uintptr_t(std::ceil(seconds * SecondType(framerate.var)) ) );
+}
+
+/*struct SampleCount : public Util::IntegralIterable<uint_fast32_t> {
 	typedef Util::IntegralIterable<uint_fast32_t> BaseType;
 	SampleCount(const BaseType& other) : BaseType(other) {
 
@@ -20,7 +41,6 @@ struct SampleCount : public Util::IntegralIterable<uint_fast32_t> {
 	}
 	inline uintptr_t toBytes() const { return var * sizeof(float); }
 };
-typedef Util::IntegralIterator<uintptr_t> FrameIndex;
 struct FrameRate : public Util::IntegralIterable<uint_fast32_t> {
 	typedef Util::IntegralIterable<uint_fast32_t> BaseType;
 	FrameRate(const BaseType& other) : BaseType(other) {
@@ -51,7 +71,7 @@ struct FrameCount : public Util::IntegralIterable<uint_fast32_t> {
 		static_assert (std::is_floating_point<SecondType>(),"Must use floating point types when calculating seconds!");
 		return FrameCount(uintptr_t(std::ceil(seconds * SecondType(framerate.var)) ) );
 	}
-};
+};*/
 
 }
 }
