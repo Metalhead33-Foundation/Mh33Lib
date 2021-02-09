@@ -62,9 +62,7 @@ SOURCES += \
         SIMD/private/x86/MhFloat32x8_private.cpp \
         SIMD/private/x86/MhFloat64x2_private.cpp \
         SIMD/private/x86/MhInt32x4_private.cpp \
-        Util/MhClock.cpp \
         Util/MhRNG.cpp \
-        Util/MhTime.cpp \
         Util/MhUUID.cpp \
         main.cpp
 
@@ -111,12 +109,10 @@ HEADERS += \
 	SIMD/private/x86/MhFloat64x2_private.hpp \
 	SIMD/private/x86/MhInt32x4_private.hpp \
 	Util/MhBuffer.hpp \
-	Util/MhClock.hpp \
 	Util/MhEndianness.hpp \
 	Util/MhIntegralIterator.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/MhRNG.hpp \
-	Util/MhTime.hpp \
 	Util/MhUUID.hpp \
 	Util/half.hpp
 
