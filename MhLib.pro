@@ -118,4 +118,13 @@ HEADERS += \
 
 DISTFILES += \
 	LICENSE \
-	README.md
+	README.md \
+	libgif-LICENSE.txt \
+	libjpegturbo-LICENSE.md \
+	libpng-LICENSE.txt \
+	libsamplerate-LICENSE \
+	libsndfile-LICENSE.txt \
+	libwebp-LICENSE.txt \
+	license-libopenmpt.txt \
+	physfs-LICENSE.txt \
+	zstd-LICENSE.txt
