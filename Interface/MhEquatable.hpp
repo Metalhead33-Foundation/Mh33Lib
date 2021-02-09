@@ -1,5 +1,5 @@
-#ifndef EQUATABLE_HPP
-#define EQUATABLE_HPP
+#ifndef MHEQUATABLE_HPP
+#define MHEQUATABLE_HPP
 
 namespace MH33 {
 namespace Interface {
@@ -13,4 +13,4 @@ template <typename T> class Equatable {
 
 }
 }
-#endif // EQUATABLE_HPP
+#endif // MHEQUATABLE_HPP

@@ -73,7 +73,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
 	Gimmick/MhWordGenerator.hpp \
-	Interface/Equatable.hpp \
+	Interface/MhComparable.hpp \
+	Interface/MhEquatable.hpp \
 	Io/MhBufferWrapper.hpp \
 	Io/MhCompressor.hpp \
 	Io/MhDataStream.hpp \
