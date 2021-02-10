@@ -20,6 +20,18 @@ void ModulePlayer::setState(const Status &value)
 	if(state == Status::STOPPED) renderer.setPosition(0.0);
 }
 
+FrameRate ModulePlayer::preferredSampleRate = FrameRate(44100);
+ChannelCount ModulePlayer::preferredChannelCount = ChannelCount(2);
+FrameRate ModulePlayer::getFrameRate() const
+{
+	return preferredSampleRate;
+}
+
+ChannelCount ModulePlayer::getChannelCount() const
+{
+	return preferredChannelCount;
+}
+
 ModulePlayer::ModulePlayer(const Io::sDevice &iodev)
 	: renderer(iodev), state(Status::STOPPED)
 {

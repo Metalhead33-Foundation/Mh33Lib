@@ -24,6 +24,14 @@ struct Output {
 	ChannelCount channels;
 	InterleavingType interleaving;
 };
+struct ModificationStream {
+	const float* src;
+	float* dst;
+	FrameCount frameCount;
+	FrameRate framerate;
+	ChannelCount channels;
+	InterleavingType interleaving;
+};
 
 }
 }

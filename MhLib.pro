@@ -49,10 +49,15 @@ SOURCES += \
         Io/private/MhSocketUnix.cpp \
         IoSys/MhFilesystem.cpp \
         IoSys/PhysFSIoSystem.cpp \
+        Media/AdvancedAudio/FX/MhClampEffect.cpp \
+        Media/AdvancedAudio/FX/MhCrushEffect.cpp \
+        Media/AdvancedAudio/FX/SampleLevelEffect.cpp \
         Media/AdvancedAudio/MhAudioBuffer.cpp \
         Media/AdvancedAudio/MhAudioError.cpp \
         Media/AdvancedAudio/MhAudioMixer.cpp \
         Media/AdvancedAudio/MhAudioStreamer.cpp \
+        Media/AdvancedAudio/MhFramerateConverter.cpp \
+        Media/AdvancedAudio/MhMatrixPanner.cpp \
         Media/AdvancedAudio/MhModulePlayer.cpp \
         Media/AdvancedAudio/MhSoundSource.cpp \
         Media/Audio/MhModuleRenderer.cpp \
@@ -96,13 +101,19 @@ HEADERS += \
 	IoSys/MhFilesystem.hpp \
 	IoSys/MhIoSystem.hpp \
 	IoSys/PhysFSIoSystem.hpp \
+	Media/AdvancedAudio/FX/MhClampEffect.hpp \
+	Media/AdvancedAudio/FX/MhCrushEffect.hpp \
+	Media/AdvancedAudio/FX/SampleLevelEffect.hpp \
 	Media/AdvancedAudio/MhAudioBuffer.hpp \
+	Media/AdvancedAudio/MhAudioEffect.hpp \
 	Media/AdvancedAudio/MhAudioError.hpp \
 	Media/AdvancedAudio/MhAudioMixer.hpp \
 	Media/AdvancedAudio/MhAudioPacket.hpp \
 	Media/AdvancedAudio/MhAudioPlayable.hpp \
 	Media/AdvancedAudio/MhAudioStatus.hpp \
 	Media/AdvancedAudio/MhAudioStreamer.hpp \
+	Media/AdvancedAudio/MhFramerateConverter.hpp \
+	Media/AdvancedAudio/MhMatrixPanner.hpp \
 	Media/AdvancedAudio/MhModulePlayer.hpp \
 	Media/AdvancedAudio/MhSoundSource.hpp \
 	Media/Audio/MhAudioIterator.hpp \

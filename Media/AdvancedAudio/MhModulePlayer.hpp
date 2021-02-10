@@ -23,6 +23,10 @@ public:
 	const ModuleRenderer& getRenderer() const;
 	Status getState() const;
 	void setState(const Status &value);
+	FrameRate getFrameRate() const;
+	ChannelCount getChannelCount() const;
+	static FrameRate preferredSampleRate;
+	static ChannelCount preferredChannelCount;
 };
 
 }

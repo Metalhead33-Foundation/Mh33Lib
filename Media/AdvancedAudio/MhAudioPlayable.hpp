@@ -11,6 +11,8 @@ class Playable {
 public:
 	virtual ~Playable() = default;
 	virtual FrameCount outputTo(const Output& dst) = 0;
+	virtual FrameRate getFrameRate() const = 0;
+	virtual ChannelCount getChannelCount() const = 0;
 };
 
 }

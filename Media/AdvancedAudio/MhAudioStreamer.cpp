@@ -49,6 +49,16 @@ void Streamer::setRepeating(bool value)
 	repeating = value;
 }
 
+FrameRate Streamer::getFrameRate() const
+{
+	return soundfile.getFrameRate();
+}
+
+ChannelCount Streamer::getChannelCount() const
+{
+	return soundfile.getChannels();
+}
+
 Streamer::Streamer(const Io::sDevice &iodev)
 	: soundfile(iodev), state(Status::STOPPED), repeating(false)
 {

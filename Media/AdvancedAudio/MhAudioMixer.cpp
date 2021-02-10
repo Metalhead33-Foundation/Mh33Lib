@@ -4,26 +4,38 @@
 namespace MH33 {
 namespace Audio {
 
+FrameCount Mixer::processIndividual(Playable &playable, float volume)
+{
+	FrameCount currentlyDoneFrames(0);
+	FrameCount framesProcessedSoFar(0);
+	FrameCount framesToGo = this->frameCount;
+	do {
+		Output out;
+		out.dst = &buffB[framesToSamples(framesProcessedSoFar,channelCount).var];
+		out.channels = this->channelCount;
+		out.framerate = this->frameRate;
+		out.interleaving = InterleavingType::INTERLEAVED;
+		out.frameCount = framesToGo;
+		currentlyDoneFrames = playable.outputTo(out);
+		framesProcessedSoFar += currentlyDoneFrames;
+		framesToGo -= currentlyDoneFrames;
+	} while(framesToGo.var || !currentlyDoneFrames.var);
+	for(const auto jt : framesProcessedSoFar) {
+		const float * const inFrameStart = &buffB[jt * channelCount.var];
+		float * const outFrameStart = &buffA[jt * channelCount.var];
+		for(const auto zt : channelCount) {
+			outFrameStart[zt] += inFrameStart[zt] * volume;
+		}
+	}
+	return framesProcessedSoFar;
+}
+
 FrameCount Mixer::process()
 {
 	memset(this->buffA.data(),0,sizeof(float)*this->buffA.size());
 	FrameCount largest(0);
-	Output out;
-	out.dst = this->buffB.data();
-	out.channels = this->channelCount;
-	out.framerate = this->frameRate;
-	out.frameCount = this->frameCount;
-	out.interleaving = InterleavingType::INTERLEAVED;
 	for(auto it = std::begin(playables); it != std::end(playables); ++it) {
-		FrameCount processed = it->first->outputTo(out);
-		largest = std::max(largest,processed);
-		for(const auto jt : processed) {
-			const float * const inFrameStart = &buffB[jt * channelCount.var];
-			float * const outFrameStart = &buffA[jt * channelCount.var];
-			for(const auto zt : channelCount) {
-				outFrameStart[zt] += inFrameStart[zt] * it->second;
-			}
-		}
+		largest = std::max(largest,processIndividual(*it->first,it->second));
 	}
 	return largest;
 }
@@ -43,6 +55,21 @@ FrameCount Mixer::outputTo(const Output &dst)
 	FrameCount processed = process();
 	memcpy(dst.dst,buffA.data(),samplesToBytes(framesToSamples(processed,channelCount)));
 	return processed;
+}
+
+FrameCount Mixer::getFrameCount() const
+{
+	return frameCount;
+}
+
+FrameRate Mixer::getFrameRate() const
+{
+	return frameRate;
+}
+
+ChannelCount Mixer::getChannelCount() const
+{
+	return channelCount;
 }
 
 bool Mixer::empty() const { return playables.empty(); }

@@ -35,6 +35,16 @@ void SoundSource::setRepeating(bool value)
 	repeating = value;
 }
 
+FrameRate SoundSource::getFrameRate() const
+{
+	return buffer ? buffer->getFrameRate() : FrameRate(0);
+}
+
+ChannelCount SoundSource::getChannelCount() const
+{
+	return buffer ? buffer->getChannelCount() : ChannelCount(0);
+}
+
 SoundSource::SoundSource()
 	: buffer(nullptr), state(Status::STOPPED), repeating(false)
 {

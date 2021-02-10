@@ -26,6 +26,8 @@ public:
 	void setState(const Status &value);
 	bool getRepeating() const;
 	void setRepeating(bool value);
+	FrameRate getFrameRate() const;
+	ChannelCount getChannelCount() const;
 };
 
 }

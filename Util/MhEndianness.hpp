@@ -7,6 +7,10 @@
 namespace MH33 {
 namespace Util {
 
+template <typename T> int sign(T val) {
+	return (T(0) < val) - (val < T(0));
+}
+
 enum class Endian
 {
 #ifdef _WIN32

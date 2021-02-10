@@ -19,6 +19,7 @@ public:
 private:
 	PlayableMap playables;
 	std::vector<float> buffA,buffB;
+	FrameCount processIndividual(Playable& playable, float volume);
 	FrameCount process();
 public:
 	Mixer(FrameCount frameCount, FrameRate frameRate, ChannelCount channelCount);
