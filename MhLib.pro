@@ -60,6 +60,7 @@ SOURCES += \
         Media/AdvancedAudio/MhFramerateConverter.cpp \
         Media/AdvancedAudio/MhMatrixPanner.cpp \
         Media/AdvancedAudio/MhModulePlayer.cpp \
+        Media/AdvancedAudio/MhPositionalPanner.cpp \
         Media/AdvancedAudio/MhSoundSource.cpp \
         Media/Audio/MhModuleRenderer.cpp \
         Media/Audio/MhResampler.cpp \
@@ -117,6 +118,7 @@ HEADERS += \
 	Media/AdvancedAudio/MhFramerateConverter.hpp \
 	Media/AdvancedAudio/MhMatrixPanner.hpp \
 	Media/AdvancedAudio/MhModulePlayer.hpp \
+	Media/AdvancedAudio/MhPositionalPanner.hpp \
 	Media/AdvancedAudio/MhSoundSource.hpp \
 	Media/Audio/MhAudioIterator.hpp \
 	Media/Audio/MhModuleRenderer.hpp \

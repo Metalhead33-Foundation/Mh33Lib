@@ -8,7 +8,7 @@ namespace Audio {
 class AmbisonicPanner : public Playable
 {
 private:
-	float horizontalAngle,elevationAngle,sincos,coscos;
+	float horizontalAngle,elevationAngle,distance,sincos,coscos;
 	std::vector<float> buffer;
 	sPlayable playable;
 	void syncCoefficients();
@@ -25,6 +25,8 @@ public:
 	void setAngle(float horizontalAngle, float elevationAngle);
 	sPlayable getPlayable() const;
 	void setPlayable(const sPlayable &value);
+	float getDistance() const;
+	void setDistance(float value);
 };
 
 }

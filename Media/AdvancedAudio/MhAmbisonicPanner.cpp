@@ -46,6 +46,16 @@ void AmbisonicPanner::setPlayable(const sPlayable &value)
 	playable = value;
 }
 
+float AmbisonicPanner::getDistance() const
+{
+	return distance;
+}
+
+void AmbisonicPanner::setDistance(float value)
+{
+	distance = value;
+}
+
 void AmbisonicPanner::syncCoefficients()
 {
 	sincos = std::sin(horizontalAngle) * std::cos(elevationAngle);
@@ -83,7 +93,7 @@ ChannelCount AmbisonicPanner::getChannelCount() const
 	return ChannelCount(4);
 }
 
-AmbisonicPanner::AmbisonicPanner(FrameCount bufferSize) : buffer(bufferSize.var)
+AmbisonicPanner::AmbisonicPanner(FrameCount bufferSize) : buffer(bufferSize.var), distance(0.0f)
 {
 
 }
@@ -96,7 +106,7 @@ FrameCount AmbisonicPanner::outputTo(const Output &dst)
 	if(dst.interleaving != InterleavingType::INTERLEAVED) throw InterleavingMismatchError(dst.interleaving,InterleavingType::INTERLEAVED);
 	FrameCount inFrames = fillBuffer(dst.frameCount);
 	for(const auto it : inFrames) {
-		const float S = buffer[it];
+		const float S = buffer[it] * (1.0f-distance);
 		float * const outFrameStart = &dst.dst[it * 4];
 
 		// Left-Front

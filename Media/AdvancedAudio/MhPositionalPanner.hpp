@@ -1,0 +1,34 @@
+#ifndef POSITIONALPANNER_HPP
+#define POSITIONALPANNER_HPP
+#include "MhAmbisonicPanner.hpp"
+#include <glm/glm.hpp>
+namespace MH33 {
+namespace Audio {
+
+class PositionalPanner : public Playable
+{
+public:
+	typedef std::shared_ptr<glm::vec3> sPosition;
+private:
+	AmbisonicPanner panner;
+	sPosition soundOrigin;
+	sPosition listenerPosition;
+	float attenuation;
+public:
+	PositionalPanner(FrameCount bufferSize);
+	FrameCount outputTo(const Output& dst);
+	FrameRate getFrameRate() const;
+	ChannelCount getChannelCount() const;
+	sPlayable getPlayable() const;
+	void setPlayable(const sPlayable &value);
+	float getAttenuation() const;
+	void setAttenuation(float value);
+	sPosition getSoundOrigin() const;
+	void setSoundOrigin(const sPosition &value);
+	sPosition getListenerPosition() const;
+	void setListenerPosition(const sPosition &value);
+};
+
+}
+}
+#endif // POSITIONALPANNER_HPP
