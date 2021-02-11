@@ -52,6 +52,7 @@ SOURCES += \
         Media/AdvancedAudio/FX/MhClampEffect.cpp \
         Media/AdvancedAudio/FX/MhConvolver.cpp \
         Media/AdvancedAudio/FX/MhCrushEffect.cpp \
+        Media/AdvancedAudio/FX/MhImpulseGenerator.cpp \
         Media/AdvancedAudio/FX/SampleLevelEffect.cpp \
         Media/AdvancedAudio/MhAmbisonicPanner.cpp \
         Media/AdvancedAudio/MhAudioBuffer.cpp \
@@ -112,6 +113,7 @@ HEADERS += \
 	Media/AdvancedAudio/FX/MhClampEffect.hpp \
 	Media/AdvancedAudio/FX/MhConvolver.hpp \
 	Media/AdvancedAudio/FX/MhCrushEffect.hpp \
+	Media/AdvancedAudio/FX/MhImpulseGenerator.hpp \
 	Media/AdvancedAudio/FX/SampleLevelEffect.hpp \
 	Media/AdvancedAudio/MhAmbisonicPanner.hpp \
 	Media/AdvancedAudio/MhAudioBuffer.hpp \

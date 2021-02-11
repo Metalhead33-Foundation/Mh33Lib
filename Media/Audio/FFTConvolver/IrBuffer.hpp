@@ -16,15 +16,15 @@ private:
 	size_t segCount;
 	MH33::Audio::FrameRate framerate;
 	std::vector<float> buffer;
-	void init(size_t blockSize, const float *ir, size_t irLen);
-	void init(size_t blocksize, MH33::Audio::SoundFile& sfile);
+	void init(const float *ir, size_t irLen);
+	void init(MH33::Audio::SoundFile& sfile);
 public:
-	IrBuffer(size_t blockSize, const float *ir, size_t irLen, MH33::Audio::FrameRate framerate);
-	IrBuffer(size_t blockSize, const MH33::Io::sDevice& iodev);
-	IrBuffer(size_t blockSize, MH33::Io::sDevice&& iodev);
-	IrBuffer(size_t blockSize, MH33::Io::DeviceCreator iodev_creator, MH33::Io::Mode mode);
-	IrBuffer(size_t blockSize, MH33::Io::System& iosys, const char* path, MH33::Io::Mode mode);
-	IrBuffer(size_t blockSize, MH33::Io::System& iosys, const std::string& path, MH33::Io::Mode mode);
+	IrBuffer(const float *ir, size_t irLen, MH33::Audio::FrameRate framerate);
+	IrBuffer(const MH33::Io::sDevice& iodev);
+	IrBuffer(MH33::Io::sDevice&& iodev);
+	IrBuffer(MH33::Io::DeviceCreator iodev_creator, MH33::Io::Mode mode);
+	IrBuffer( MH33::Io::System& iosys, const char* path, MH33::Io::Mode mode);
+	IrBuffer(MH33::Io::System& iosys, const std::string& path, MH33::Io::Mode mode);
 	size_t getBlockSize() const;
 	size_t getIrLen() const;
 	size_t getSegSize() const;

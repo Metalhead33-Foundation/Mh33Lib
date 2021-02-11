@@ -63,7 +63,7 @@ const std::vector<float> &IrBuffer::getBuffer() const
 	return buffer;
 }
 
-void IrBuffer::init(size_t blockSize, const float *ir, size_t irLen)
+void IrBuffer::init(const float *ir, size_t irLen)
 {
 	// Zero out everything
 	this->irLen = 0;
@@ -71,14 +71,13 @@ void IrBuffer::init(size_t blockSize, const float *ir, size_t irLen)
 	this->segSize = 0;
 	this->segCount = 0;
 	buffer.clear();
-	if(!blockSize) return;
 	while (irLen > 0 && std::fabs(ir[irLen-1]) < 0.000001f)
 	{
 		--irLen;
 	}
 	if(!irLen) return;
 	this->irLen = irLen;
-	this->blockSize = NextPowerOf2(blockSize);
+	this->blockSize = NextPowerOf2(std::min(irLen,size_t(20000)));
 	this->segSize = 2 * this->blockSize;
 	this->segCount = static_cast<size_t>(std::ceil(static_cast<float>(irLen) / static_cast<float>(this->blockSize)));
 	buffer.resize(this->segSize);
@@ -90,52 +89,51 @@ void IrBuffer::init(size_t blockSize, const float *ir, size_t irLen)
 	}
 }
 
-void IrBuffer::init(size_t blocksize, MH33::Audio::SoundFile &sfile)
+void IrBuffer::init(MH33::Audio::SoundFile &sfile)
 {
-	if(!blocksize) return;
 	this->framerate = sfile.getFrameRate();
 	std::vector<float> tmpBuff(MH33::Audio::framesToSamples(sfile.getFrameNum(),sfile.getChannels()).var);
 	sfile.readf(tmpBuff.data(),sfile.getFrameNum());
-	init(blocksize,tmpBuff.data(),tmpBuff.size());
+	init(tmpBuff.data(),tmpBuff.size());
 }
 
-IrBuffer::IrBuffer(size_t blockSize, const float* ir, size_t irLen, MH33::Audio::FrameRate framerate) : framerate(framerate)
+IrBuffer::IrBuffer(const float* ir, size_t irLen, MH33::Audio::FrameRate framerate) : framerate(framerate)
 {
-	init(blockSize,ir,irLen);
+	init(ir,irLen);
 }
 
-IrBuffer::IrBuffer(size_t blockSize, const MH33::Io::sDevice &iodev)
-{
-	MH33::Audio::SoundFile sfile(iodev);
-	this->framerate = sfile.getFrameRate();
-	init(blockSize,sfile);
-}
-
-IrBuffer::IrBuffer(size_t blockSize, MH33::Io::sDevice &&iodev)
+IrBuffer::IrBuffer(const MH33::Io::sDevice &iodev)
 {
 	MH33::Audio::SoundFile sfile(iodev);
 	this->framerate = sfile.getFrameRate();
-	init(blockSize,sfile);
+	init(sfile);
 }
 
-IrBuffer::IrBuffer(size_t blockSize, MH33::Io::DeviceCreator iodev_creator, MH33::Io::Mode mode)
+IrBuffer::IrBuffer(MH33::Io::sDevice &&iodev)
+{
+	MH33::Audio::SoundFile sfile(iodev);
+	this->framerate = sfile.getFrameRate();
+	init(sfile);
+}
+
+IrBuffer::IrBuffer(MH33::Io::DeviceCreator iodev_creator, MH33::Io::Mode mode)
 {
 	MH33::Audio::SoundFile sfile(iodev_creator,mode);
 	this->framerate = sfile.getFrameRate();
-	init(blockSize,sfile);
+	init(sfile);
 }
 
-IrBuffer::IrBuffer(size_t blockSize, MH33::Io::System &iosys, const char *path, MH33::Io::Mode mode)
+IrBuffer::IrBuffer(MH33::Io::System &iosys, const char *path, MH33::Io::Mode mode)
 {
 	MH33::Audio::SoundFile sfile(iosys,path,mode);
 	this->framerate = sfile.getFrameRate();
-	init(blockSize,sfile);
+	init(sfile);
 }
 
-IrBuffer::IrBuffer(size_t blockSize, MH33::Io::System &iosys, const std::string &path, MH33::Io::Mode mode)
+IrBuffer::IrBuffer(MH33::Io::System &iosys, const std::string &path, MH33::Io::Mode mode)
 {
 	MH33::Audio::SoundFile sfile(iosys,path,mode);
 	this->framerate = sfile.getFrameRate();
-	init(blockSize,sfile);
+	init(sfile);
 }
 }
