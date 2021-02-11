@@ -62,10 +62,10 @@ SoundFile::SoundFile(const Io::sDevice &iodev)
 	if(!this->iodev) return;
 	handleB = malloc(sizeof(SF_INFO));
 	memset( handleB, 0, sizeof( SF_INFO ) );
-	switch (iodev->getMode()) {
-	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	switch (this->iodev->getMode()) {
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,this->iodev.get()); break;
 	default: break;
 	}
 }
@@ -77,10 +77,10 @@ SoundFile::SoundFile(Io::sDevice &&iodev)
 	if(!this->iodev) return;
 	handleB = malloc(sizeof(SF_INFO));
 	memset( handleB, 0, sizeof( SF_INFO ) );
-	switch (iodev->getMode()) {
-	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	switch (this->iodev->getMode()) {
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,this->iodev.get()); break;
 	default: break;
 	}
 }
@@ -92,10 +92,10 @@ SoundFile::SoundFile(Io::DeviceCreator iodev_creator, Io::Mode mode)
 	if(!this->iodev) return;
 	handleB = malloc(sizeof(SF_INFO));
 	memset( handleB, 0, sizeof( SF_INFO ) );
-	switch (iodev->getMode()) {
-	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	switch (this->iodev->getMode()) {
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,this->iodev.get()); break;
 	default: break;
 	}
 }
@@ -108,9 +108,9 @@ SoundFile::SoundFile(Io::System &iosys, const char *path, Io::Mode mode)
 	handleB = malloc(sizeof(SF_INFO));
 	memset( handleB, 0, sizeof( SF_INFO ) );
 	switch (iodev->getMode()) {
-	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,this->iodev.get()); break;
 	default: break;
 	}
 }
@@ -123,9 +123,9 @@ SoundFile::SoundFile(Io::System &iosys, const std::string &path, Io::Mode mode)
 	handleB = malloc(sizeof(SF_INFO));
 	memset( handleB, 0, sizeof( SF_INFO ) );
 	switch (iodev->getMode()) {
-	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,iodev.get()); break;
-	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,iodev.get()); break;
+	case MH33::Io::Mode::READ: handleA = sf_open_virtual(&sndFileIO,SFM_READ,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_WRITE,SFHNDL_B,this->iodev.get()); break;
+	case MH33::Io::Mode::READ_WRITE: handleA = sf_open_virtual(&sndFileIO,SFM_RDWR,SFHNDL_B,this->iodev.get()); break;
 	default: break;
 	}
 }

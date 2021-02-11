@@ -11,6 +11,11 @@ void SampleLevelEffect::doEffect(const ModificationStream &modstream)
 	}
 }
 
+bool SampleLevelEffect::requiresDeinterlacing()
+{
+	return false;
+}
+
 }
 }
 }

@@ -33,9 +33,19 @@ void PositionalPanner::setListenerPosition(const sPosition &value)
 	listenerPosition = value;
 }
 
-PositionalPanner::PositionalPanner(FrameCount bufferSize) : panner(bufferSize), soundOrigin(nullptr), listenerPosition(nullptr)
+PositionalPanner::PositionalPanner(FrameCount bufferSize) : panner(bufferSize), soundOrigin(nullptr), listenerPosition(nullptr), attenuation(0.0f)
 {
 
+}
+
+const AmbisonicPanner &PositionalPanner::getPanner() const
+{
+	return panner;
+}
+
+AmbisonicPanner &PositionalPanner::getPanner()
+{
+	return panner;
 }
 
 FrameCount PositionalPanner::outputTo(const Output &dst)

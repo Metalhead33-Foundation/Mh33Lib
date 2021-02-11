@@ -17,6 +17,10 @@ ModuleRenderer::ModuleRenderer(ModuleRenderer &&mov): handle(mov.handle), iodev(
 
 }
 
+openmpt_module_initial_ctl cts[] = {
+	{ nullptr, nullptr },
+};
+
 ModuleRenderer &ModuleRenderer::operator=(ModuleRenderer &&mov)
 {
 	if(handle) openmpt_module_destroy(MODULE_HDNL);
@@ -37,7 +41,7 @@ ModuleRenderer::ModuleRenderer(const Io::sDevice &iodev) : handle(nullptr), iode
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
 										nullptr, nullptr, nullptr, nullptr,
-										nullptr, nullptr);
+										nullptr, cts);
 	}
 }
 
@@ -47,7 +51,7 @@ ModuleRenderer::ModuleRenderer(Io::sDevice &&iodev) : handle(nullptr), iodev(std
 	if(this->iodev) {
 		handle = openmpt_module_create2(OpenmptIO,this->iodev.get(),nullptr,
 										nullptr, nullptr, nullptr, nullptr,
-										nullptr, nullptr);
+										nullptr, cts);
 	}
 }
 

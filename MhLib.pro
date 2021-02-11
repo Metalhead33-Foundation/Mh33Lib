@@ -50,10 +50,12 @@ SOURCES += \
         IoSys/MhFilesystem.cpp \
         IoSys/PhysFSIoSystem.cpp \
         Media/AdvancedAudio/FX/MhClampEffect.cpp \
+        Media/AdvancedAudio/FX/MhConvolver.cpp \
         Media/AdvancedAudio/FX/MhCrushEffect.cpp \
         Media/AdvancedAudio/FX/SampleLevelEffect.cpp \
         Media/AdvancedAudio/MhAmbisonicPanner.cpp \
         Media/AdvancedAudio/MhAudioBuffer.cpp \
+        Media/AdvancedAudio/MhAudioEffectSlot.cpp \
         Media/AdvancedAudio/MhAudioError.cpp \
         Media/AdvancedAudio/MhAudioMixer.cpp \
         Media/AdvancedAudio/MhAudioStreamer.cpp \
@@ -62,6 +64,10 @@ SOURCES += \
         Media/AdvancedAudio/MhModulePlayer.cpp \
         Media/AdvancedAudio/MhPositionalPanner.cpp \
         Media/AdvancedAudio/MhSoundSource.cpp \
+        Media/Audio/FFTConvolver/AudioFFT.cpp \
+        Media/Audio/FFTConvolver/FFTConvolver.cpp \
+        Media/Audio/FFTConvolver/IrBuffer.cpp \
+        Media/Audio/FFTConvolver/Utilities.cpp \
         Media/Audio/MhModuleRenderer.cpp \
         Media/Audio/MhResampler.cpp \
         Media/Audio/MhSoundFile.cpp \
@@ -104,11 +110,13 @@ HEADERS += \
 	IoSys/MhIoSystem.hpp \
 	IoSys/PhysFSIoSystem.hpp \
 	Media/AdvancedAudio/FX/MhClampEffect.hpp \
+	Media/AdvancedAudio/FX/MhConvolver.hpp \
 	Media/AdvancedAudio/FX/MhCrushEffect.hpp \
 	Media/AdvancedAudio/FX/SampleLevelEffect.hpp \
 	Media/AdvancedAudio/MhAmbisonicPanner.hpp \
 	Media/AdvancedAudio/MhAudioBuffer.hpp \
 	Media/AdvancedAudio/MhAudioEffect.hpp \
+	Media/AdvancedAudio/MhAudioEffectSlot.hpp \
 	Media/AdvancedAudio/MhAudioError.hpp \
 	Media/AdvancedAudio/MhAudioMixer.hpp \
 	Media/AdvancedAudio/MhAudioPacket.hpp \
@@ -120,6 +128,10 @@ HEADERS += \
 	Media/AdvancedAudio/MhModulePlayer.hpp \
 	Media/AdvancedAudio/MhPositionalPanner.hpp \
 	Media/AdvancedAudio/MhSoundSource.hpp \
+	Media/Audio/FFTConvolver/AudioFFT.h \
+	Media/Audio/FFTConvolver/FFTConvolver.h \
+	Media/Audio/FFTConvolver/IrBuffer.hpp \
+	Media/Audio/FFTConvolver/Utilities.h \
 	Media/Audio/MhAudioIterator.hpp \
 	Media/Audio/MhModuleRenderer.hpp \
 	Media/Audio/MhResampler.hpp \
@@ -148,7 +160,10 @@ HEADERS += \
 	Util/half.hpp
 
 DISTFILES += \
+	FFTConvolver-LICENSE.txt \
 	LICENSE \
+	Media/Audio/FFTConvolver/COPYING.txt \
+	Media/Audio/FFTConvolver/README.md \
 	README.md \
 	libgif-LICENSE.txt \
 	libjpegturbo-LICENSE.md \

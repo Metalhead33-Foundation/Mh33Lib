@@ -106,7 +106,7 @@ FrameCount AmbisonicPanner::outputTo(const Output &dst)
 	if(dst.interleaving != InterleavingType::INTERLEAVED) throw InterleavingMismatchError(dst.interleaving,InterleavingType::INTERLEAVED);
 	FrameCount inFrames = fillBuffer(dst.frameCount);
 	for(const auto it : inFrames) {
-		const float S = buffer[it] * (1.0f-distance);
+		const float S = buffer[it] / std::max(1.0f,distance);
 		float * const outFrameStart = &dst.dst[it * 4];
 
 		// Left-Front

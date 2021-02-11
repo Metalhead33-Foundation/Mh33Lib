@@ -11,6 +11,7 @@ protected:
 public:
 	virtual ~SampleLevelEffect() = default;
 	void doEffect(const ModificationStream& modstream);
+	bool requiresDeinterlacing();
 };
 
 }

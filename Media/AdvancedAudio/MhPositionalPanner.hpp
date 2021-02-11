@@ -16,6 +16,9 @@ private:
 	float attenuation;
 public:
 	PositionalPanner(FrameCount bufferSize);
+	const AmbisonicPanner& getPanner() const;
+	AmbisonicPanner& getPanner();
+
 	FrameCount outputTo(const Output& dst);
 	FrameRate getFrameRate() const;
 	ChannelCount getChannelCount() const;
