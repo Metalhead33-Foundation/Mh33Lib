@@ -18,7 +18,7 @@ union ReceiptClass {
 	uint64_t pad64;
 };
 
-class Socket : public Device
+class MH_IO_API Socket : public Device
 {
 private:
 	struct SocketPriv;

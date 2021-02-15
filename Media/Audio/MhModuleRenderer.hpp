@@ -1,13 +1,13 @@
 #ifndef MHMODULERENDERER_HPP
 #define MHMODULERENDERER_HPP
-
+#include <Media/Audio/MhAudio.hpp>
 #include <Io/MhIoDevice.hpp>
 #include <IoSys/MhIoSystem.hpp>
 #include <Media/Audio/MhAudioIterator.hpp>
 namespace MH33 {
 namespace Audio {
 
-class ModuleRenderer
+class MH_AUDIO_API ModuleRenderer
 {
 private:
 	void* handle;

@@ -4,7 +4,7 @@
 #include <string>
 namespace PhysFS {
 
-class IO : public MH33::Io::Device
+class MH_IO_API IO : public MH33::Io::Device
 {
 	void* handle;
 	MH33::Io::Mode mode;

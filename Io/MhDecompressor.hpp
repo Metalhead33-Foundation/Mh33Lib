@@ -4,7 +4,7 @@
 
 namespace MH33 {
 namespace Io {
-class Decompressor
+class MH_IO_API Decompressor
 {
 private:
 	void* handle;

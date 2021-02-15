@@ -4,7 +4,7 @@
 
 namespace MH33 {
 namespace Io {
-class Compressor
+class MH_IO_API Compressor
 {
 private:
 	void* handle;

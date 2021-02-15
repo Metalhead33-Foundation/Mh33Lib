@@ -1,5 +1,6 @@
 #ifndef MHRESAMPLER_HPP
 #define MHRESAMPLER_HPP
+#include <Media/Audio/MhAudio.hpp>
 #include <Media/Audio/MhAudioIterator.hpp>
 namespace MH33 {
 namespace Audio {
@@ -13,7 +14,7 @@ enum class ResampleType : int {
 };
 
 
-class SimpleResampler {
+class MH_AUDIO_API SimpleResampler {
 private:
 	void* handle;
 	SimpleResampler( const SimpleResampler &cpy ) = delete;
@@ -43,7 +44,7 @@ public:
 			 FrameCount output_frames, double ratio ) const;
 };
 
-class FullResampler {
+class MH_AUDIO_API FullResampler {
 private:
 	void* handleA;
 	void* handleB;
@@ -87,7 +88,7 @@ public:
 	virtual CallbackArgs callBack( ) = 0;
 };
 
-class CallbackResampler {
+class MH_AUDIO_API CallbackResampler {
 private:
 	int* error;
 	ResampleType converterType;
@@ -110,7 +111,7 @@ public:
 	ResampleType getResamplerType( ) const;
 };
 
-class CallbackInterface : public CallbackInterfaceBase,
+class MH_AUDIO_API CallbackInterface : public CallbackInterfaceBase,
 						  public CallbackResampler {
 public:
 	virtual ~CallbackInterface( ) = default;

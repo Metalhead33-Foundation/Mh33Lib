@@ -9,10 +9,11 @@ extern "C" {
 #include <emmintrin.h>
 #include <pmmintrin.h>
 }
+#include <Util/MhGlobals.hpp>
 namespace MH33 {
 namespace SIMD {
 
-class Float64x2_private {
+class MH_UTIL_API Float64x2_private {
 public:
 	typedef double* iterator;
 	typedef const double* const_iterator;

@@ -1,11 +1,12 @@
 #ifndef SAMPLELEVELEFFECT_HPP
 #define SAMPLELEVELEFFECT_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioEffect.hpp>
 namespace MH33 {
 namespace Audio {
 namespace  FX {
 
-class SampleLevelEffect : public Effect {
+class MH_ADV_AUDIO_API SampleLevelEffect : public Effect {
 protected:
 	virtual float doSampleLevelEffect(float input) const = 0;
 public:

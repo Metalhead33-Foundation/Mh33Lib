@@ -1,5 +1,6 @@
 #ifndef MHSOUNDFILE_HPP
 #define MHSOUNDFILE_HPP
+#include <Media/Audio/MhAudio.hpp>
 #include <Io/MhIoDevice.hpp>
 #include <IoSys/MhIoSystem.hpp>
 #include <Media/Audio/MhAudioIterator.hpp>
@@ -754,7 +755,7 @@ enum SoundFormat {
 	XI_VOX_ADPCM = ( 0x0F0000 | 0x0021 )
 };
 
-class SoundFile
+class MH_AUDIO_API SoundFile
 {
 private:
 	void *handleA,*handleB;

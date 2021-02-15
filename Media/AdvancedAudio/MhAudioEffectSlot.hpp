@@ -1,5 +1,6 @@
 #ifndef EFFECTSLOT_HPP
 #define EFFECTSLOT_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioEffect.hpp>
 #include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <deque>
@@ -8,7 +9,7 @@
 namespace MH33 {
 namespace Audio {
 
-class EffectSlot : public Playable
+class MH_ADV_AUDIO_API EffectSlot : public Playable
 {
 public:
 	typedef std::pair<sEffect,float> SlotEntry;

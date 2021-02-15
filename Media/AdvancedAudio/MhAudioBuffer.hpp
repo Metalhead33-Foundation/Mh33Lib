@@ -1,5 +1,6 @@
 #ifndef BUFFER_HPP
 #define BUFFER_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioPacket.hpp>
 #include <Media/Audio/MhSoundFile.hpp>
 #include <vector>
@@ -9,7 +10,7 @@ namespace Audio {
 
 class Buffer;
 typedef std::shared_ptr<Buffer> sBuffer;
-class Buffer
+class MH_ADV_AUDIO_API Buffer
 {
 private:
 	FrameCount frameCount;

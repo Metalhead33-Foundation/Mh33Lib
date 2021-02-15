@@ -1,5 +1,6 @@
 #ifndef FRAMERATECONVERTER_HPP
 #define FRAMERATECONVERTER_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <Media/Audio/MhResampler.hpp>
 #include <vector>
@@ -7,7 +8,7 @@
 namespace MH33 {
 namespace Audio {
 
-class FramerateConverter : public Playable
+class MH_ADV_AUDIO_API FramerateConverter : public Playable
 {
 public:
 	const ChannelCount channels;

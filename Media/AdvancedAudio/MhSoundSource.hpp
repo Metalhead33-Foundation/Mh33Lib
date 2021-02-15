@@ -1,12 +1,13 @@
 #ifndef SOUNDSOURCE_HPP
 #define SOUNDSOURCE_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <Media/AdvancedAudio/MhAudioStatus.hpp>
 #include <Media/AdvancedAudio/MhAudioBuffer.hpp>
 
 namespace MH33 {
 namespace Audio {
-class SoundSource : public Playable
+class MH_ADV_AUDIO_API SoundSource : public Playable
 {
 private:
 	sBuffer buffer;

@@ -5,7 +5,7 @@ namespace MH33 {
 namespace Audio {
 namespace  FX {
 
-class CrushEffect : public SampleLevelEffect
+class MH_ADV_AUDIO_API CrushEffect : public SampleLevelEffect
 {
 private:
 	float maxLevel;

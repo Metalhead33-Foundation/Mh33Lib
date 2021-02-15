@@ -6,7 +6,7 @@
 namespace MH33 {
 namespace Io {
 
-class Stdout : public Device
+class MH_IO_API Stdout : public Device
 {
 public:
 	Stdout();

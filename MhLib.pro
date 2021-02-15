@@ -92,6 +92,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+	Gimmick/MhGimmick.hpp \
 	Gimmick/MhWordGenerator.hpp \
 	Interface/MhComparable.hpp \
 	Interface/MhEquatable.hpp \
@@ -100,6 +101,7 @@ HEADERS += \
 	Io/MhDataStream.hpp \
 	Io/MhDecompressor.hpp \
 	Io/MhFile.hpp \
+	Io/MhIo.hpp \
 	Io/MhIoDevice.hpp \
 	Io/MhSocket.hpp \
 	Io/MhStderr.hpp \
@@ -115,6 +117,7 @@ HEADERS += \
 	Media/AdvancedAudio/FX/MhCrushEffect.hpp \
 	Media/AdvancedAudio/FX/MhImpulseGenerator.hpp \
 	Media/AdvancedAudio/FX/SampleLevelEffect.hpp \
+	Media/AdvancedAudio/MhAdvancedAudio.hpp \
 	Media/AdvancedAudio/MhAmbisonicPanner.hpp \
 	Media/AdvancedAudio/MhAudioBuffer.hpp \
 	Media/AdvancedAudio/MhAudioEffect.hpp \
@@ -134,6 +137,7 @@ HEADERS += \
 	Media/Audio/FFTConvolver/FFTConvolver.h \
 	Media/Audio/FFTConvolver/IrBuffer.hpp \
 	Media/Audio/FFTConvolver/Utilities.h \
+	Media/Audio/MhAudio.hpp \
 	Media/Audio/MhAudioIterator.hpp \
 	Media/Audio/MhModuleRenderer.hpp \
 	Media/Audio/MhResampler.hpp \
@@ -141,6 +145,7 @@ HEADERS += \
 	Media/Image/MhDDS.hpp \
 	Media/Image/MhDecodeTarget.hpp \
 	Media/Image/MhGIF.hpp \
+	Media/Image/MhImage.hpp \
 	Media/Image/MhImageType.hpp \
 	Media/Image/MhJPEG.hpp \
 	Media/Image/MhPNG.hpp \
@@ -155,6 +160,7 @@ HEADERS += \
 	SIMD/private/x86/MhInt32x4_private.hpp \
 	Util/MhBuffer.hpp \
 	Util/MhEndianness.hpp \
+	Util/MhGlobals.hpp \
 	Util/MhIntegralIterator.hpp \
 	Util/MhNormDenorm.hpp \
 	Util/MhRNG.hpp \

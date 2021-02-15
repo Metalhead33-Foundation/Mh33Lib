@@ -1,11 +1,12 @@
 #ifndef AMBISONICPANNER_HPP
 #define AMBISONICPANNER_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <vector>
 namespace MH33 {
 namespace Audio {
 
-class AmbisonicPanner : public Playable
+class MH_ADV_AUDIO_API AmbisonicPanner : public Playable
 {
 private:
 	float horizontalAngle,elevationAngle,distance,sincos,coscos;

@@ -4,7 +4,7 @@
 namespace MH33 {
 namespace Io {
 
-class Filesystem : public System
+class MH_IO_API Filesystem : public System
 {
 public:
 	Filesystem();

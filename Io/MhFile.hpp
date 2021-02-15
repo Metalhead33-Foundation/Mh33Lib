@@ -7,7 +7,7 @@
 namespace MH33 {
 namespace Io {
 
-class File : public Device
+class MH_IO_API File : public Device
 {
 private:
 	FILE* fdev;

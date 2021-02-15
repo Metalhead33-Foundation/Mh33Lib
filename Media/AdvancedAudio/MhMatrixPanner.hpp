@@ -1,11 +1,12 @@
 #ifndef MATRIXPANNER_HPP
 #define MATRIXPANNER_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <vector>
 namespace MH33 {
 namespace Audio {
 
-class MatrixPanner : public Playable
+class MH_ADV_AUDIO_API MatrixPanner : public Playable
 {
 private:
 	sPlayable playable;

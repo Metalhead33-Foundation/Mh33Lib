@@ -8,7 +8,7 @@
 
 namespace MH33 {
 namespace Util {
-struct UUID
+struct MH_UTIL_API UUID
 {
 	static constexpr const size_t size = 16;
 	uint8_t __uuid[size];

@@ -6,7 +6,7 @@ namespace MH33 {
 namespace Audio {
 namespace  FX {
 
-class ClampEffect : public SampleLevelEffect
+class MH_ADV_AUDIO_API ClampEffect : public SampleLevelEffect
 {
 private:
 	float maximumLevel;

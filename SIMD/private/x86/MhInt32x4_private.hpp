@@ -9,9 +9,10 @@ extern "C" {
 #include <emmintrin.h>
 #include <pmmintrin.h>
 }
+#include <Util/MhGlobals.hpp>
 namespace MH33 {
 namespace SIMD {
-class Int32x4_private {
+class MH_UTIL_API Int32x4_private {
 public:
 	typedef int32_t* iterator;
 	typedef const int32_t* const_iterator;

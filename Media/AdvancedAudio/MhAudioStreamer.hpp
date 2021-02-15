@@ -1,5 +1,6 @@
 #ifndef STREAMER_HPP
 #define STREAMER_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <Media/AdvancedAudio/MhAudioStatus.hpp>
 #include "../Audio/MhSoundFile.hpp"
@@ -7,7 +8,7 @@
 namespace MH33 {
 namespace Audio {
 
-class Streamer : public Playable
+class MH_ADV_AUDIO_API Streamer : public Playable
 {
 private:
 	SoundFile soundfile;

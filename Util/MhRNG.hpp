@@ -8,11 +8,12 @@
 #if __cplusplus > 201703L
 #include <span>
 #endif
+#include <Util/MhGlobals.hpp>
 
 namespace MH33 {
 
 namespace Util {
-class RNG
+class MH_UTIL_API RNG
 {
 private:
 	uint32_t seed;

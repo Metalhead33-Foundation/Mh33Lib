@@ -1,5 +1,6 @@
 #ifndef MHAUDIOERROR_HPP
 #define MHAUDIOERROR_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <exception>
 #include <string>
 #include <Media/AdvancedAudio/MhAudioPacket.hpp>
@@ -7,7 +8,7 @@
 namespace MH33 {
 namespace Audio {
 
-class ChannelCountMismatchError : public std::exception {
+class MH_ADV_AUDIO_API ChannelCountMismatchError : public std::exception {
 private:
 	const ChannelCount excepted,received;
 	std::string str;
@@ -17,7 +18,7 @@ public:
 	ChannelCount getExcepted() const;
 	ChannelCount getReceived() const;
 };
-class FrameratetMismatchError : public std::exception {
+class MH_ADV_AUDIO_API FrameratetMismatchError : public std::exception {
 private:
 	const FrameRate excepted,received;
 	std::string str;
@@ -27,7 +28,7 @@ public:
 	FrameRate getExcepted() const;
 	FrameRate getReceived() const;
 };
-class InterleavingMismatchError : public std::exception {
+class MH_ADV_AUDIO_API InterleavingMismatchError : public std::exception {
 private:
 	const InterleavingType excepted,received;
 	std::string str;

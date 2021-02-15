@@ -1,5 +1,6 @@
 #ifndef MIXER_HPP
 #define MIXER_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <map>
 #include <vector>
@@ -7,7 +8,7 @@
 namespace MH33 {
 namespace Audio {
 
-class Mixer : public Playable
+class MH_ADV_AUDIO_API Mixer : public Playable
 {
 public:
 	const FrameCount frameCount;

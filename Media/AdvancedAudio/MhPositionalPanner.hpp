@@ -1,11 +1,12 @@
 #ifndef POSITIONALPANNER_HPP
 #define POSITIONALPANNER_HPP
+#include <Media/AdvancedAudio/MhAdvancedAudio.hpp>
 #include <Media/AdvancedAudio/MhAmbisonicPanner.hpp>
 #include <glm/glm.hpp>
 namespace MH33 {
 namespace Audio {
 
-class PositionalPanner : public Playable
+class MH_ADV_AUDIO_API PositionalPanner : public Playable
 {
 public:
 	typedef std::shared_ptr<glm::vec3> sPosition;

@@ -1,6 +1,7 @@
 #ifndef WORDGENERATOR_HPP
 #define WORDGENERATOR_HPP
 #include <Util/MhRNG.hpp>
+#include <Gimmick/MhGimmick.hpp>
 
 namespace MH33 {
 namespace Gimmick {
@@ -11,7 +12,7 @@ enum class CapitalizationPolicy {
 	START
 };
 
-class WordGenerator
+class MH_GIMMICK_API WordGenerator
 {
 private:
 	Util::RNG rng;

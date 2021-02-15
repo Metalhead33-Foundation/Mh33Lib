@@ -6,6 +6,8 @@
 #include <memory>
 #include <sstream>
 #include <Util/MhBuffer.hpp>
+#include <Io/MhIo.hpp>
+
 namespace MH33 {
 namespace Io {
 
