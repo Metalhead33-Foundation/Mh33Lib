@@ -1,7 +1,7 @@
 #ifndef MHTGAHEADER_HPP
 #define MHTGAHEADER_HPP
 #include <Io/MhDataStream.hpp>
-#include "MhDecodeTarget.hpp"
+#include <Media/Image/MhDecodeTarget.hpp>
 
 namespace MH33 {
 namespace GFX {

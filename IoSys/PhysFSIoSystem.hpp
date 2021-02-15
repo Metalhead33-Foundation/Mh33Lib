@@ -1,6 +1,6 @@
 #ifndef PHYSFSIOSYSTEM_HPP
 #define PHYSFSIOSYSTEM_HPP
-#include "MhIoSystem.hpp"
+#include <IoSys/MhIoSystem.hpp>
 namespace PhysFS {
 
 class IoSystem : public MH33::Io::System

@@ -1,18 +1,18 @@
 #ifndef MHSIMD_HPP
 #define MHSIMD_HPP
-#include "private/fallback/MhFallbackVector.hpp"
+#include <SIMD/private/fallback/MhFallbackVector.hpp>
 #ifdef __SSE4_1__
-#include "private/x86/MhFloat32x4_private.hpp"
-#include "private/x86/MhInt32x4_private.hpp"
+#include <SIMD/private/x86/MhFloat32x4_private.hpp>
+#include <SIMD/private/x86/MhInt32x4_private.hpp>
 #define MHFLOAT32X4 SSE
 #define MHINT32X4 SSE
 #endif
 #ifdef __AVX__
-#include "private/x86/MhFloat32x8_private.hpp"
+#include <SIMD/private/x86/MhFloat32x8_private.hpp>
 #define MHFLOAT32X8 AVX
 #endif
 #ifdef __AVX512VL__
-#include "private/x86/MhFloat64x2_private.hpp"
+#include <SIMD/private/x86/MhFloat64x2_private.hpp>
 #define MHFLOAT64X2 AVX512
 #endif
 

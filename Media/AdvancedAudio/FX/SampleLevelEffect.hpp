@@ -1,6 +1,6 @@
 #ifndef SAMPLELEVELEFFECT_HPP
 #define SAMPLELEVELEFFECT_HPP
-#include "../MhAudioEffect.hpp"
+#include <Media/AdvancedAudio/MhAudioEffect.hpp>
 namespace MH33 {
 namespace Audio {
 namespace  FX {

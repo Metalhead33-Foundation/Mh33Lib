@@ -2,7 +2,7 @@
 #define MHSOUNDFILE_HPP
 #include <Io/MhIoDevice.hpp>
 #include <IoSys/MhIoSystem.hpp>
-#include "MhAudioIterator.hpp"
+#include <Media/Audio/MhAudioIterator.hpp>
 namespace MH33 {
 namespace Audio {
 

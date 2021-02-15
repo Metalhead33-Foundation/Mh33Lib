@@ -1,7 +1,7 @@
 #ifndef EFFECTSLOT_HPP
 #define EFFECTSLOT_HPP
-#include "MhAudioEffect.hpp"
-#include "MhAudioPlayable.hpp"
+#include <Media/AdvancedAudio/MhAudioEffect.hpp>
+#include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <deque>
 #include <vector>
 

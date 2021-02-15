@@ -2,7 +2,7 @@
 #define MHAUDIOERROR_HPP
 #include <exception>
 #include <string>
-#include "MhAudioPacket.hpp"
+#include <Media/AdvancedAudio/MhAudioPacket.hpp>
 
 namespace MH33 {
 namespace Audio {

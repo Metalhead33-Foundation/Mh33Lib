@@ -1,6 +1,6 @@
 #ifndef POSITIONALPANNER_HPP
 #define POSITIONALPANNER_HPP
-#include "MhAmbisonicPanner.hpp"
+#include <Media/AdvancedAudio/MhAmbisonicPanner.hpp>
 #include <glm/glm.hpp>
 namespace MH33 {
 namespace Audio {

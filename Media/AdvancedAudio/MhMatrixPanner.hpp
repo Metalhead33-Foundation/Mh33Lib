@@ -1,6 +1,6 @@
 #ifndef MATRIXPANNER_HPP
 #define MATRIXPANNER_HPP
-#include "MhAudioPlayable.hpp"
+#include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <vector>
 namespace MH33 {
 namespace Audio {

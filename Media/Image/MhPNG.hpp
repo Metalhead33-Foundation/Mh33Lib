@@ -1,7 +1,7 @@
 #ifndef MHPNG_HPP
 #define MHPNG_HPP
 #include <Io/MhIoDevice.hpp>
-#include "MhDecodeTarget.hpp"
+#include <Media/Image/MhDecodeTarget.hpp>
 #include <memory>
 
 namespace MH33 {

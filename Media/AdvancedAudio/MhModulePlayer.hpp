@@ -1,8 +1,8 @@
 #ifndef MODULEPLAYER_HPP
 #define MODULEPLAYER_HPP
-#include "MhAudioPlayable.hpp"
-#include "MhAudioStatus.hpp"
-#include "../Audio/MhModuleRenderer.hpp"
+#include <Media/AdvancedAudio/MhAudioPlayable.hpp>
+#include <Media/AdvancedAudio/MhAudioStatus.hpp>
+#include <Media/Audio/MhModuleRenderer.hpp>
 
 namespace MH33 {
 namespace Audio {

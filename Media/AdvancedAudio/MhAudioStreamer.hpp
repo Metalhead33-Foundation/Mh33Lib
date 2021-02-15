@@ -1,7 +1,7 @@
 #ifndef STREAMER_HPP
 #define STREAMER_HPP
-#include "MhAudioPlayable.hpp"
-#include "MhAudioStatus.hpp"
+#include <Media/AdvancedAudio/MhAudioPlayable.hpp>
+#include <Media/AdvancedAudio/MhAudioStatus.hpp>
 #include "../Audio/MhSoundFile.hpp"
 
 namespace MH33 {

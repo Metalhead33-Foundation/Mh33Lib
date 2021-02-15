@@ -1,7 +1,7 @@
 #ifndef FRAMERATECONVERTER_HPP
 #define FRAMERATECONVERTER_HPP
-#include "MhAudioPlayable.hpp"
-#include "../Audio/MhResampler.hpp"
+#include <Media/AdvancedAudio/MhAudioPlayable.hpp>
+#include <Media/Audio/MhResampler.hpp>
 #include <vector>
 
 namespace MH33 {

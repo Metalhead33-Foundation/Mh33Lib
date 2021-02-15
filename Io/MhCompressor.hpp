@@ -1,6 +1,6 @@
 #ifndef MHCOMPRESSOR_HPP
 #define MHCOMPRESSOR_HPP
-#include "MhIoDevice.hpp"
+#include <Io/MhIoDevice.hpp>
 
 namespace MH33 {
 namespace Io {

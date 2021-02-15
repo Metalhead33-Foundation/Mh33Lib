@@ -1,7 +1,7 @@
 #ifndef MULTICHANNELCONVOLVER_HPP
 #define MULTICHANNELCONVOLVER_HPP
-#include "../MhAudioEffect.hpp"
-#include "../../Audio/FFTConvolver/FFTConvolver.h"
+#include <Media/AdvancedAudio/MhAudioEffect.hpp>
+#include <Media/Audio/FFTConvolver/FFTConvolver.h>
 #include <vector>
 namespace MH33 {
 namespace Audio {

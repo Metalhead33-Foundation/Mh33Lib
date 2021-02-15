@@ -1,6 +1,6 @@
 #ifndef MHAUDIOPLAYABLE_HPP
 #define MHAUDIOPLAYABLE_HPP
-#include "MhAudioPacket.hpp"
+#include <Media/AdvancedAudio/MhAudioPacket.hpp>
 #include <memory>
 namespace MH33 {
 namespace Audio {

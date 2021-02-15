@@ -1,6 +1,6 @@
 #ifndef CLAMPEFFECT_HPP
 #define CLAMPEFFECT_HPP
-#include "SampleLevelEffect.hpp"
+#include <Media/AdvancedAudio/FX/SampleLevelEffect.hpp>
 
 namespace MH33 {
 namespace Audio {

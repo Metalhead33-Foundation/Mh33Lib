@@ -1,6 +1,6 @@
 #ifndef AMBISONICPANNER_HPP
 #define AMBISONICPANNER_HPP
-#include "MhAudioPlayable.hpp"
+#include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <vector>
 namespace MH33 {
 namespace Audio {

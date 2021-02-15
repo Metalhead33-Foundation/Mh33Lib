@@ -1,8 +1,8 @@
 #ifndef SOUNDSOURCE_HPP
 #define SOUNDSOURCE_HPP
-#include "MhAudioPlayable.hpp"
-#include "MhAudioStatus.hpp"
-#include "MhAudioBuffer.hpp"
+#include <Media/AdvancedAudio/MhAudioPlayable.hpp>
+#include <Media/AdvancedAudio/MhAudioStatus.hpp>
+#include <Media/AdvancedAudio/MhAudioBuffer.hpp>
 
 namespace MH33 {
 namespace Audio {

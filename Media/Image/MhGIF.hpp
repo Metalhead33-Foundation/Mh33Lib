@@ -1,7 +1,7 @@
 #ifndef GIF_HPP
 #define GIF_HPP
 #include <Io/MhIoDevice.hpp>
-#include "MhDecodeTarget.hpp"
+#include <Media/Image/MhDecodeTarget.hpp>
 
 namespace MH33 {
 namespace GFX {

@@ -1,6 +1,6 @@
 #ifndef CRUSHEFFECT_HPP
 #define CRUSHEFFECT_HPP
-#include "SampleLevelEffect.hpp"
+#include <Media/AdvancedAudio/FX/SampleLevelEffect.hpp>
 namespace MH33 {
 namespace Audio {
 namespace  FX {

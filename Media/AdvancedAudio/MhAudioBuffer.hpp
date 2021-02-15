@@ -1,7 +1,7 @@
 #ifndef BUFFER_HPP
 #define BUFFER_HPP
-#include "MhAudioPacket.hpp"
-#include "../Audio/MhSoundFile.hpp"
+#include <Media/AdvancedAudio/MhAudioPacket.hpp>
+#include <Media/Audio/MhSoundFile.hpp>
 #include <vector>
 #include <memory>
 namespace MH33 {

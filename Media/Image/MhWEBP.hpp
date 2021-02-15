@@ -1,7 +1,7 @@
 #ifndef MHWEBP_HPP
 #define MHWEBP_HPP
 #include <Io/MhIoDevice.hpp>
-#include "MhDecodeTarget.hpp"
+#include <Media/Image/MhDecodeTarget.hpp>
 
 namespace MH33 {
 namespace GFX {

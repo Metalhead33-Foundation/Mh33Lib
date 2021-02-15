@@ -1,6 +1,6 @@
 #ifndef IRBUFFER_HPP
 #define IRBUFFER_HPP
-#include "../MhSoundFile.hpp"
+#include <Media/Audio/MhSoundFile.hpp>
 #include <vector>
 namespace fftconvolver
 {

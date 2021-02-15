@@ -1,6 +1,6 @@
 #ifndef MHIMPULSEGENERATOR_HPP
 #define MHIMPULSEGENERATOR_HPP
-#include "MhConvolver.hpp"
+#include <Media/AdvancedAudio/FX/MhConvolver.hpp>
 namespace MH33 {
 namespace Audio {
 namespace  FX {

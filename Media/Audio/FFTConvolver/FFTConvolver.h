@@ -22,9 +22,9 @@
 #ifndef _FFTCONVOLVER_FFTCONVOLVER_H
 #define _FFTCONVOLVER_FFTCONVOLVER_H
 
-#include "AudioFFT.h"
-#include "Utilities.h"
-#include "IrBuffer.hpp"
+#include <Media/Audio/FFTConvolver/AudioFFT.h>
+#include <Media/Audio/FFTConvolver/Utilities.h>
+#include <Media/Audio/FFTConvolver/IrBuffer.hpp>
 
 #include <vector>
 

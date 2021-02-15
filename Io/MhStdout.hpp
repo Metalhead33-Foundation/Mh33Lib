@@ -1,6 +1,6 @@
 #ifndef MHSTDOUT_HPP
 #define MHSTDOUT_HPP
-#include "MhIoDevice.hpp"
+#include <Io/MhIoDevice.hpp>
 #include <cstdio>
 
 namespace MH33 {

@@ -2,7 +2,7 @@
 #define MHUUID_HPP
 #include <Util/MhBuffer.hpp>
 #include <Io/MhDataStream.hpp>
-#include "MhRNG.hpp"
+#include <Util/MhRNG.hpp>
 #include <cstring>
 #include <chrono>
 

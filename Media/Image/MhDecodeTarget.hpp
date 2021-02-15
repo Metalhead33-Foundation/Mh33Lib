@@ -2,9 +2,9 @@
 #define MHDECODETARGET_HPP
 #include <Io/MhIoDevice.hpp>
 #include <IoSys/MhIoSystem.hpp>
-#include "MhStandardColourFormat.hpp"
+#include <Media/Image/MhStandardColourFormat.hpp>
 #include <optional>
-#include "MhImageType.hpp"
+#include <Media/Image/MhImageType.hpp>
 
 namespace MH33 {
 namespace GFX {

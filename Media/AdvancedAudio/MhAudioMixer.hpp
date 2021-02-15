@@ -1,6 +1,6 @@
 #ifndef MIXER_HPP
 #define MIXER_HPP
-#include "MhAudioPlayable.hpp"
+#include <Media/AdvancedAudio/MhAudioPlayable.hpp>
 #include <map>
 #include <vector>
 
