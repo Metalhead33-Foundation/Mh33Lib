@@ -1,4 +1,4 @@
-#include "MhGIF.hpp"
+#include <Media/Image/MhGIF.hpp>
 #include <gif_lib.h>
 #include <memory>
 #include <cstring>

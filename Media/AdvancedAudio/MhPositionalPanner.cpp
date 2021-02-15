@@ -1,4 +1,4 @@
-#include "MhPositionalPanner.hpp"
+#include <Media/AdvancedAudio/MhPositionalPanner.hpp>
 
 namespace MH33 {
 namespace Audio {

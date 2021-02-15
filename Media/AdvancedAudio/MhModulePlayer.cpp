@@ -1,5 +1,5 @@
-#include "MhModulePlayer.hpp"
-#include "MhAudioError.hpp"
+#include <Media/AdvancedAudio/MhModulePlayer.hpp>
+#include <Media/AdvancedAudio/MhAudioError.hpp>
 
 namespace MH33 {
 namespace Audio {

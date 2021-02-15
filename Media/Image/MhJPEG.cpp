@@ -1,4 +1,4 @@
-#include "MhJPEG.hpp"
+#include <Media/Image/MhJPEG.hpp>
 #include <turbojpeg.h>
 #include <memory>
 

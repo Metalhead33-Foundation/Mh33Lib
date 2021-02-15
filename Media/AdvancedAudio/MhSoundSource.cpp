@@ -1,5 +1,5 @@
-#include "MhSoundSource.hpp"
-#include "MhAudioError.hpp"
+#include <Media/AdvancedAudio/MhSoundSource.hpp>
+#include <Media/AdvancedAudio/MhAudioError.hpp>
 #include <cstring>
 
 namespace MH33 {

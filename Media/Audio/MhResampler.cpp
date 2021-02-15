@@ -1,4 +1,4 @@
-#include "MhResampler.hpp"
+#include <Media/Audio/MhResampler.hpp>
 #include <cstdlib>
 #include <cstring>
 #include <samplerate.h>

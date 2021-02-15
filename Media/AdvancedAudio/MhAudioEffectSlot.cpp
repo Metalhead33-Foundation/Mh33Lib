@@ -1,5 +1,5 @@
-#include "MhAudioEffectSlot.hpp"
-#include "MhAudioError.hpp"
+#include <Media/AdvancedAudio/MhAudioEffectSlot.hpp>
+#include <Media/AdvancedAudio/MhAudioError.hpp>
 #include <cstring>
 
 namespace MH33 {

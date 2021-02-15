@@ -1,6 +1,6 @@
-#include "MhMatrixPanner.hpp"
+#include <Media/AdvancedAudio/MhMatrixPanner.hpp>
 #include <cstring>
-#include "MhAudioError.hpp"
+#include <Media/AdvancedAudio/MhAudioError.hpp>
 
 namespace MH33 {
 namespace Audio {

@@ -1,4 +1,4 @@
-#include "MhImpulseGenerator.hpp"
+#include <Media/AdvancedAudio/FX/MhImpulseGenerator.hpp>
 #include <cmath>
 #include <numeric>
 #include <algorithm>

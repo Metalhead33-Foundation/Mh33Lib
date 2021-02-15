@@ -1,4 +1,4 @@
-#include "MhWordGenerator.hpp"
+#include <Gimmick/MhWordGenerator.hpp>
 #include <sstream>
 #include <array>
 

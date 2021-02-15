@@ -1,4 +1,4 @@
-#include "MhTGA.hpp"
+#include <Media/Image/MhTGA.hpp>
 
 namespace MH33 {
 namespace GFX {

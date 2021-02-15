@@ -1,4 +1,4 @@
-#include "MhWEBP.hpp"
+#include <Media/Image/MhWEBP.hpp>
 #include <webp/decode.h>
 #include <webp/encode.h>
 #include <webp/demux.h>

@@ -1,5 +1,5 @@
-#include "MhClampEffect.hpp"
-#include "../../../Util/MhEndianness.hpp"
+#include <Media/AdvancedAudio/FX/MhClampEffect.hpp>
+#include <Util/MhEndianness.hpp>
 
 namespace MH33 {
 namespace Audio {

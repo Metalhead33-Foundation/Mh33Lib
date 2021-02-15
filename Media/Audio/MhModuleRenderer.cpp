@@ -1,4 +1,4 @@
-#include "MhModuleRenderer.hpp"
+#include <Media/Audio/MhModuleRenderer.hpp>
 #include <libopenmpt/libopenmpt.h>
 #include <cassert>
 

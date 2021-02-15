@@ -1,4 +1,4 @@
-#include "MhAudioBuffer.hpp"
+#include <Media/AdvancedAudio/MhAudioBuffer.hpp>
 
 namespace MH33 {
 namespace Audio {

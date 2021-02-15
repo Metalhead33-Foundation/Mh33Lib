@@ -1,5 +1,5 @@
-#include "IrBuffer.hpp"
-#include "Utilities.h"
+#include <Media/Audio/FFTConvolver/IrBuffer.hpp>
+#include <Media/Audio/FFTConvolver/Utilities.h>
 #include <cmath>
 namespace fftconvolver
 {

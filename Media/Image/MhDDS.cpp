@@ -1,4 +1,4 @@
-#include "MhDDS.hpp"
+#include <Media/Image/MhDDS.hpp>
 #include <Io/MhBufferWrapper.hpp>
 namespace MH33 {
 namespace GFX {

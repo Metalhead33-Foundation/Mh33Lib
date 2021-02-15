@@ -1,6 +1,6 @@
-#include "MhAudioMixer.hpp"
+#include <Media/AdvancedAudio/MhAudioMixer.hpp>
 #include <cstring>
-#include "MhAudioError.hpp"
+#include <Media/AdvancedAudio/MhAudioError.hpp>
 namespace MH33 {
 namespace Audio {
 

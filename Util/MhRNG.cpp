@@ -1,5 +1,5 @@
-#include "MhRNG.hpp"
-#include "MhNormDenorm.hpp"
+#include <Util/MhRNG.hpp>
+#include <Util/MhNormDenorm.hpp>
 namespace MH33 {
 
 namespace Util {

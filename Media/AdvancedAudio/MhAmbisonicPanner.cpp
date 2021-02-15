@@ -1,5 +1,5 @@
-#include "MhAmbisonicPanner.hpp"
-#include "MhAudioError.hpp"
+#include <Media/AdvancedAudio/MhAmbisonicPanner.hpp>
+#include <Media/AdvancedAudio/MhAudioError.hpp>
 #include <cmath>
 
 namespace MH33 {

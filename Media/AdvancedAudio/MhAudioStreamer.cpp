@@ -1,5 +1,5 @@
-#include "MhAudioStreamer.hpp"
-#include "MhAudioError.hpp"
+#include <Media/AdvancedAudio/MhAudioStreamer.hpp>
+#include <Media/AdvancedAudio/MhAudioError.hpp>
 
 namespace MH33 {
 namespace Audio {

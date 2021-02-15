@@ -1,5 +1,5 @@
-#include "MhFramerateConverter.hpp"
-#include "MhAudioError.hpp"
+#include <Media/AdvancedAudio/MhFramerateConverter.hpp>
+#include <Media/AdvancedAudio/MhAudioError.hpp>
 
 namespace MH33 {
 namespace Audio {
