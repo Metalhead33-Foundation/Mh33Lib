@@ -1,0 +1,14 @@
+add_subdirectory(FX)
+target_sources(${PROJECT_NAME} PRIVATE
+MhModulePlayer
+MhAudioStreamer
+MhAudioBuffer
+MhSoundSource
+MhPositionalPanner
+MhMatrixPanner
+MhFramerateConverter
+MhAudioMixer
+MhAudioError
+MhAudioEffectSlot
+MhAmbisonicPanner
+)

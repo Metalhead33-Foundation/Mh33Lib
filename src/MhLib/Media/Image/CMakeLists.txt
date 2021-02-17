@@ -1,0 +1,8 @@
+target_sources(${PROJECT_NAME} PRIVATE
+MhWEBP
+MhTGA
+MhPNG
+MhJPEG
+MhGIF
+MhDDS
+)
