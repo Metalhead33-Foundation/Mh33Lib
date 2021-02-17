@@ -1,7 +1,7 @@
 #ifndef MHADVANCEDAUDIO_HPP
 #define MHADVANCEDAUDIO_HPP
 #include <MhLib/Util/MhGlobals.hpp>
-#if defined(MH_UTIL_EXPORT)
+#if defined(MH_ADV_AUDIO_EXPORT)
 #define MH_ADV_AUDIO_API MH33_API_EXPORT
 #else
 #define MH_ADV_AUDIO_API MH33_API_IMPORT

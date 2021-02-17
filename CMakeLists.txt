@@ -26,7 +26,7 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 set(CMAKE_BUILD_TYPE Release)
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -fpermissive)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -fpermissive -DMH_UTIL_EXPORT -DMH_GIMMICK_EXPORT -DMH_IO_EXPORT -DMH_IMAGE_EXPORT -DMH_AUDIO_EXPORT -DMH_ADV_AUDIO_EXPORT)
 
 add_subdirectory(src)
 
