@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MHTEMPFILE_HPP
+#define MHTEMPFILE_HPP
 #include <MhLib/Io/MhIoDevice.hpp>
 #include <cstdio>
 namespace MH33 {
@@ -26,3 +27,4 @@ public:
 
 }
 }
+#endif // MHTEMPFILE_HPP
