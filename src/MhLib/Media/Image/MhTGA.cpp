@@ -1,7 +1,7 @@
 #include <MhLib/Media/Image/MhTGA.hpp>
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace TGA {
 
 enum class Type {

@@ -5,7 +5,7 @@
 #include <MhLib/Media/Image/MhDecodeTarget.hpp>
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace GIF {
 
 void MH_IMAGE_API decode(Io::Device& iodev, DecodeTarget& target);

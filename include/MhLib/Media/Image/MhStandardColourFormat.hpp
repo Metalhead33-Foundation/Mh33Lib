@@ -4,7 +4,7 @@
 #include <limits>
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 
 template <typename ColourResolution> struct alignas(sizeof(ColourResolution)) RG {
 	ColourResolution r,g;

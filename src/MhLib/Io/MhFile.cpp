@@ -9,9 +9,14 @@ File::~File()
 }
 
 File::File(File &&mov)
-	: fdev(mov.fdev)
+	: fdev(mov.fdev), path(std::move(mov.path))
 {
 	mov.fdev = nullptr;
+}
+
+const std::string &File::getPath() const
+{
+	return path;
 }
 
 File &File::operator=(File &&mov)
@@ -19,6 +24,7 @@ File &File::operator=(File &&mov)
 	if(fdev) fclose(fdev);
 	this->fdev = mov.fdev;
 	mov.fdev = nullptr;
+	this->path = std::move(mov.path);
 	return *this;
 }
 
@@ -29,7 +35,7 @@ File::File()
 }
 
 File::File(const char *path, Mode mode)
-	: fdev(nullptr), mode(mode)
+	: fdev(nullptr), mode(mode), path(path)
 {
 	switch (mode) {
 	case Mode::READ:
@@ -51,7 +57,7 @@ File::File(const char *path, Mode mode)
 }
 
 File::File(const std::string &path, Mode mode)
-	: fdev(nullptr), mode(mode)
+	: fdev(nullptr), mode(mode), path(path)
 {
 	switch (mode) {
 	case Mode::READ:

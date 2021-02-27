@@ -8,4 +8,5 @@ MhFile
 MhDecompressor
 MhCompressor
 MhBufferWrapper
+MhTemporaryFile
 )

@@ -3,7 +3,7 @@
 #include <memory>
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace JPEG {
 
 bool encode(const Util::Buffer& sourceBuff, int width, int height, int pixelFormat,

@@ -9,7 +9,7 @@ void mh33_write_data(png_structp png_ptr, png_bytep data, png_size_t length);
 void mh33_flush_data(png_structp png_ptr);
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace PNG {
 
 constexpr size_t type2bytes(uint8_t color_type, uint8_t bit_depth) {

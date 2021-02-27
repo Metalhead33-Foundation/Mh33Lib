@@ -3,7 +3,6 @@
 #include <MhLib/Io/MhIoDevice.hpp>
 #include <memory>
 #ifdef _WIN32
-Little = 0,
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #elif defined (__unix)

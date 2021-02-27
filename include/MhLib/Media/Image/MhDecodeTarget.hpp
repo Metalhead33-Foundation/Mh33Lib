@@ -7,7 +7,7 @@
 #include <MhLib/Media/Image/MhImageType.hpp>
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 
 struct Palette {
 	std::vector<std::byte> palette;

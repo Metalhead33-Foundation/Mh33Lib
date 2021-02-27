@@ -50,7 +50,7 @@ public:
 	void readAllAsString(std::string& dst) {
 		auto sz = size()-tell();
 		dst.resize(sz+1,0);
-		read(dst.data(),sz);
+		read(read(&dst[0],sz),sz);
 		dst.shrink_to_fit();
 	}
 	std::string readAllAsString(void) {

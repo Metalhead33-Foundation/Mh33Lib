@@ -5,7 +5,7 @@
 #include <cassert>
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace GIF {
 
 static int LATEST_ERROR;

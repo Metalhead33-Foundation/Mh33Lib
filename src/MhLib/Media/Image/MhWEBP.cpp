@@ -8,7 +8,7 @@
 #include <memory>
 #include <stdexcept>
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace WEBP {
 
 bool decode(const Util::Buffer &srcBuffer, DecodeTarget &target)

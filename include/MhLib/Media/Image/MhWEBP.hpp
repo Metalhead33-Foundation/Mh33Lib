@@ -5,7 +5,7 @@
 #include <MhLib/Media/Image/MhDecodeTarget.hpp>
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace WEBP
 {
 bool MH_IMAGE_API decode(const Util::Buffer& srcBuffer, DecodeTarget& target);

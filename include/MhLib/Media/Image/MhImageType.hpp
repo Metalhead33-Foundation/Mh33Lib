@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <cstddef>
 namespace MH33 {
-namespace GFX {
+namespace Image {
 
 	enum class Format {
 		INVALID = 0x0000,

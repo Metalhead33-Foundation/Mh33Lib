@@ -6,7 +6,7 @@
 #include <memory>
 
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace PNG
 {
 	void MH_IMAGE_API decode(Io::Device& iodev, DecodeTarget &destination);

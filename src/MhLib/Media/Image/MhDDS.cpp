@@ -1,7 +1,7 @@
 #include <MhLib/Media/Image/MhDDS.hpp>
 #include <MhLib/Io/MhBufferWrapper.hpp>
 namespace MH33 {
-namespace GFX {
+namespace Image {
 namespace DDS {
 static const uint32_t FOURCC_DXT1 = 0x31545844;
 static const uint32_t FOURCC_DXT3 = 0x33545844;

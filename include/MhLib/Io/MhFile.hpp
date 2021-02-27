@@ -12,6 +12,7 @@ class MH_IO_API File : public Device
 private:
 	FILE* fdev;
 	Mode mode;
+	std::string path;
 	File(const File& cpy) = delete; // No copy constructor
 	File& operator=(const File& cpy) = delete; // No copy assignment operator
 public:
@@ -35,6 +36,7 @@ public:
 	size_t read(void* destination, size_t dataSize);
 	Mode getMode() const;
 	bool isValid() const;
+	const std::string& getPath() const;
 };
 
 }

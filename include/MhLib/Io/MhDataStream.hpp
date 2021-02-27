@@ -290,7 +290,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		uint32_t len;
 		*this >> len;
 		data.resize(len,0);
-		if constexpr(sizeof(T) == 1) device.read(data.data(),len);
+		if constexpr(sizeof(T) == 1) device.read(&data[0],len);
 		else {
 			for(auto& it : data) *this >> it;
 		}
