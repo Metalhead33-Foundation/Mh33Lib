@@ -1,3 +1,5 @@
+#ifndef MHNORMDENORM_HPP
+#define MHNORMDENORM_HPP
 #include <limits>
 #include <cmath>
 #include <type_traits>
@@ -95,3 +97,4 @@ template <typename T1, typename T2> void normalizing_cast(const T1& src, T2& dst
 
 }
 }
+#endif // MHNORMDENORM_HPP
