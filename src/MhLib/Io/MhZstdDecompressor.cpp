@@ -1,4 +1,4 @@
-#include <MhLib/Io/MhDecompressor.hpp>
+#include <MhLib/Io/MhZstdDecompressor.hpp>
 #include <zstd.h>
 #include <cassert>
 
@@ -7,39 +7,39 @@
 namespace MH33 {
 namespace Io {
 
-Decompressor::Decompressor(Decompressor &&mov)
+ZstdDecompressor::ZstdDecompressor(ZstdDecompressor &&mov)
 	: handle(mov.handle), input(mov.input), output(mov.output), inBuff(std::move(mov.inBuff)), outBuff(std::move(mov.outBuff))
 {
 	mov.handle = nullptr;
 }
 
-Device *Decompressor::getInput() const
+Device *ZstdDecompressor::getInput() const
 {
 	return input;
 }
 
-void Decompressor::setInput(Device *value)
+void ZstdDecompressor::setInput(Device *value)
 {
 	input = value;
 }
 
-Device *Decompressor::getOutput() const
+Device *ZstdDecompressor::getOutput() const
 {
 	return output;
 }
 
-void Decompressor::setOutput(Device *value)
+void ZstdDecompressor::setOutput(Device *value)
 {
 	output = value;
 }
 
-void Decompressor::qucikDecompress(Device &input, Device &output)
+void ZstdDecompressor::qucikDecompress(Device &input, Device &output)
 {
-	Decompressor tmp(&input,&output);
+	ZstdDecompressor tmp(&input,&output);
 	tmp.decompress();
 }
 
-Decompressor &Decompressor::operator=(Decompressor &&mov)
+ZstdDecompressor &ZstdDecompressor::operator=(ZstdDecompressor &&mov)
 {
 	this->handle = mov.handle;
 	mov.handle = nullptr;
@@ -52,23 +52,23 @@ Decompressor &Decompressor::operator=(Decompressor &&mov)
 	return *this;
 }
 
-Decompressor::Decompressor() : handle(ZSTD_createDCtx()), inBuff(ZSTD_DStreamInSize()), outBuff(ZSTD_DStreamOutSize())
+ZstdDecompressor::ZstdDecompressor() : handle(ZSTD_createDCtx()), inBuff(ZSTD_DStreamInSize()), outBuff(ZSTD_DStreamOutSize())
 {
 
 }
 
-Decompressor::Decompressor(Device *input, Device *output) : handle(ZSTD_createDCtx()), input(input), output(output),
+ZstdDecompressor::ZstdDecompressor(Device *input, Device *output) : handle(ZSTD_createDCtx()), input(input), output(output),
 	  inBuff(ZSTD_DStreamInSize()), outBuff(ZSTD_DStreamOutSize())
 {
 
 }
 
-Decompressor::~Decompressor()
+ZstdDecompressor::~ZstdDecompressor()
 {
 	if(handle) ZSTD_freeDCtx(MHDHANDLE);
 }
 
-void Decompressor::decompress()
+void ZstdDecompressor::decompress()
 {
 	assert(handle);
 	if(!input || !output) return;

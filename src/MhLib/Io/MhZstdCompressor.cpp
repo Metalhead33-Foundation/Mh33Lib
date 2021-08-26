@@ -1,4 +1,4 @@
-#include <MhLib/Io/MhCompressor.hpp>
+#include <MhLib/Io/MhZstdCompressor.hpp>
 #include <zstd.h>
 #include <cassert>
 
@@ -7,41 +7,41 @@
 namespace MH33 {
 namespace Io {
 
-Compressor::Compressor(Compressor &&mov)
+ZstdCompressor::ZstdCompressor(ZstdCompressor &&mov)
 	: handle(mov.handle), input(mov.input), output(mov.output), inBuff(std::move(mov.inBuff)), outBuff(std::move(mov.outBuff))
 {
 	mov.handle = nullptr;
 }
 
-Device *Compressor::getInput() const
+Device *ZstdCompressor::getInput() const
 {
 	return input;
 }
 
-void Compressor::setInput(Device *value)
+void ZstdCompressor::setInput(Device *value)
 {
 	input = value;
 }
 
-Device *Compressor::getOutput() const
+Device *ZstdCompressor::getOutput() const
 {
 	return output;
 }
 
-void Compressor::setOutput(Device *value)
+void ZstdCompressor::setOutput(Device *value)
 {
 	output = value;
 }
 
-void Compressor::quickCompress(Device &input, Device &output, float compressionLevel, bool checksum)
+void ZstdCompressor::quickCompress(Device &input, Device &output, float compressionLevel, bool checksum)
 {
-	Compressor tmp(&input,&output);
+	ZstdCompressor tmp(&input,&output);
 	tmp.setCompressionLevel(compressionLevel);
 	tmp.setChecksum(checksum);
 	tmp.compress();
 }
 
-Compressor &Compressor::operator=(Compressor &&mov)
+ZstdCompressor &ZstdCompressor::operator=(ZstdCompressor &&mov)
 {
 	this->handle = mov.handle;
 	mov.handle = nullptr;
@@ -54,23 +54,23 @@ Compressor &Compressor::operator=(Compressor &&mov)
 	return *this;
 }
 
-Compressor::Compressor() : handle(ZSTD_createCCtx()), inBuff(ZSTD_CStreamInSize()), outBuff(ZSTD_CStreamOutSize())
+ZstdCompressor::ZstdCompressor() : handle(ZSTD_createCCtx()), inBuff(ZSTD_CStreamInSize()), outBuff(ZSTD_CStreamOutSize())
 {
 
 }
 
-Compressor::Compressor(Device *input, Device *output) : handle(ZSTD_createCCtx()), input(input), output(output),
+ZstdCompressor::ZstdCompressor(Device *input, Device *output) : handle(ZSTD_createCCtx()), input(input), output(output),
 	  inBuff(ZSTD_CStreamInSize()), outBuff(ZSTD_CStreamOutSize())
 {
 
 }
 
-Compressor::~Compressor()
+ZstdCompressor::~ZstdCompressor()
 {
 	if(handle) MCHANDLE;
 }
 
-void Compressor::compress()
+void ZstdCompressor::compress()
 {
 	assert(handle);
 	for (;;) {
@@ -91,7 +91,7 @@ void Compressor::compress()
 	}
 }
 
-void Compressor::setCompressionLevel(float value)
+void ZstdCompressor::setCompressionLevel(float value)
 {
 	assert(handle);
 	auto bounds = ZSTD_cParam_getBounds(ZSTD_c_compressionLevel);
@@ -100,7 +100,7 @@ void Compressor::setCompressionLevel(float value)
 	ZSTD_CCtx_setParameter(MCHANDLE,ZSTD_c_compressionLevel,nval);
 }
 
-void Compressor::setChecksum(bool value)
+void ZstdCompressor::setChecksum(bool value)
 {
 	assert(handle);
 	ZSTD_CCtx_setParameter(MCHANDLE,ZSTD_c_checksumFlag,value);

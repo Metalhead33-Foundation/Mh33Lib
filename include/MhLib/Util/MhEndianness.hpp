@@ -110,6 +110,20 @@ template <> struct _endianness_swp<double> {
 		_endianness_swp<uint64_t>::do_swp(*reinterpret_cast<uint64_t*>(&val));
 	}
 };
+template <> struct _endianness_swp<char16_t> {
+	typedef char16_t T;
+	inline static void do_swp(T &val) {
+		static_assert (sizeof(char16_t) == sizeof(uint16_t),"Char16 isn't 16-bit! This means that this kind of system isn't supported!");
+		_endianness_swp<uint16_t>::do_swp(*reinterpret_cast<uint16_t*>(&val));
+	}
+};
+template <> struct _endianness_swp<char32_t> {
+	typedef char32_t T;
+	inline static void do_swp(T &val) {
+		static_assert (sizeof(char32_t) == sizeof(uint32_t),"Char32 isn't 32-bit! This means that this kind of system isn't supported!");
+		_endianness_swp<uint32_t>::do_swp(*reinterpret_cast<uint32_t*>(&val));
+	}
+};
 
 template <Endian src, Endian dst, typename T> void convert_endian(T& val) {
 	if constexpr(src == dst) (void)val;

@@ -1,10 +1,10 @@
-#ifndef MHCOMPRESSOR_HPP
-#define MHCOMPRESSOR_HPP
+#ifndef MHZSTDCOMPRESSOR_HPP
+#define MHZSTDCOMPRESSOR_HPP
 #include <MhLib/Io/MhIoDevice.hpp>
 
 namespace MH33 {
 namespace Io {
-class MH_IO_API Compressor
+class MH_IO_API ZstdCompressor
 {
 private:
 	void* handle;
@@ -13,16 +13,16 @@ private:
 	Util::Buffer inBuff;
 	Util::Buffer outBuff;
 	// No copy construction or assignment
-	Compressor(const Compressor& cpy) = delete;
-	Compressor& operator=(const Compressor& cpy) = delete;
+	ZstdCompressor(const ZstdCompressor& cpy) = delete;
+	ZstdCompressor& operator=(const ZstdCompressor& cpy) = delete;
 public:
 	// Move assignment and construction
-	Compressor(Compressor&& mov);
-	Compressor& operator=(Compressor&& mov);
+	ZstdCompressor(ZstdCompressor&& mov);
+	ZstdCompressor& operator=(ZstdCompressor&& mov);
 	// Actual constructor and destructor
-	Compressor();
-	Compressor(Device* input, Device* output);
-	~Compressor();
+	ZstdCompressor();
+	ZstdCompressor(Device* input, Device* output);
+	~ZstdCompressor();
 	void compress();
 	void setCompressionLevel(float value);
 	//int getCompressionLevel() const;
@@ -37,4 +37,4 @@ public:
 };
 }
 }
-#endif // MHCOMPRESSOR_HPP
+#endif // MHZSTDCOMPRESSOR_HPP

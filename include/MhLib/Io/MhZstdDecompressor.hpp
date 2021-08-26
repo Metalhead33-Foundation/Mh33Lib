@@ -1,10 +1,10 @@
-#ifndef MHDECOMPRESSOR_HPP
-#define MHDECOMPRESSOR_HPP
+#ifndef MHZSTDDECOMPRESSOR_HPP
+#define MHZSTDDECOMPRESSOR_HPP
 #include <MhLib/Io/MhIoDevice.hpp>
 
 namespace MH33 {
 namespace Io {
-class MH_IO_API Decompressor
+class MH_IO_API ZstdDecompressor
 {
 private:
 	void* handle;
@@ -13,16 +13,16 @@ private:
 	Util::Buffer inBuff;
 	Util::Buffer outBuff;
 	// No copy construction or assignment
-	Decompressor(const Decompressor& cpy) = delete;
-	Decompressor& operator=(const Decompressor& cpy) = delete;
+	ZstdDecompressor(const ZstdDecompressor& cpy) = delete;
+	ZstdDecompressor& operator=(const ZstdDecompressor& cpy) = delete;
 public:
 	// Move assignment and construction
-	Decompressor(Decompressor&& mov);
-	Decompressor& operator=(Decompressor&& mov);
+	ZstdDecompressor(ZstdDecompressor&& mov);
+	ZstdDecompressor& operator=(ZstdDecompressor&& mov);
 	// Actual constructor and destructor
-	Decompressor();
-	Decompressor(Device* input, Device* output);
-	~Decompressor();
+	ZstdDecompressor();
+	ZstdDecompressor(Device* input, Device* output);
+	~ZstdDecompressor();
 	void decompress();
 	Device *getInput() const;
 	void setInput(Device *value);
@@ -34,4 +34,4 @@ public:
 }
 }
 
-#endif // MHDECOMPRESSOR_HPP
+#endif // MHZSTDDECOMPRESSOR_HPP

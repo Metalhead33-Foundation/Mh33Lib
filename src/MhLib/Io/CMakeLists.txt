@@ -5,8 +5,8 @@ MhStdin
 MhStderr
 MhSocket
 MhFile
-MhDecompressor
-MhCompressor
+MhZstdDecompressor
+MhZstdCompressor
 MhBufferWrapper
 MhTemporaryFile
 )

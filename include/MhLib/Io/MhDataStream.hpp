@@ -225,6 +225,26 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+	inline DataStream& operator<<(char16_t data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(char16_t));
+		return *this;
+	}
+	inline DataStream& operator>>(char16_t& data) {
+		device.read(&data,sizeof(char16_t));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
+	inline DataStream& operator<<(char32_t data) {
+		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
+		device.write(&data,sizeof(char32_t));
+		return *this;
+	}
+	inline DataStream& operator>>(char32_t& data) {
+		device.read(&data,sizeof(char32_t));
+		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
+		return *this;
+	}
 #ifdef __GNUC__
 	inline DataStream& operator<<(unsigned __int128 data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
