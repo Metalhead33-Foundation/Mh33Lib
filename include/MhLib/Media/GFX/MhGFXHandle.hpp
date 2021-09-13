@@ -6,14 +6,24 @@
 namespace MH33 {
 namespace GFX {
 
+typedef void* NativePointer;
+typedef void* D3dHandle;
+typedef int32_t OpenGLint;
+typedef uint32_t OpenGLUint;
+typedef void* VulkanHandle;
+#if defined(__LP64__) || defined(_WIN64) || (defined(__x86_64__) && !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
+typedef void* VulkanNonDispatchableHandle;
+#else
+typedef uint64_t VulkanNonDispatchableHandle;
+#endif
+
 union Handle {
-	void* ptr;
-	int ginteger;
-	unsigned guintenger;
-	int32_t gint32;
-	uint32_t guint32;
-	int64_t gint64;
-	uint64_t guint64;
+	NativePointer ptr;
+	D3dHandle d3dHandle;
+	OpenGLint oglInt;
+	OpenGLUint oglUint;
+	VulkanHandle vkHndl;
+	VulkanNonDispatchableHandle vkNdHndl;
 };
 
 }

@@ -1,37 +1,38 @@
-#ifndef MHZSTDDECOMPRESSOR_HPP
-#define MHZSTDDECOMPRESSOR_HPP
+#ifndef MHZFLATOR_HPP
+#define MHZFLATOR_HPP
 #include <MhLib/Io/MhIoDevice.hpp>
 
 namespace MH33 {
 namespace Io {
-class MH_IO_API ZstdDecompressor
+class MH_IO_API ZFlator
 {
 private:
-	void* handle;
 	Device* input;
 	Device* output;
 	Util::Buffer inBuff;
 	Util::Buffer outBuff;
 	// No copy construction or assignment
-	ZstdDecompressor(const ZstdDecompressor& cpy) = delete;
-	ZstdDecompressor& operator=(const ZstdDecompressor& cpy) = delete;
+	ZFlator(const ZFlator& cpy) = delete;
+	ZFlator& operator=(const ZFlator& cpy) = delete;
 public:
 	// Move assignment and construction
-	ZstdDecompressor(ZstdDecompressor&& mov);
-	ZstdDecompressor& operator=(ZstdDecompressor&& mov);
+	ZFlator(ZFlator&& mov);
+	ZFlator& operator=(ZFlator&& mov);
 	// Actual constructor and destructor
-	ZstdDecompressor();
-	ZstdDecompressor(Device* input, Device* output);
-	~ZstdDecompressor();
+	ZFlator();
+	ZFlator(Device* input, Device* output);
+	~ZFlator();
 	void decompress();
+	void compress(int level);
 	Device *getInput() const;
 	void setInput(Device *value);
 	Device *getOutput() const;
 	void setOutput(Device *value);
 
 	static void quickDecompress(Device &input, Device &output);
+	static void quickCompress(Device &input, Device &output);
 };
 }
 }
 
-#endif // MHZSTDDECOMPRESSOR_HPP
+#endif // MHZFLATOR_HPP

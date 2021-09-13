@@ -33,7 +33,7 @@ void ZstdDecompressor::setOutput(Device *value)
 	output = value;
 }
 
-void ZstdDecompressor::qucikDecompress(Device &input, Device &output)
+void ZstdDecompressor::quickDecompress(Device &input, Device &output)
 {
 	ZstdDecompressor tmp(&input,&output);
 	tmp.decompress();

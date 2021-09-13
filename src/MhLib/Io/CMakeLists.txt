@@ -9,4 +9,5 @@ MhZstdDecompressor
 MhZstdCompressor
 MhBufferWrapper
 MhTemporaryFile
+MhZflator
 )

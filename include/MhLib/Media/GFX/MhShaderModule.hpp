@@ -1,5 +1,5 @@
-#ifndef MHARRAYTEXTURE1D_HPP
-#define MHARRAYTEXTURE1D_HPP
+#ifndef MHSHADERMODULE_HPP
+#define MHSHADERMODULE_HPP
 #include <MhLib/Media/GFX/MhGFXHandle.hpp>
 
 namespace MH33 {
@@ -22,4 +22,4 @@ public:
 
 }
 }
-#endif // MHARRAYTEXTURE1D_HPP
+#endif // MHSHADERMODULE_HPP

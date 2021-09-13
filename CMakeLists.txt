@@ -7,6 +7,7 @@ include(CMakePackageConfigHelpers)
 
 find_package(PkgConfig)
 find_package(GIF REQUIRED)
+find_package(ZLIB REQUIRED)
 
 pkg_check_modules(SndFile REQUIRED IMPORTED_TARGET sndfile)
 pkg_check_modules(OpenMPT REQUIRED IMPORTED_TARGET libopenmpt)
@@ -40,6 +41,7 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
         ${GIF_LIBRARIES}
         ${PNG_LIBRARIES}
+        ${ZLIB_LIBRARIES}
         PkgConfig::SndFile
         PkgConfig::OpenMPT
         PkgConfig::Samplerate
