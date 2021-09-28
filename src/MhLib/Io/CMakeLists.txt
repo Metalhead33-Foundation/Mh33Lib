@@ -8,6 +8,6 @@ MhFile
 MhZstdDecompressor
 MhZstdCompressor
 MhBufferWrapper
+MhFixedBufferWrapper
 MhTemporaryFile
-MhZflator
 )
