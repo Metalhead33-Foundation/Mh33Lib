@@ -26,11 +26,13 @@ RNG::RNG(const RNG &cpy) : seed(cpy.seed)
 RNG &RNG::operator=(uint32_t seed)
 {
 	this->seed = seed;
+	return *this;
 }
 
 RNG &RNG::operator=(const RNG &cpy)
 {
 	this->seed = cpy.seed;
+	return *this;
 }
 
 uint32_t RNG::generate()

@@ -17,10 +17,11 @@
 #endif
 #include <stack>
 #include <queue>
+/*
 #ifdef __GNUC__
 #include <decimal/decimal>
 #endif
-
+*/
 namespace MH33 {
 namespace Io {
 
@@ -266,6 +267,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+	/*
 	inline DataStream& operator<<(std::decimal::decimal32 data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(std::decimal::decimal32));
@@ -296,6 +298,7 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+	*/
 #endif
 	// Containers
 	template <typename T, class Traits = std::char_traits<T>, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::basic_string<T,Traits,Allocator>& data) {
