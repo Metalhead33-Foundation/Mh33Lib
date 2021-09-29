@@ -1,6 +1,6 @@
 target_sources(${PROJECT_NAME} PRIVATE
-IrBuffer
-Utilities
-AudioFFT
-FFTConvolver
+IrBuffer.cpp
+Utilities.cpp
+AudioFFT.cpp
+FFTConvolver.cpp
 )

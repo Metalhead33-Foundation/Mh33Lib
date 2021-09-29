@@ -1,8 +1,8 @@
 target_sources(${PROJECT_NAME} PRIVATE
-MhWEBP
-MhTGA
-MhPNG
-MhJPEG
-MhGIF
-MhDDS
+MhWEBP.cpp
+MhTGA.cpp
+MhPNG.cpp
+MhJPEG.cpp
+MhGIF.cpp
+MhDDS.cpp
 )

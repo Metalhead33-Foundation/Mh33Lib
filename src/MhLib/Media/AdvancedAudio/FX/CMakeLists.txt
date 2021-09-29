@@ -1,7 +1,7 @@
 target_sources(${PROJECT_NAME} PRIVATE
-MhClampEffect
-SampleLevelEffect
-MhImpulseGenerator
-MhCrushEffect
-MhConvolver
+MhClampEffect.cpp
+SampleLevelEffect.cpp
+MhImpulseGenerator.cpp
+MhCrushEffect.cpp
+MhConvolver.cpp
 )

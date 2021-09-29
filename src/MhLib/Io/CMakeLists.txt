@@ -1,13 +1,13 @@
 target_sources(${PROJECT_NAME} PRIVATE
-PhysFSIO
-MhStdout
-MhStdin
-MhStderr
-MhSocket
-MhFile
-MhZstdDecompressor
-MhZstdCompressor
-MhBufferWrapper
-MhFixedBufferWrapper
-MhTemporaryFile
+PhysFSIO.cpp
+MhStdout.cpp
+MhStdin.cpp
+MhStderr.cpp
+MhSocket.cpp
+MhFile.cpp
+MhZstdDecompressor.cpp
+MhZstdCompressor.cpp
+MhBufferWrapper.cpp
+MhFixedBufferWrapper.cpp
+MhTemporaryFile.cpp
 )

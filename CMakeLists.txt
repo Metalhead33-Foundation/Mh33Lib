@@ -4,20 +4,18 @@ project(MhLib VERSION 0.1)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
+list(APPEND WebP_FIND_COMPONENTS "demux")
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules")
 
-find_package(PkgConfig)
 find_package(GIF REQUIRED)
-
-pkg_check_modules(SndFile REQUIRED IMPORTED_TARGET sndfile)
-pkg_check_modules(OpenMPT REQUIRED IMPORTED_TARGET libopenmpt)
-pkg_check_modules(Samplerate REQUIRED IMPORTED_TARGET samplerate)
-pkg_check_modules(TurboJPEG REQUIRED IMPORTED_TARGET libturbojpeg)
-pkg_check_modules(WebP REQUIRED IMPORTED_TARGET libwebp)
-pkg_check_modules(WebPDecoder REQUIRED IMPORTED_TARGET libwebpdecoder)
-pkg_check_modules(WebPDemuxer REQUIRED IMPORTED_TARGET libwebpdemux)
-pkg_check_modules(PNG REQUIRED IMPORTED_TARGET libpng)
-pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET libzstd)
-pkg_check_modules(PhysFS REQUIRED IMPORTED_TARGET physfs)
+find_package(PNG REQUIRED)
+find_package(TurboJPEG REQUIRED)
+find_package(LibSndFile REQUIRED)
+find_package(LibSamplerate REQUIRED)
+find_package(OpenMPT REQUIRED)
+find_package(WebP REQUIRED libwebp demux)
+find_package(ZSTD REQUIRED)
+find_package(PhysFS REQUIRED)
 
 set(CMAKE_DEBUG_POSTFIX d)
 
@@ -42,17 +40,15 @@ if(CMAKE_DL_LIBS)
 endif()
 target_link_libraries(${PROJECT_NAME}
         ${GIF_LIBRARIES}
-	${PNG_LIBRARIES}
-        PkgConfig::SndFile
-        PkgConfig::OpenMPT
-        PkgConfig::Samplerate
-        PkgConfig::TurboJPEG
-        PkgConfig::WebP
-        PkgConfig::WebPDecoder
-        PkgConfig::WebPDemuxer
-        PkgConfig::PNG
-        PkgConfig::ZSTD
-        PkgConfig::PhysFS)
+		${PNG_LIBRARIES}
+		${TURBOJPEG_LIBRARIES}
+        ${LIBSNDFILE_LIBRARIES}
+        ${LIBSAMPLERATE_LIBRARIES}
+        ${OPENMPT_LIBRARY}
+        ${WebP_LIBRARY}
+        ${WebP_DEMUX_LIBRARY}
+        ${ZSTD_LIBRARY}
+        ${PHYSFS_LIBRARY})
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

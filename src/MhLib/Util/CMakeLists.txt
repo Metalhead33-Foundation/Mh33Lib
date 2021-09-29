@@ -1,5 +1,5 @@
 target_sources(${PROJECT_NAME} PRIVATE
-MhUUID
-MhRNG
-MhDynamicLib
+MhUUID.cpp
+MhRNG.cpp
+MhDynamicLib.cpp
 )
