@@ -41,10 +41,10 @@ endif()
 target_link_libraries(${PROJECT_NAME}
         ${GIF_LIBRARIES}
 		${PNG_LIBRARIES}
-		${TURBOJPEG_LIBRARIES}
+		${TurboJPEG_LIBRARIES}
         ${LIBSNDFILE_LIBRARIES}
         ${LIBSAMPLERATE_LIBRARIES}
-        ${OPENMPT_LIBRARY}
+        ${OPENMPT_LIBRARIES}
         ${WebP_LIBRARY}
         ${WebP_DEMUX_LIBRARY}
         ${ZSTD_LIBRARY}
