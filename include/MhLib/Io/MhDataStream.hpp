@@ -25,7 +25,7 @@
 namespace MH33 {
 namespace Io {
 
-template <Util::Endian io_endianness> struct DataStream : public Device {
+template <Util::Endian io_endianness = Util::Endian::Big> struct DataStream : public Device {
 	Device& device;
 	DataStream(Device& ndevice) : device(ndevice) {
 
@@ -226,6 +226,22 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		Util::convert_endian<io_endianness,Util::Endian::Native>(data);
 		return *this;
 	}
+	inline DataStream& operator<<(char data) {
+		device.write(&data,sizeof(char));
+		return *this;
+	}
+	inline DataStream& operator>>(char& data) {
+		device.read(&data,sizeof(char));
+		return *this;
+	}
+	inline DataStream& operator<<(char8_t data) {
+		device.write(&data,sizeof(char8_t));
+		return *this;
+	}
+	inline DataStream& operator>>(char8_t& data) {
+		device.read(&data,sizeof(char8_t));
+		return *this;
+	}
 	inline DataStream& operator<<(char16_t data) {
 		Util::convert_endian<Util::Endian::Native,io_endianness>(data);
 		device.write(&data,sizeof(char16_t));
@@ -309,13 +325,15 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 		}
 		return *this;
 	}
-	template <typename T, class Traits = std::char_traits<T>, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::basic_string<T,Traits,Allocator>& data) {
+	template <typename T, class Traits = std::char_traits<T>, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::basic_string<T,Traits,Allocator>& str) {
 		uint32_t len;
 		*this >> len;
-		data.resize(len,0);
-		if constexpr(sizeof(T) == 1) device.read(&data[0],len);
+		if(len) {
+		str.resize(len, static_cast<T>(0));
+		if constexpr(sizeof(T) == 1) device.read(&str[0],len);
 		else {
-			for(auto& it : data) *this >> it;
+			for(auto& it : str) *this >> it;
+		}
 		}
 		return *this;
 	}
@@ -330,10 +348,12 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::vector<T,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
+		if(len) {
 		data.resize(len,0);
 		if constexpr(sizeof(T) == 1) device.read(data.data(),len);
 		else {
 			for(auto& it : data) *this >> it;
+		}
 		}
 		return *this;
 	}
@@ -375,8 +395,10 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::list<T,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
+		if(len) {
 		data.resize(len,0);
 		for(auto& it : data) *this >> it;
+		}
 		return *this;
 	}
 	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::forward_list<T,Allocator>& data) {
@@ -387,8 +409,10 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::forward_list<T,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
+		if(len) {
 		data.resize(len,0);
 		for(auto& it : data) *this >> it;
+		}
 		return *this;
 	}
 	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator<<(const std::deque<T,Allocator>& data) {
@@ -399,8 +423,10 @@ template <Util::Endian io_endianness> struct DataStream : public Device {
 	template <typename T, class Allocator = std::allocator<T>> inline DataStream& operator>>(std::deque<T,Allocator>& data) {
 		uint32_t len;
 		*this >> len;
+		if(len) {
 		data.resize(len,0);
 		for(auto& it : data) *this >> it;
+		}
 		return *this;
 	}
 	template <class Key,

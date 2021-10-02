@@ -1,39 +1,25 @@
 #ifndef MHZSTDCOMPRESSOR_HPP
 #define MHZSTDCOMPRESSOR_HPP
-#include <MhLib/Io/MhIoDevice.hpp>
+#include <MhLib/Io/MhProxyWriteStream.hpp>
 
 namespace MH33 {
 namespace Io {
-class MH_IO_API ZstdCompressor
+class MH_IO_API ZstdCompressor : public ProxyWriteStream
 {
 private:
 	void* handle;
-	Device* input;
-	Device* output;
-	Util::Buffer inBuff;
-	Util::Buffer outBuff;
 	// No copy construction or assignment
 	ZstdCompressor(const ZstdCompressor& cpy) = delete;
 	ZstdCompressor& operator=(const ZstdCompressor& cpy) = delete;
+protected:
+	void fillBuffers(const void* input, size_t inSize, void* outBuff, size_t& outBuffCursor, size_t outBuffMaxSize);
 public:
-	// Move assignment and construction
-	ZstdCompressor(ZstdCompressor&& mov);
-	ZstdCompressor& operator=(ZstdCompressor&& mov);
 	// Actual constructor and destructor
 	ZstdCompressor();
-	ZstdCompressor(Device* input, Device* output);
+	ZstdCompressor(Device* input);
 	~ZstdCompressor();
-	void compress();
 	void setCompressionLevel(float value);
-	//int getCompressionLevel() const;
 	void setChecksum(bool value);
-	//bool getChecksum() const;
-	Device *getInput() const;
-	void setInput(Device *value);
-	Device *getOutput() const;
-	void setOutput(Device *value);
-
-	static void quickCompress(Device& input, Device& output, float compressionLevel = 0.5f, bool checksum = false);
 };
 }
 }

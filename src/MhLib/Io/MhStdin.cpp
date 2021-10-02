@@ -9,7 +9,7 @@ Stdin::Stdin()
 
 bool Stdin::flush()
 {
-	return fflush(stdin) == 0;
+	return false; // Read-only system
 }
 
 bool Stdin::seek(SeekOrigin whence, intptr_t offset)

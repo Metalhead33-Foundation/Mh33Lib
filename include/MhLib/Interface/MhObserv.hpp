@@ -16,10 +16,10 @@ public:
     virtual void subscribe(const sObserver& observer) = 0;
     virtual void subscribe(sObserver&& observer) = 0;
     virtual void unsubscribe(Observer<T>* observer) = 0;
-    void unsubscribe(const sObserver& observer) {
+	inline void unsubscribe(const sObserver& observer) {
 	unsubscribe(observer.get());
     }
-    void unsubscribe(const Observer<T>& observer) {
+	inline void unsubscribe(const Observer<T>& observer) {
 	unsubscribe(&observer);
     }
 };

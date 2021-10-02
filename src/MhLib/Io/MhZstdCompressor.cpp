@@ -1,76 +1,43 @@
 #include <MhLib/Io/MhZstdCompressor.hpp>
 #include <zstd.h>
 #include <cassert>
+#include <stdexcept>
 
 #define MCHANDLE reinterpret_cast<ZSTD_CCtx*>(handle)
 
 namespace MH33 {
 namespace Io {
 
-ZstdCompressor::ZstdCompressor(ZstdCompressor &&mov)
-	: handle(mov.handle), input(mov.input), output(mov.output), inBuff(std::move(mov.inBuff)), outBuff(std::move(mov.outBuff))
+
+ZstdCompressor::ZstdCompressor() : ProxyWriteStream(ZSTD_CStreamInSize(), ZSTD_CStreamOutSize()), handle(ZSTD_createCCtx())
 {
-	mov.handle = nullptr;
+	if(!handle) throw std::runtime_error("Failed to create ZSTD compressor!");
+	ZSTD_CCtx_setParameter(MCHANDLE, ZSTD_c_nbWorkers, 0);
 }
 
-Device *ZstdCompressor::getInput() const
+ZstdCompressor::ZstdCompressor(Device *input) : ProxyWriteStream(input, ZSTD_CStreamInSize(), ZSTD_CStreamOutSize()), handle(ZSTD_createCCtx())
 {
-	return input;
+	if(!handle) throw std::runtime_error("Failed to create ZSTD compressor!");
+	ZSTD_CCtx_setParameter(MCHANDLE, ZSTD_c_nbWorkers, 0);
 }
 
-void ZstdCompressor::setInput(Device *value)
+void ZstdCompressor::fillBuffers(const void *input, size_t inSize, void *outBuff, size_t &outBuffCursor, size_t outBuffMaxSize)
 {
-	input = value;
-}
-
-Device *ZstdCompressor::getOutput() const
-{
-	return output;
-}
-
-void ZstdCompressor::setOutput(Device *value)
-{
-	output = value;
-}
-
-void ZstdCompressor::quickCompress(Device &input, Device &output, float compressionLevel, bool checksum)
-{
-	ZstdCompressor tmp(&input,&output);
-	tmp.setCompressionLevel(compressionLevel);
-	tmp.setChecksum(checksum);
-	tmp.compress();
-}
-
-ZstdCompressor &ZstdCompressor::operator=(ZstdCompressor &&mov)
-{
-	this->handle = mov.handle;
-	mov.handle = nullptr;
-	this->input = mov.input;
-	mov.input = nullptr;
-	this->output = mov.output;
-	mov.output = nullptr;
-	this->inBuff = std::move(mov.inBuff);
-	this->outBuff = std::move(mov.outBuff);
-	return *this;
-}
-
-ZstdCompressor::ZstdCompressor() : handle(ZSTD_createCCtx()), inBuff(ZSTD_CStreamInSize()), outBuff(ZSTD_CStreamOutSize())
-{
-
-}
-
-ZstdCompressor::ZstdCompressor(Device *input, Device *output) : handle(ZSTD_createCCtx()), input(input), output(output),
-	  inBuff(ZSTD_CStreamInSize()), outBuff(ZSTD_CStreamOutSize())
-{
-
+	ZSTD_inBuffer znput = { input, inSize, 0 };
+	ZSTD_outBuffer zutput = { outBuff, outBuffMaxSize, outBuffCursor };
+	ZSTD_compressStream2(MCHANDLE, &zutput , &znput, ZSTD_e_continue);
+	ZSTD_compressStream2(MCHANDLE, &zutput , &znput, ZSTD_e_flush);
+	ZSTD_compressStream2(MCHANDLE, &zutput , &znput, ZSTD_e_end);
+	//ZSTD_compressStream2(MCHANDLE, &zutput , &znput, ZSTD_e_end);
+	outBuffCursor = znput.pos;
 }
 
 ZstdCompressor::~ZstdCompressor()
 {
-	if(handle) MCHANDLE;
+	if(handle) ZSTD_freeCCtx(MCHANDLE);
 }
 
-void ZstdCompressor::compress()
+/*void ZstdCompressor::compress()
 {
 	assert(handle);
 	for (;;) {
@@ -89,7 +56,7 @@ void ZstdCompressor::compress()
 			break;
 		}
 	}
-}
+}*/
 
 void ZstdCompressor::setCompressionLevel(float value)
 {
