@@ -17,6 +17,7 @@ find_package(WebP REQUIRED libwebp demux)
 find_package(ZSTD REQUIRED)
 find_package(Snappy REQUIRED)
 find_package(PhysFS REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 set(CMAKE_DEBUG_POSTFIX d)
 
@@ -51,6 +52,7 @@ target_link_libraries(${PROJECT_NAME}
         ${WebP_DEMUX_LIBRARY}
         ${ZSTD_LIBRARY}
         ${SNAPPY_LIBRARIES}
+        ${OPENSSL_LIBRARIES}
         ${PHYSFS_LIBRARY})
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets

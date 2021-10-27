@@ -7,6 +7,8 @@ MhStdin.cpp
 MhStderr.cpp
 MhSocket.cpp
 MhFile.cpp
+MhSslEncryptor.cpp
+MhSslDecryptor.cpp
 MhZstdDecompressor.cpp
 MhZstdCompressor.cpp
 MhSnappyCompressor.cpp

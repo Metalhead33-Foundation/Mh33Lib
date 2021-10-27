@@ -46,7 +46,7 @@ WordGenerator::WordGenerator(const WordGenerator &cpy)
 
 std::string WordGenerator::generate(unsigned minLength, unsigned maxLength, CapitalizationPolicy capitalizationPolicy)
 {
-	const unsigned len = rng.generate(minLength,maxLength);
+	const unsigned len = (minLength == maxLength) ? minLength : rng.generate(minLength,maxLength);
 	unsigned vowelCounter = 0;
 	unsigned consonantCounter = 0;
 	std::stringstream stream;

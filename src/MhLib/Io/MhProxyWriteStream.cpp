@@ -1,4 +1,5 @@
 #include <MhLib/Io/MhProxyWriteStream.hpp>
+#include <MhLib/Io/MhDataStream.hpp>
 #include <cstring>
 namespace MH33 {
 namespace Io {
@@ -30,6 +31,7 @@ bool ProxyWriteStream::flush()
 	if(!outFront) return false;
 	if(inBuffCursor) {
 		fillBuffers(inBuff.data(),inBuffCursor,outBuff.data(),outBuffCursor,outBuff.size());
+		DataStreamBE(*outFront) << uint32_t(inBuffCursor) << u_int32_t(outBuffCursor);
 		outFront->write(outBuff.data(),outBuffCursor);
 		outBuffCursor = 0;
 		inBuffCursor = 0;
@@ -59,8 +61,8 @@ size_t ProxyWriteStream::write(const void *data, size_t dataSize)
 {
 	size_t dataWritten = 0;
 	while(dataWritten < dataSize) {
-		size_t writtenNow = std::min(dataSize,inBuff.size() - inBuffCursor);
-		std::memcpy(&inBuff[inBuffCursor],&reinterpret_cast<const std::byte*>(data)[dataWritten],writtenNow);
+		size_t writtenNow = std::min(dataSize-dataWritten,inBuff.size() - inBuffCursor);
+		std::memcpy(&inBuff[inBuffCursor],&static_cast<const std::byte*>(data)[dataWritten],writtenNow);
 		dataWritten += writtenNow;
 		inBuffCursor += writtenNow;
 		if(inBuffCursor >= inBuff.size()) {

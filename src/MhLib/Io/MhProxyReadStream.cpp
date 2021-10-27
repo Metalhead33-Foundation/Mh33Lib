@@ -1,4 +1,5 @@
 #include <MhLib/Io/MhProxyReadStream.hpp>
+#include <MhLib/Io/MhDataStream.hpp>
 #include <cstring>
 
 namespace MH33 {
@@ -73,17 +74,25 @@ size_t ProxyReadStream::read(void *destination, size_t dataSize)
 			// inFront->read(inBuff.data(),inBuff.size())
 			if(outBuffCursor < outBuffEnd)
 			{
-				const size_t dataToCopy = outBuffEnd-outBuffCursor;
-				std::memcpy(&reinterpret_cast<std::byte*>(destination)[cursor],&outBuff[outBuffCursor],dataToCopy);
+				const size_t dataToCopy = std::min(outBuffEnd-outBuffCursor,dataSize-cursor);
+				std::memcpy(&static_cast<std::byte*>(destination)[cursor],&outBuff[outBuffCursor],dataToCopy);
 				cursor += dataToCopy;
-				outBuffCursor = outBuffEnd;
+				outBuffCursor += dataToCopy;
 			} else { // Buffer ran out
-				if(inBuffCursor < inBuffSize) {
-					fillBuffers( inBuff.data(), inBuffCursor, inBuffSize, outBuff.data(),outBuffEnd,outBuff.size());
-				} else {
-					inBuffSize = inFront->read(inBuff.data(),inBuff.size());
+				if(inBuffCursor >= inBuffSize) {
+					uint32_t writtenBlockSize, readBlockSize;
+					DataStreamBE(*inFront) >> readBlockSize >> writtenBlockSize;
+					if(inBuff.size() < writtenBlockSize) inBuff.resize(writtenBlockSize);
+					if(outBuff.size() < readBlockSize) inBuff.resize(readBlockSize);
 					inBuffCursor = 0;
+					outBuffEnd = 0;
+					outBuffCursor = 0;
+					inBuffSize = inFront->read(inBuff.data(),writtenBlockSize);
 					if(!inBuffSize) return cursor;
+				} else {
+					fillBuffers( inBuff.data(), inBuffCursor, inBuffSize, outBuff.data(),outBuffEnd,outBuff.size());
+					if(!outBuffEnd) return cursor;
+					outBuffCursor = 0;
 				}
 			}
 		}

@@ -28,7 +28,6 @@ void ZstdCompressor::fillBuffers(const void *input, size_t inSize, void *outBuff
 	ZSTD_compressStream2(MCHANDLE, &zutput , &znput, ZSTD_e_continue);
 	ZSTD_compressStream2(MCHANDLE, &zutput , &znput, ZSTD_e_flush);
 	ZSTD_compressStream2(MCHANDLE, &zutput , &znput, ZSTD_e_end);
-	//ZSTD_compressStream2(MCHANDLE, &zutput , &znput, ZSTD_e_end);
 	outBuffCursor = znput.pos;
 }
 

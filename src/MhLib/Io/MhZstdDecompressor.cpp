@@ -21,7 +21,7 @@ ZstdDecompressor::ZstdDecompressor(Device *input) : ProxyReadStream(input, ZSTD_
 void ZstdDecompressor::fillBuffers(const void* inBuff, size_t& inBuffCursor, size_t inBuffSize, void* outBuff, size_t& outBuffEnd, size_t outBuffSize)
 {
 	ZSTD_inBuffer znput = { inBuff, inBuffSize, inBuffCursor };
-	ZSTD_outBuffer zutput = { outBuff, outBuffSize, outBuffEnd };
+	ZSTD_outBuffer zutput = { outBuff, outBuffSize, 0 };
 	ZSTD_decompressStream(MHDHANDLE, &zutput , &znput);
 	inBuffCursor = znput.pos;
 	outBuffEnd = zutput.pos;

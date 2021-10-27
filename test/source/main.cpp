@@ -6,6 +6,12 @@
 #include <MhLib/Io/MhBufferWrapper.hpp>
 #include <MhLib/Io/MhZstdCompressor.hpp>
 #include <MhLib/Io/MhZstdDecompressor.hpp>
+#include <MhLib/Io/MhSnappyCompressor.hpp>
+#include <MhLib/Io/MhSnappyDecompressor.hpp>
+#include <MhLib/Io/MhFile.hpp>
+#include <MhLib/Gimmick/MhWordGenerator.hpp>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -15,26 +21,46 @@ using namespace std;
 						  ),rng.generate(),rng.generate());
 */
 
+//#define USE_ZSTD
+#ifdef USE_ZSTD
+typedef MH33::Io::ZstdCompressor Compressor;
+typedef MH33::Io::ZstdDecompressor Decompressor;
+#else
+typedef MH33::Io::SnappyCompressor Compressor;
+typedef MH33::Io::SnappyDecompressor Decompressor;
+#endif
+
 int main()
 {
-	const std::string str = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
-"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n"
-"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n"
-"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n"
-"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,\n"
-"totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.\n"
-"Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,\n"
-"sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.\n"
-"Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,\n"
-"sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.\n"
-"Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?\n"
-"Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
+	MH33::Io::BufferWrapper buff;
+	std::map<std::string,uint32_t> elementmap;
+	MH33::Gimmick::WordGenerator wordGen;
+	MH33::Util::RNG rng(0x555);
+	for(int i = 0; i < 0xF; ++i) {
+		elementmap.emplace(wordGen.generate(10,10),rng.generate());
+	}
+	MH33::Io::DataStreamBE(buff) << elementmap;
+	buff.seek(MH33::Io::SeekOrigin::SET,0);
+	std::map<std::string,uint32_t> elementmap2;
+	MH33::Io::DataStreamBE(buff) >> elementmap2;
+	for(auto it = std::begin(elementmap); it != std::end(elementmap) ; ++it ) {
+		std::cout << it->first << ':' << it->second << std::endl;
+	}
+	std::cout << '\n';
+	for(auto it = std::begin(elementmap2); it != std::end(elementmap2) ; ++it ) {
+		std::cout << it->first << ':' << it->second << std::endl;
+	}
+
+	/*std::stringstream stringStream;
+	MH33::Gimmick::WordGenerator wordGen;
+	for(int i = 0; i < 0x2FFF; ++i) {
+		stringStream << wordGen.generate(10,10) << "\n";
+	}
+	const std::string str = stringStream.str();
 	std::cout << "Original data size: " << str.size() + sizeof(uint32_t) << std::endl;
 	MH33::Io::BufferWrapper buff;
-	MH33::Io::ZstdCompressor compressor(&buff);
+	Compressor compressor(&buff);
 	MH33::Io::DataStreamBE inStream(compressor);
-	compressor.setCompressionLevel(0.9f);
-	inStream << str;
 	inStream << str;
 	if(!compressor.flush()) {
 		std::cout << "Flush failed!" << std::endl;
@@ -42,10 +68,7 @@ int main()
 	}
 	std::cout << "Compressed data size: " << buff.size() << std::endl;
 	buff.seek(MH33::Io::SeekOrigin::SET,0);
-	MH33::Io::ZstdDecompressor decompressor(&buff);
-	/*std::string outStr(256,0);
-	decompressor.read(&outStr[0],255);
-	std::cout << outStr << std::endl;*/
+	Decompressor decompressor(&buff);
 	MH33::Io::DataStreamBE outStream(decompressor);
 	std::string outputString = "";
 	outStream >> outputString;
@@ -62,18 +85,11 @@ int main()
 		}
 		if(identical) {
 			std::cout << "The two strings are identical. Decompression succesful." << std::endl;
-		} else std::cout << "The two strings differ at the position " << i << "." << std::endl;
-	}
-	/*MH33::Util::RNG rng;
-	MH33::Util::UUID uuid(rng,true);
-	uint32_t rand1,rand2;
-	std::chrono::milliseconds milisec;
-	uuid.toTimeAndRandom(milisec,rand1,rand2);
-	auto chron = std::chrono::duration_cast<std::chrono::system_clock::duration>(milisec);
-	auto in_time_t = std::chrono::system_clock::to_time_t(std::chrono::time_point<std::chrono::system_clock>(chron) );
-	cout << "Hello World! This is an UUID: " << uuid.toString() << endl;
-	cout << "Date: " << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X") << endl;
-	cout << "Random 1: " << rand1 << endl;
-	cout << "Random 2: " << rand2 << endl;*/
+		} else {
+			std::cout << "The two strings differ at the position " << i << "." << std::endl;
+			std::cout << "Original: " << std::string( &str[std::max(i-2,size_t(0))], std::min(size_t(72),str.size()-i) ) << std::endl;
+			std::cout << "Decompressed: " << std::string( &outputString[std::max(i-2,size_t(0))], std::min(size_t(72),outputString.size()-i) ) << std::endl;
+		}
+	}*/
 	return 0;
 }
